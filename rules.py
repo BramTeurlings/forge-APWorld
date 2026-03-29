@@ -22,9 +22,15 @@ def set_all_rules(world: APQuestWorld) -> None:
 
 def set_all_entrance_rules(world: APQuestWorld) -> None:
     # First, we need to actually grab our entrances. Luckily, there is a helper method for this.
-    overworld_to_bottom_right_room = world.get_entrance("Overworld to Bottom Right Room")
-    overworld_to_top_left_room = world.get_entrance("Overworld to Top Left Room")
-    right_room_to_final_boss_room = world.get_entrance("Right Room to Final Boss Room")
+    # overworld_to_bottom_right_room = world.get_entrance("Overworld to Bottom Right Room")
+    # overworld_to_top_left_room = world.get_entrance("Overworld to Top Left Room")
+    # right_room_to_final_boss_room = world.get_entrance("Right Room to Final Boss Room")
+
+    colorless_to_white = world.get_entrance("Colorless to White")
+    colorless_to_blue = world.get_entrance("Colorless to Blue")
+    colorless_to_black = world.get_entrance("Colorless to Black")
+    colorless_to_red = world.get_entrance("Colorless to Red")
+    colorless_to_green = world.get_entrance("Colorless to Green")
 
     # An access rule is a function. We can define this function like any other function.
     # This function must accept exactly one parameter: A "CollectionState".
@@ -36,25 +42,41 @@ def set_all_entrance_rules(world: APQuestWorld) -> None:
     # Since a rule only takes a CollectionState parameter, but we also need the player number in the state.has call,
     # our function needs to be locally defined so that it has access to the player number from the outer scope.
     # In our case, we are inside a function that has access to the "world" parameter, so we can use world.player.
-    def can_destroy_bush(state: CollectionState) -> bool:
-        return state.has("Sword", world.player)
+    # def can_access_white(state: CollectionState) -> bool:
+    #     return state.has("White Rune", world.player)
+    # def can_access_blue(state: CollectionState) -> bool:
+    #     return state.has("Blue Rune", world.player)
+    # def can_access_black(state: CollectionState) -> bool:
+    #     return state.has("Black Rune", world.player)
+    # def can_access_red(state: CollectionState) -> bool:
+    #     return state.has("Red Rune", world.player)
+    # def can_access_green(state: CollectionState) -> bool:
+    #     return state.has("Green Rune", world.player)
 
     # Now we can set our "can_destroy_bush" rule to our entrance which requires slashing a bush to clear the path.
     # One way to set rules is via the set_rule() function, which works on both Entrances and Locations.
-    set_rule(overworld_to_bottom_right_room, can_destroy_bush)
+    # set_rule(colorless_to_white, can_access_white)
+    # set_rule(colorless_to_blue, can_access_blue)
+    # set_rule(colorless_to_black, can_access_black)
+    # set_rule(colorless_to_red, can_access_red)
+    # set_rule(colorless_to_green, can_access_green)
 
     # Because the function has to be defined locally, most worlds prefer the lambda syntax.
-    set_rule(overworld_to_top_left_room, lambda state: state.has("Key", world.player))
+    set_rule(colorless_to_white, lambda state: state.has("White Rune", world.player))
+    set_rule(colorless_to_blue, lambda state: state.has("Blue Rune", world.player))
+    set_rule(colorless_to_black, lambda state: state.has("Black Rune", world.player))
+    set_rule(colorless_to_red, lambda state: state.has("Red Rune", world.player))
+    set_rule(colorless_to_green, lambda state: state.has("Green Rune", world.player))
 
     # Conditions can depend on event items.
-    set_rule(right_room_to_final_boss_room, lambda state: state.has("Top Left Room Button Pressed", world.player))
+    # set_rule(right_room_to_final_boss_room, lambda state: state.has("Top Left Room Button Pressed", world.player))
 
     # Some entrance rules may only apply if the player enabled certain options.
     # In our case, if the hammer option is enabled, we need to add the Hammer requirement to the Entrance from
     # Overworld to the Top Middle Room.
-    if world.options.hammer:
-        overworld_to_top_middle_room = world.get_entrance("Overworld to Top Middle Room")
-        set_rule(overworld_to_top_middle_room, lambda state: state.has("Hammer", world.player))
+    # if world.options.hammer:
+    #     overworld_to_top_middle_room = world.get_entrance("Overworld to Top Middle Room")
+    #     set_rule(overworld_to_top_middle_room, lambda state: state.has("Hammer", world.player))
 
 
 def set_all_location_rules(world: APQuestWorld) -> None:
@@ -96,36 +118,36 @@ def set_all_location_rules(world: APQuestWorld) -> None:
     # Well, we can achieve this by doing the "if world.options.hard_mode" check outside the set_rule call,
     # and instead having two *different* set_rule calls depending on which case we're in.
 
-    if world.options.hard_mode:
-        # If you have multiple conditions, you can obviously chain them via "or" or "and".
-        # However, there are also the nice helper functions "state.has_any" and "state.has_all".
-        set_rule(
-            right_room_enemy,
-            lambda state: (
-                state.has("Sword", world.player) and state.has_any(("Shield", "Health Upgrade"), world.player)
-            ),
-        )
-    else:
-        set_rule(right_room_enemy, lambda state: state.has("Sword", world.player))
+    # if world.options.hard_mode:
+    #     # If you have multiple conditions, you can obviously chain them via "or" or "and".
+    #     # However, there are also the nice helper functions "state.has_any" and "state.has_all".
+    #     set_rule(
+    #         right_room_enemy,
+    #         lambda state: (
+    #             state.has("Sword", world.player) and state.has_any(("Shield", "Health Upgrade"), world.player)
+    #         ),
+    #     )
+    # else:
+    #     set_rule(right_room_enemy, lambda state: state.has("Sword", world.player))
 
     # Another way to chain multiple conditions is via the add_rule function.
     # This makes the access rules a bit slower though, so it should only be used if your structure justifies it.
     # In our case, it's pretty useful because hard mode and easy mode have different requirements.
-    final_boss = world.get_location("Final Boss Defeated")
-
-    # For the "known" requirements, it's still better to chain them using a normal "and" condition.
-    add_rule(final_boss, lambda state: state.has_all(("Sword", "Shield"), world.player))
-
-    if world.options.hard_mode:
-        # You can check for multiple copies of an item by using the optional count parameter of state.has().
-        add_rule(final_boss, lambda state: state.has("Health Upgrade", world.player, 2))
+    # final_boss = world.get_location("Final Boss Defeated")
+    #
+    # # For the "known" requirements, it's still better to chain them using a normal "and" condition.
+    # add_rule(final_boss, lambda state: state.has_all(("Sword", "Shield"), world.player))
+    #
+    # if world.options.hard_mode:
+    #     # You can check for multiple copies of an item by using the optional count parameter of state.has().
+    #     add_rule(final_boss, lambda state: state.has("Health Upgrade", world.player, 2))
 
 
 def set_completion_condition(world: APQuestWorld) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
     # You can just set a completion condition directly like any other condition, referencing items the player receives:
-    world.multiworld.completion_condition[world.player] = lambda state: state.has_all(("Sword", "Shield"), world.player)
+    world.multiworld.completion_condition[world.player] = lambda state: state.has_all(("White Rune", "Blue Rune", "Black Rune", "Red Rune", "Green Rune"), world.player)
 
     # In our case, we went for the Victory event design pattern (see create_events() in locations.py).
     # So lets undo what we just did, and instead set the completion condition to:
-    world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
+    # world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
