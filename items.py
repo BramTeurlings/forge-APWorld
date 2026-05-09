@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 
 if TYPE_CHECKING:
-    from .world import APQuestWorld
+    from .world import ForgeAPWorld
 
 # Every item must have a unique integer ID associated with it.
 # We will have a lookup from item name to ID here that, in world.py, we will import and bind to the world class.
@@ -21,7 +21,7 @@ ITEM_NAME_TO_ID = {
     "Mana Crystals": 6,
     "Gold": 7,
     "Gold Challenge Coin": 8,
-    "Silver Challenge Coin": 8,
+    "Silver Challenge Coin": 9,
     "Bronze Challenge Coin": 10,
     "Set Unlock": 11,
 }
@@ -71,7 +71,7 @@ class ForgeAPItem(Item):
     # return "Confetti Cannon"
 
 
-def create_item_with_correct_classification(world: APQuestWorld, name: str) -> ForgeAPItem:
+def create_item_with_correct_classification(world: ForgeAPWorld, name: str) -> ForgeAPItem:
     # Our world class must have a create_item() function that can create any of our items by name at any time.
     # So, we make this helper function that creates the item by name with the correct classification.
     # Note: This function's content could just be the contents of world.create_item in world.py directly,
@@ -87,7 +87,7 @@ def create_item_with_correct_classification(world: APQuestWorld, name: str) -> F
 
 
 # With those two helper functions defined, let's now get to actually creating and submitting our itempool.
-def create_all_items(world: APQuestWorld) -> None:
+def create_all_items(world: ForgeAPWorld) -> None:
     # This is the function in which we will create all the items that this world submits to the multiworld item pool.
     # There must be exactly as many items as there are locations.
     # In our case, there are either six or seven locations.

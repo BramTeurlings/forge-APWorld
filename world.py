@@ -22,7 +22,7 @@ from . import options as apquest_options  # rename due to a name conflict with W
 # This implementation in particular has the following additional files, each covering one topic:
 # regions.py, locations.py, rules.py, items.py, options.py and web_world.py.
 # It is recommended that you read these in that specific order, then come back to the world class.
-class APQuestWorld(World):
+class ForgeAPWorld(World):
     """
     APQuest is a minimal 8bit-era inspired adventure game with grid-like movement.
     Good games don't need more than six checks.

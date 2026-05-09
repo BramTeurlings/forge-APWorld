@@ -7,7 +7,7 @@ from BaseClasses import ItemClassification, Location
 from . import items
 
 if TYPE_CHECKING:
-    from .world import APQuestWorld
+    from .world import ForgeAPWorld
 
 # Every location must have a unique integer ID associated with it.
 # We will have a lookup from location name to ID here that, in world.py, we will import and bind to the world class.
@@ -21,7 +21,17 @@ LOCATION_NAME_TO_ID = {
     # "Bottom Right Room Right Chest": 6,
     # # Location IDs don't need to be sequential, as long as they're unique and greater than 0.
     # "Right Room Enemy Drop": 10,
-    "Battle Won": 1,
+    "Battle Won 1": 1,
+    "Battle Won 2": 2,
+    "Battle Won 3": 3,
+    "Battle Won 4": 4,
+    "Battle Won 5": 5,
+    "Battle Won 6": 6,
+    "Battle Won 7": 7,
+    "Battle Won 8": 8,
+    "Battle Won 9": 9,
+    "Battle Won 10": 10,
+    "Battle Won 11": 11,
 }
 
 
@@ -41,12 +51,12 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
     return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
 
 
-def create_all_locations(world: APQuestWorld) -> None:
+def create_all_locations(world: ForgeAPWorld) -> None:
     create_regular_locations(world)
     create_events(world)
 
 
-def create_regular_locations(world: APQuestWorld) -> None:
+def create_regular_locations(world: ForgeAPWorld) -> None:
     # Finally, we need to put the Locations ("checks") into their regions.
     # Once again, before we do anything, we can grab our regions we created by using world.get_region()
     # overworld = world.get_region("Overworld")
@@ -62,22 +72,22 @@ def create_regular_locations(world: APQuestWorld) -> None:
     green = world.get_region("Green")
 
     # One way to create locations is by just creating them directly via their constructor.
-    battle_won = ForgeAPLocation(
-        world.player, "Battle Won", world.location_name_to_id["Battle Won"], colorless
-    )
+    # battle_won = ForgeAPLocation(
+    #     world.player, "Battle Won", world.location_name_to_id["Battle Won"], colorless
+    # )
 
     # You can then add them to the region.
-    colorless.locations.append(battle_won)
+    # colorless.locations.append(battle_won)
 
     # A simpler way to do this is by using the region.add_locations helper.
     # For this, you need to have a dict of location names to their IDs (i.e. a subset of location_name_to_id)
     # Aha! So that's why we made that "get_location_names_with_ids" helper method earlier.
     # You also need to pass your overridden Location class.
-    # bottom_right_room_locations = get_location_names_with_ids(
-    #     ["Bottom Right Room Left Chest", "Bottom Right Room Right Chest"]
-    # )
-    # bottom_right_room.add_locations(bottom_right_room_locations, ForgeAPLocation)
-    #
+    colorless_locations = get_location_names_with_ids(
+        ["Battle Won 1", "Battle Won 2", "Battle Won 3", "Battle Won 4", "Battle Won 5", "Battle Won 6", "Battle Won 7", "Battle Won 8", "Battle Won 9", "Battle Won 10"]
+    )
+    colorless.add_locations(colorless_locations, ForgeAPLocation)
+
     # top_left_room_locations = get_location_names_with_ids(["Top Left Room Chest"])
     # top_left_room.add_locations(top_left_room_locations, ForgeAPLocation)
     #
