@@ -58,7 +58,7 @@ class ForgeAPItem(Item):
 # Ontop of our regular itempool, our world must be able to create arbitrary amounts of filler as requested by core.
 # To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
 # For now, let's make a function that returns the name of a random filler item here in items.py.
-# def get_random_filler_item_name(world: APQuestWorld) -> str:
+def get_random_filler_item_name(world: ForgeAPWorld) -> str:
     # APQuest has an option called "trap_chance".
     # This is the percentage chance that each filler item is a Math Trap instead of a Confetti Cannon.
     # For this purpose, we need to use a random generator.
@@ -68,7 +68,7 @@ class ForgeAPItem(Item):
     # DO NOT use a bare random object from Python's built-in random module.
     # if world.random.randint(0, 99) < world.options.trap_chance:
     #     return "Math Trap"
-    # return "Confetti Cannon"
+    return "Set Unlock"
 
 
 def create_item_with_correct_classification(world: ForgeAPWorld, name: str) -> ForgeAPItem:

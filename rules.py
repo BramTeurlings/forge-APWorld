@@ -16,7 +16,7 @@ def set_all_rules(world: ForgeAPWorld) -> None:
     # We'll do entrances first, then locations, and then finally we set our victory condition.
 
     set_all_entrance_rules(world)
-    set_all_location_rules(world)
+    # set_all_location_rules(world)
     set_completion_condition(world)
 
 
@@ -79,7 +79,7 @@ def set_all_entrance_rules(world: ForgeAPWorld) -> None:
     #     set_rule(overworld_to_top_middle_room, lambda state: state.has("Hammer", world.player))
 
 
-def set_all_location_rules(world: ForgeAPWorld) -> None:
+# def set_all_location_rules(world: ForgeAPWorld) -> None:
     # Location rules work no differently from Entrance rules.
     # Most of our locations are chests that can simply be opened by walking up to them.
     # Thus, their logical requirements are covered by the Entrance rules of the Entrances that were required to
@@ -91,17 +91,17 @@ def set_all_location_rules(world: ForgeAPWorld) -> None:
 
     # Sometimes, you may want to have different rules depending on the player's chosen options.
     # There is a wrong way to do this, and a right way to do this. Let's do the wrong way first.
-    right_room_enemy = world.get_location("Right Room Enemy Drop")
-
-    # DON'T DO THIS!!!!
-    set_rule(
-        right_room_enemy,
-        lambda state: (
-            state.has("Sword", world.player)
-            and (not world.options.hard_mode or state.has_any(("Shield", "Health Upgrade"), world.player))
-        ),
-    )
-    # DON'T DO THIS!!!!
+    # right_room_enemy = world.get_location("Right Room Enemy Drop")
+    #
+    # # DON'T DO THIS!!!!
+    # set_rule(
+    #     right_room_enemy,
+    #     lambda state: (
+    #         state.has("Sword", world.player)
+    #         and (not world.options.hard_mode or state.has_any(("Shield", "Health Upgrade"), world.player))
+    #     ),
+    # )
+    # # DON'T DO THIS!!!!
 
     # Now, what's actually wrong with this? It works perfectly fine, right?
     # If hard mode disabled, Sword is enough. If hard mode is enabled, we also need a Shield or a Health Upgrade.

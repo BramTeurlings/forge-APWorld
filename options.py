@@ -129,16 +129,12 @@ class ForgeAPOptions(PerGameCommonOptions):
 
 
 # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
-# option_groups = [
-#     OptionGroup(
-#         "Gameplay Options",
-#         [HardMode, Hammer, ExtraStartingChest, StartWithOneConfettiCannon, TrapChance],
-#     ),
-#     OptionGroup(
-#         "Aesthetic Options",
-#         [ConfettiExplosiveness, PlayerSprite],
-#     ),
-# ]
+option_groups = [
+    OptionGroup(
+        "Gameplay Options",
+        [SetUnlocks],
+    ),
+]
 
 # Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".
 option_presets = {

@@ -53,7 +53,7 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
 
 def create_all_locations(world: ForgeAPWorld) -> None:
     create_regular_locations(world)
-    create_events(world)
+    # create_events(world)
 
 
 def create_regular_locations(world: ForgeAPWorld) -> None:
@@ -113,7 +113,7 @@ def create_regular_locations(world: ForgeAPWorld) -> None:
         # overworld.add_locations(bottom_left_extra_chest, ForgeAPLocation)
 
 
-# def create_events(world: APQuestWorld) -> None:
+# def create_events(world: ForgeAPWorld) -> None:
     # Sometimes, the player may perform in-game actions that allow them to progress which are not related to Items.
     # In our case, the player must press a button in the top left room to open the final boss door.
     # AP has something for this purpose: "Event locations" and "Event items".
