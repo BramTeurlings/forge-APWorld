@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pickle import REDUCE
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification, Location
@@ -12,34 +13,149 @@ if TYPE_CHECKING:
 # Every location must have a unique integer ID associated with it.
 # We will have a lookup from location name to ID here that, in world.py, we will import and bind to the world class.
 # Even if a location doesn't exist on specific options, it must be present in this lookup.
-LOCATION_NAME_TO_ID = {
-    # "Top Left Room Chest": 1,
-    # "Top Middle Chest": 2,
-    # "Bottom Left Chest": 3,
-    # "Bottom Left Extra Chest": 4,
-    # "Bottom Right Room Left Chest": 5,
-    # "Bottom Right Room Right Chest": 6,
-    # # Location IDs don't need to be sequential, as long as they're unique and greater than 0.
-    # "Right Room Enemy Drop": 10,
-    "Battle Won 1": 1,
-    "Battle Won 2": 2,
-    "Battle Won 3": 3,
-    "Battle Won 4": 4,
-    "Battle Won 5": 5,
-    "Battle Won 6": 6,
-    "Battle Won 7": 7,
-    "Battle Won 8": 8,
-    "Battle Won 9": 9,
-    "Battle Won 10": 10,
-    "Battle Won 11": 11,
+BOSS_LOCATIONS = {
+    "White Boss Defeated": 1,
+    "Blue Boss Defeated": 2,
+    "Black Boss Defeated": 3,
+    "Red Boss Defeated": 4,
+    "Green Boss Defeated": 5,
+    "Colorless Boss Defeated": 6,
+    "WUBRG Boss Defeated": 7,
 }
 
+COLORLESS_EQUIP_SHOP_LOCATIONS = {
+    "Colorless Equipment Shop - 1": 100,
+    "Colorless Equipment Shop - 2": 101,
+    "Colorless Equipment Shop - 3": 102,
+    "Colorless Equipment Shop - 4": 103,
+    "Colorless Equipment Shop - 5": 104,
+    "Colorless Equipment Shop - 6": 105,
+}
+
+WHITE_EQUIP_SHOP_LOCATIONS = {
+    "White Equipment Shop - 1": 200,
+    "White Equipment Shop - 2": 201,
+    "White Equipment Shop - 3": 202,
+    "White Equipment Shop - 4": 203,
+    "White Equipment Shop - 5": 204,
+    "White Equipment Shop - 6": 205,
+}
+
+WHITE_ITEM_SHOP_LOCATIONS = {
+    "White Item Shop - 1": 206,
+    "White Item Shop - 2": 207,
+    "White Item Shop - 3": 208,
+    "White Item Shop - 4": 209,
+    "White Item Shop - 5": 210,
+    "White Item Shop - 6": 211,
+    "White Item Shop - 7": 212,
+    "White Item Shop - 8": 213,
+}
+
+BLUE_EQUIP_SHOP_LOCATIONS = {
+    "Blue Equipment Shop - 1": 300,
+    "Blue Equipment Shop - 2": 301,
+    "Blue Equipment Shop - 3": 302,
+    "Blue Equipment Shop - 4": 303,
+    "Blue Equipment Shop - 5": 304,
+    "Blue Equipment Shop - 6": 305,
+}
+
+BLUE_ITEM_SHOP_LOCATIONS = {
+    "Blue Item Shop - 1": 306,
+    "Blue Item Shop - 2": 307,
+    "Blue Item Shop - 3": 308,
+    "Blue Item Shop - 4": 309,
+    "Blue Item Shop - 5": 310,
+    "Blue Item Shop - 6": 311,
+    "Blue Item Shop - 7": 312,
+    "Blue Item Shop - 8": 313,
+}
+
+BLACK_EQUIP_SHOP_LOCATIONS = {
+    "Black Equipment Shop - 1": 400,
+    "Black Equipment Shop - 2": 401,
+    "Black Equipment Shop - 3": 402,
+    "Black Equipment Shop - 4": 403,
+    "Black Equipment Shop - 5": 404,
+    "Black Equipment Shop - 6": 405,
+}
+
+BLACK_ITEM_SHOP_LOCATIONS = {
+    "Black Item Shop - 1": 406,
+    "Black Item Shop - 2": 407,
+    "Black Item Shop - 3": 408,
+    "Black Item Shop - 4": 409,
+    "Black Item Shop - 5": 410,
+    "Black Item Shop - 6": 411,
+    "Black Item Shop - 7": 412,
+    "Black Item Shop - 8": 413,
+}
+
+RED_EQUIP_SHOP_LOCATIONS = {
+    "Red Equipment Shop - 1": 500,
+    "Red Equipment Shop - 2": 501,
+    "Red Equipment Shop - 3": 502,
+    "Red Equipment Shop - 4": 503,
+    "Red Equipment Shop - 5": 504,
+    "Red Equipment Shop - 6": 505,
+}
+
+RED_ITEM_SHOP_LOCATIONS = {
+    "Red Item Shop - 1": 506,
+    "Red Item Shop - 2": 507,
+    "Red Item Shop - 3": 508,
+    "Red Item Shop - 4": 509,
+    "Red Item Shop - 5": 510,
+    "Red Item Shop - 6": 511,
+    "Red Item Shop - 7": 512,
+    "Red Item Shop - 8": 513,
+}
+
+GREEN_EQUIP_SHOP_LOCATIONS = {
+    "Green Equipment Shop - 1": 600,
+    "Green Equipment Shop - 2": 601,
+    "Green Equipment Shop - 3": 602,
+    "Green Equipment Shop - 4": 603,
+    "Green Equipment Shop - 5": 604,
+    "Green Equipment Shop - 6": 605,
+}
+
+GREEN_ITEM_SHOP_LOCATIONS = {
+    "Green Item Shop - 1": 606,
+    "Green Item Shop - 2": 607,
+    "Green Item Shop - 3": 608,
+    "Green Item Shop - 4": 609,
+    "Green Item Shop - 5": 610,
+    "Green Item Shop - 6": 611,
+    "Green Item Shop - 7": 612,
+    "Green Item Shop - 8": 613,
+}
+
+
+# colorless 6 shop locations
+# colors 6 equipment shop locations 8 item shop locations
 
 # Each Location instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Location class and override the "game" field.
 class ForgeAPLocation(Location):
     game = "ForgeAP"
 
+def give_all_locations() -> dict:
+    return {
+        **BOSS_LOCATIONS,
+        **COLORLESS_EQUIP_SHOP_LOCATIONS,
+        **WHITE_EQUIP_SHOP_LOCATIONS,
+        **WHITE_ITEM_SHOP_LOCATIONS,
+        **BLUE_EQUIP_SHOP_LOCATIONS,
+        **BLUE_ITEM_SHOP_LOCATIONS,
+        **BLACK_EQUIP_SHOP_LOCATIONS,
+        **BLACK_ITEM_SHOP_LOCATIONS,
+        **RED_EQUIP_SHOP_LOCATIONS,
+        **RED_ITEM_SHOP_LOCATIONS,
+        **GREEN_EQUIP_SHOP_LOCATIONS,
+        **GREEN_ITEM_SHOP_LOCATIONS,
+    }
 
 # Let's make one more helper method before we begin actually creating locations.
 # Later on in the code, we'll want specific subsections of LOCATION_NAME_TO_ID.
@@ -48,7 +164,7 @@ class ForgeAPLocation(Location):
 # Note: There is a minor typing quirk here. Some functions want location addresses to be an "int | None",
 # so while our function here only ever returns dict[str, int], we annotate it as dict[str, int | None].
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
-    return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
+    return {location_name: give_all_locations()[location_name] for location_name in location_names}
 
 
 def create_all_locations(world: ForgeAPWorld) -> None:
@@ -83,11 +199,26 @@ def create_regular_locations(world: ForgeAPWorld) -> None:
     # For this, you need to have a dict of location names to their IDs (i.e. a subset of location_name_to_id)
     # Aha! So that's why we made that "get_location_names_with_ids" helper method earlier.
     # You also need to pass your overridden Location class.
-    colorless_locations = get_location_names_with_ids(
-        ["Battle Won 1", "Battle Won 2", "Battle Won 3", "Battle Won 4", "Battle Won 5", "Battle Won 6", "Battle Won 7", "Battle Won 8", "Battle Won 9", "Battle Won 10"]
-    )
-    colorless.add_locations(colorless_locations, ForgeAPLocation)
-
+    # colorless_locations = get_location_names_with_ids(
+    #     ["Battle Won 1", "Battle Won 2", "Battle Won 3", "Battle Won 4", "Battle Won 5", "Battle Won 6", "Battle Won 7", "Battle Won 8", "Battle Won 9", "Battle Won 10"]
+    # )
+    colorless.add_locations(COLORLESS_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
+    colorless.add_locations = get_location_names_with_ids(["Colorless Boss Defeated"])
+    white.add_locations(WHITE_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
+    white.add_locations(WHITE_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
+    white.add_locations = get_location_names_with_ids(["White Boss Defeated"])
+    blue.add_locations(BLUE_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
+    blue.add_locations(BLUE_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
+    blue.add_locations = get_location_names_with_ids(["Blue Boss Defeated"])
+    black.add_locations(BLACK_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
+    black.add_locations(BLACK_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
+    black.add_locations = get_location_names_with_ids(["Black Boss Defeated"])
+    red.add_locations(RED_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
+    red.add_locations(RED_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
+    red.add_locations = get_location_names_with_ids(["Red Boss Defeated"])
+    green.add_locations(GREEN_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
+    green.add_locations(GREEN_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
+    green.add_locations = get_location_names_with_ids(["Green Boss Defeated"])
     # top_left_room_locations = get_location_names_with_ids(["Top Left Room Chest"])
     # top_left_room.add_locations(top_left_room_locations, ForgeAPLocation)
     #

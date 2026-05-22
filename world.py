@@ -1,3 +1,4 @@
+import string
 from collections.abc import Mapping
 from typing import Any
 
@@ -6,7 +7,7 @@ from worlds.AutoWorld import World
 
 # Imports of your world's files must be relative.
 from . import items, locations, regions, rules, web_world
-from . import options as apquest_options  # rename due to a name conflict with World.options
+from . import options as forgeap_options  # rename due to a name conflict with World.options
 
 # APQuest will go through all the parts of the world api one step at a time,
 # with many examples and comments across multiple files.
@@ -38,8 +39,8 @@ class ForgeAPWorld(World):
 
     # This is how we associate the options defined in our options.py with our world.
     # (Note: options.py has been imported as "apquest_options" at the top of this file to avoid a name conflict)
-    options_dataclass = apquest_options.ForgeAPOptions
-    options: apquest_options.ForgeAPOptions  # Common mistake: This has to be a colon (:), not an equals sign (=).
+    options_dataclass = forgeap_options.ForgeAPOptions
+    options: forgeap_options.ForgeAPOptions  # Common mistake: This has to be a colon (:), not an equals sign (=).
 
     # Our world class must have a static location_name_to_id and item_name_to_id defined.
     # We define these in regions.py and items.py respectively, so we just set them here.
@@ -79,8 +80,24 @@ class ForgeAPWorld(World):
     # There may be data that the game client will need to modify the behavior of the game.
     # This is what slot_data exists for. Upon every client connection, the slot's slot_data is sent to the client.
     # slot_data is just a dictionary using basic types, that will be converted to json when sent to the client.
-    def fill_slot_data(self) -> Mapping[str, Any]:
-        # If you need access to the player's chosen options on the client side, there is a helper for that.
-        return self.options.as_dict(
-            "set_unlocks"
-        )
+    # def fill_slot_data(self) -> Mapping[str, Any]:
+    #     # If you need access to the player's chosen options on the client side, there is a helper for that.
+    #     return self.options.as_dict(
+    #         "set_unlocks"
+    #     )
+
+    def fill_slot_data(self) -> dict:
+        slot_data = self.options.as_dict("color_sanity",
+                                         "starting_color",
+                                         "set_unlocks",
+                                         "gift_pack",
+                                         "quest_locations",
+                                         "event_locations",
+                                         "dungeon_locations",
+                                         "fight_locations",
+                                         "fight_amount",
+                                         "include_power",
+                                         "include_cheat",
+                                         "earning_multiplier")
+        slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
+        return slot_data
