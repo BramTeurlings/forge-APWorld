@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 # Every location must have a unique integer ID associated with it.
 # We will have a lookup from location name to ID here that, in world.py, we will import and bind to the world class.
 # Even if a location doesn't exist on specific options, it must be present in this lookup.
-BOSS_LOCATIONS = {
+boss_locations = {
     "White Boss Defeated": 1,
     "Blue Boss Defeated": 2,
     "Black Boss Defeated": 3,
@@ -23,7 +23,7 @@ BOSS_LOCATIONS = {
     "WUBRG Boss Defeated": 7,
 }
 
-COLORLESS_EQUIP_SHOP_LOCATIONS = {
+colorless_equipment_shop_locations = {
     "Colorless Equipment Shop - 1": 100,
     "Colorless Equipment Shop - 2": 101,
     "Colorless Equipment Shop - 3": 102,
@@ -32,7 +32,7 @@ COLORLESS_EQUIP_SHOP_LOCATIONS = {
     "Colorless Equipment Shop - 6": 105,
 }
 
-WHITE_EQUIP_SHOP_LOCATIONS = {
+white_equipment_shop_locations = {
     "White Equipment Shop - 1": 200,
     "White Equipment Shop - 2": 201,
     "White Equipment Shop - 3": 202,
@@ -41,7 +41,7 @@ WHITE_EQUIP_SHOP_LOCATIONS = {
     "White Equipment Shop - 6": 205,
 }
 
-WHITE_ITEM_SHOP_LOCATIONS = {
+white_item_shop_locations = {
     "White Item Shop - 1": 206,
     "White Item Shop - 2": 207,
     "White Item Shop - 3": 208,
@@ -52,7 +52,7 @@ WHITE_ITEM_SHOP_LOCATIONS = {
     "White Item Shop - 8": 213,
 }
 
-BLUE_EQUIP_SHOP_LOCATIONS = {
+blue_equipment_shop_locations = {
     "Blue Equipment Shop - 1": 300,
     "Blue Equipment Shop - 2": 301,
     "Blue Equipment Shop - 3": 302,
@@ -61,7 +61,7 @@ BLUE_EQUIP_SHOP_LOCATIONS = {
     "Blue Equipment Shop - 6": 305,
 }
 
-BLUE_ITEM_SHOP_LOCATIONS = {
+blue_item_shop_locations = {
     "Blue Item Shop - 1": 306,
     "Blue Item Shop - 2": 307,
     "Blue Item Shop - 3": 308,
@@ -72,7 +72,7 @@ BLUE_ITEM_SHOP_LOCATIONS = {
     "Blue Item Shop - 8": 313,
 }
 
-BLACK_EQUIP_SHOP_LOCATIONS = {
+black_equipment_shop_locations = {
     "Black Equipment Shop - 1": 400,
     "Black Equipment Shop - 2": 401,
     "Black Equipment Shop - 3": 402,
@@ -81,7 +81,7 @@ BLACK_EQUIP_SHOP_LOCATIONS = {
     "Black Equipment Shop - 6": 405,
 }
 
-BLACK_ITEM_SHOP_LOCATIONS = {
+black_item_shop_locations = {
     "Black Item Shop - 1": 406,
     "Black Item Shop - 2": 407,
     "Black Item Shop - 3": 408,
@@ -92,7 +92,7 @@ BLACK_ITEM_SHOP_LOCATIONS = {
     "Black Item Shop - 8": 413,
 }
 
-RED_EQUIP_SHOP_LOCATIONS = {
+red_equipment_shop_locations = {
     "Red Equipment Shop - 1": 500,
     "Red Equipment Shop - 2": 501,
     "Red Equipment Shop - 3": 502,
@@ -101,7 +101,7 @@ RED_EQUIP_SHOP_LOCATIONS = {
     "Red Equipment Shop - 6": 505,
 }
 
-RED_ITEM_SHOP_LOCATIONS = {
+red_item_shop_locations = {
     "Red Item Shop - 1": 506,
     "Red Item Shop - 2": 507,
     "Red Item Shop - 3": 508,
@@ -112,7 +112,7 @@ RED_ITEM_SHOP_LOCATIONS = {
     "Red Item Shop - 8": 513,
 }
 
-GREEN_EQUIP_SHOP_LOCATIONS = {
+green_equipment_shop_locations = {
     "Green Equipment Shop - 1": 600,
     "Green Equipment Shop - 2": 601,
     "Green Equipment Shop - 3": 602,
@@ -121,7 +121,7 @@ GREEN_EQUIP_SHOP_LOCATIONS = {
     "Green Equipment Shop - 6": 605,
 }
 
-GREEN_ITEM_SHOP_LOCATIONS = {
+green_item_shop_locations = {
     "Green Item Shop - 1": 606,
     "Green Item Shop - 2": 607,
     "Green Item Shop - 3": 608,
@@ -142,20 +142,117 @@ class ForgeAPLocation(Location):
     game = "ForgeAP"
 
 def give_all_locations() -> dict:
+    battle_locations = give_default_battle_locations(100)
+    event_locations = give_default_event_locations(10)
+    quest_locations = give_default_quest_locations(10)
+    dungeon_locations = give_default_dungeon_locations(10)
+
     return {
-        **BOSS_LOCATIONS,
-        **COLORLESS_EQUIP_SHOP_LOCATIONS,
-        **WHITE_EQUIP_SHOP_LOCATIONS,
-        **WHITE_ITEM_SHOP_LOCATIONS,
-        **BLUE_EQUIP_SHOP_LOCATIONS,
-        **BLUE_ITEM_SHOP_LOCATIONS,
-        **BLACK_EQUIP_SHOP_LOCATIONS,
-        **BLACK_ITEM_SHOP_LOCATIONS,
-        **RED_EQUIP_SHOP_LOCATIONS,
-        **RED_ITEM_SHOP_LOCATIONS,
-        **GREEN_EQUIP_SHOP_LOCATIONS,
-        **GREEN_ITEM_SHOP_LOCATIONS,
+        **battle_locations,
+        **event_locations,
+        **quest_locations,
+        **dungeon_locations,
+        **give_predefined_locations()
     }
+
+def give_predefined_locations() -> dict:
+    return {
+        **boss_locations,
+        **colorless_equipment_shop_locations,
+        **white_equipment_shop_locations,
+        **white_item_shop_locations,
+        **blue_equipment_shop_locations,
+        **blue_item_shop_locations,
+        **black_equipment_shop_locations,
+        **black_item_shop_locations,
+        **red_equipment_shop_locations,
+        **red_item_shop_locations,
+        **green_equipment_shop_locations,
+        **green_item_shop_locations,
+    }
+
+def give_default_battle_locations(locations: int) -> dict:
+    location_table = {}
+
+    colors = {
+        "Colorless": 1000,
+        "White": 1100,
+        "Blue": 1200,
+        "Black": 1300,
+        "Red": 1400,
+        "Green": 1500,
+    }
+
+    for color, start_id in colors.items():
+        for i in range(locations):
+            key = f"{color} battle win - {i + 1}"
+            location_table[key] = start_id + i
+    return location_table
+
+def give_default_event_locations(locations: int) -> dict:
+    location_table = {}
+
+    colors = {
+        "Colorless": 2000,
+        "White": 2100,
+        "Blue": 2200,
+        "Black": 2300,
+        "Red": 2400,
+        "Green": 2500,
+    }
+
+    for color, start_id in colors.items():
+        for i in range(locations):
+            key = f"{color} event win - {i + 1}"
+            location_table[key] = start_id + i
+    return location_table
+
+def give_default_quest_locations(locations: int) -> dict:
+    location_table = {}
+
+    colors = {
+        "Colorless": 3000,
+        "White": 3100,
+        "Blue": 3200,
+        "Black": 3300,
+        "Red": 3400,
+        "Green": 3500,
+    }
+
+    for color, start_id in colors.items():
+        for i in range(locations):
+            key = f"{color} quest completion - {i + 1}"
+            location_table[key] = start_id + i
+    return location_table
+
+def give_default_dungeon_locations(locations: int) -> dict:
+    location_table = {}
+
+    colors = {
+        "Colorless": 4000,
+        "White": 4100,
+        "Blue": 4200,
+        "Black": 4300,
+        "Red": 4400,
+        "Green": 4500,
+    }
+
+    for color, start_id in colors.items():
+        for i in range(locations):
+            key = f"{color} dungeon clear - {i + 1}"
+            location_table[key] = start_id + i
+    return location_table
+
+def setup_locations_with_settings(options) -> None:
+    total_locations = {}
+
+    total_locations.update(give_predefined_locations())
+    total_locations.update(give_default_battle_locations(options.fightLocations))
+    total_locations.update(give_default_event_locations(options.questLocations))
+    total_locations.update(give_default_quest_locations(options.eventLocations))
+    total_locations.update(give_default_dungeon_locations(options.dungeonLocations))
+
+    return total_locations
 
 # Let's make one more helper method before we begin actually creating locations.
 # Later on in the code, we'll want specific subsections of LOCATION_NAME_TO_ID.
@@ -167,81 +264,85 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
     return {location_name: give_all_locations()[location_name] for location_name in location_names}
 
 
-def create_all_locations(world: ForgeAPWorld) -> None:
-    create_regular_locations(world)
+def create_all_locations(world: ForgeAPWorld, location_database : dict) -> None:
+    create_regular_locations(world, location_database)
     # create_events(world)
 
 
-def create_regular_locations(world: ForgeAPWorld) -> None:
-    # Finally, we need to put the Locations ("checks") into their regions.
-    # Once again, before we do anything, we can grab our regions we created by using world.get_region()
-    # overworld = world.get_region("Overworld")
-    # top_left_room = world.get_region("Top Left Room")
-    # bottom_right_room = world.get_region("Bottom Right Room")
-    # right_room = world.get_region("Right Room")
+def create_regular_locations(world: ForgeAPWorld, location_database : dict) -> None:
+    regions = {
+        "Colorless": world.get_region("Colorless"),
+        "White": world.get_region("White"),
+        "Blue": world.get_region("Blue"),
+        "Black": world.get_region("Black"),
+        "Red": world.get_region("Red"),
+        "Green": world.get_region("Green"),
+    }
 
-    colorless = world.get_region("Colorless")
-    white = world.get_region("White")
-    blue = world.get_region("Blue")
-    black = world.get_region("Black")
-    red = world.get_region("Red")
-    green = world.get_region("Green")
+    # Assign every location automatically
+    for location_name, location_id in location_database.items():
+        region_name = get_region_name(location_name)
 
-    # One way to create locations is by just creating them directly via their constructor.
-    # battle_won = ForgeAPLocation(
-    #     world.player, "Battle Won", world.location_name_to_id["Battle Won"], colorless
-    # )
+        if region_name is None:
+            continue
 
-    # You can then add them to the region.
-    # colorless.locations.append(battle_won)
+        regions[region_name].add_locations(
+            {location_name: location_id},
+            ForgeAPLocation
+        )
 
-    # A simpler way to do this is by using the region.add_locations helper.
-    # For this, you need to have a dict of location names to their IDs (i.e. a subset of location_name_to_id)
-    # Aha! So that's why we made that "get_location_names_with_ids" helper method earlier.
-    # You also need to pass your overridden Location class.
-    # colorless_locations = get_location_names_with_ids(
-    #     ["Battle Won 1", "Battle Won 2", "Battle Won 3", "Battle Won 4", "Battle Won 5", "Battle Won 6", "Battle Won 7", "Battle Won 8", "Battle Won 9", "Battle Won 10"]
-    # )
-    colorless.add_locations(COLORLESS_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
-    colorless.add_locations = get_location_names_with_ids(["Colorless Boss Defeated"])
-    white.add_locations(WHITE_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
-    white.add_locations(WHITE_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
-    white.add_locations = get_location_names_with_ids(["White Boss Defeated"])
-    blue.add_locations(BLUE_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
-    blue.add_locations(BLUE_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
-    blue.add_locations = get_location_names_with_ids(["Blue Boss Defeated"])
-    black.add_locations(BLACK_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
-    black.add_locations(BLACK_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
-    black.add_locations = get_location_names_with_ids(["Black Boss Defeated"])
-    red.add_locations(RED_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
-    red.add_locations(RED_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
-    red.add_locations = get_location_names_with_ids(["Red Boss Defeated"])
-    green.add_locations(GREEN_EQUIP_SHOP_LOCATIONS, ForgeAPLocation)
-    green.add_locations(GREEN_ITEM_SHOP_LOCATIONS, ForgeAPLocation)
-    green.add_locations = get_location_names_with_ids(["Green Boss Defeated"])
-    # top_left_room_locations = get_location_names_with_ids(["Top Left Room Chest"])
-    # top_left_room.add_locations(top_left_room_locations, ForgeAPLocation)
+def get_region_name(location_name: str) -> str | None:
+    if location_name.startswith("Colorless"):
+        return "Colorless"
+
+    if location_name.startswith("White"):
+        return "White"
+
+    # Special case
+    if location_name.startswith("WUBRG"):
+        return "Blue"
+
+    if location_name.startswith("Blue"):
+        return "Blue"
+
+    if location_name.startswith("Black"):
+        return "Black"
+
+    if location_name.startswith("Red"):
+        return "Red"
+
+    if location_name.startswith("Green"):
+        return "Green"
+
+    return None
+
+    # colorless = world.get_region("Colorless")
+    # white = world.get_region("White")
+    # blue = world.get_region("Blue")
+    # black = world.get_region("Black")
+    # red = world.get_region("Red")
+    # green = world.get_region("Green")
     #
-    # right_room_locations = get_location_names_with_ids(["Right Room Enemy Drop"])
-    # right_room.add_locations(right_room_locations, ForgeAPLocation)
+    # colorless.add_locations(colorless_equipment_shop_locations, ForgeAPLocation)
+    # colorless.add_locations(get_location_names_with_ids(["Colorless Boss Defeated"]))
+    # white.add_locations(white_equipment_shop_locations, ForgeAPLocation)
+    # white.add_locations(white_item_shop_locations, ForgeAPLocation)
+    # white.add_locations(get_location_names_with_ids(["White Boss Defeated"]))
+    # blue.add_locations(blue_equipment_shop_locations, ForgeAPLocation)
+    # blue.add_locations(blue_item_shop_locations, ForgeAPLocation)
+    # blue.add_locations(get_location_names_with_ids(["Blue Boss Defeated"]))
+    # black.add_locations(black_equipment_shop_locations, ForgeAPLocation)
+    # black.add_locations(black_item_shop_locations, ForgeAPLocation)
+    # black.add_locations(get_location_names_with_ids(["Black Boss Defeated"]))
+    # red.add_locations(red_equipment_shop_locations, ForgeAPLocation)
+    # red.add_locations(red_item_shop_locations, ForgeAPLocation)
+    # red.add_locations(get_location_names_with_ids(["Red Boss Defeated"]))
+    # green.add_locations(green_equipment_shop_locations, ForgeAPLocation)
+    # green.add_locations(green_item_shop_locations, ForgeAPLocation)
+    # green.add_locations(get_location_names_with_ids(["Green Boss Defeated"]))
 
-    # Locations may be in different regions depending on the player's options.
-    # In our case, the hammer option puts the Top Middle Chest into its own room called Top Middle Room.
-    # top_middle_room_locations = get_location_names_with_ids(["Top Middle Chest"])
-    # if world.options.hammer:
-    #     top_middle_room = world.get_region("Top Middle Room")
-    #     top_middle_room.add_locations(top_middle_room_locations, ForgeAPLocation)
-    # else:
-    #     overworld.add_locations(top_middle_room_locations, ForgeAPLocation)
 
-    # Locations may exist only if the player enables certain options.
-    # In our case, the extra_starting_chest option adds the Bottom Left Extra Chest location.
-    # if world.options.extra_starting_chest:
-        # Once again, it is important to stress that even though the Bottom Left Extra Chest location doesn't always
-        # exist, it must still always be present in the world's location_name_to_id.
-        # Whether the location actually exists in the seed is purely determined by whether we create and add it here.
-        # bottom_left_extra_chest = get_location_names_with_ids(["Bottom Left Extra Chest"])
-        # overworld.add_locations(bottom_left_extra_chest, ForgeAPLocation)
+
 
 
 # def create_events(world: ForgeAPWorld) -> None:

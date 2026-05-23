@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 # Even if an item doesn't exist on specific options, it must be present in this lookup.
 
 # TODO: Build this list dynamically based on the yaml options
-PROGRESSION = {
+item_table_progression = {
     "White Rune": 1,
     "Blue Rune": 2,
     "Black Rune": 3,
@@ -20,7 +20,7 @@ PROGRESSION = {
     "Green Rune": 5,
 }
 
-FILLER = {
+item_table_filler = {
     "Gold (S)": 1000,
     "Gold (M)": 1001,
     "Gold (L)": 1002,
@@ -33,7 +33,7 @@ FILLER = {
     "Set Unlock": 1009,
 }
 
-COLORSANITY = {
+item_table_colors = {
     "Unlock White": 2000,
     "Unlock Blue": 2001,
     "Unlock Black": 2002,
@@ -41,7 +41,7 @@ COLORSANITY = {
     "Unlock Green": 2004,
 }
 
-EQUIPMENT = {
+item_table_equipment_default = {
     "Chandra's Tome": 3000,
     "Phoenix Charm": 3001,
     "Demonic Contract": 3002,
@@ -146,7 +146,7 @@ EQUIPMENT = {
     "Unhallowed Sigil": 3101,
 }
 
-POWER_EQUIPMENT = {
+item_table_equipment_power = {
     "Sol Ring": 4000,
     "Black Lotus": 4001,
     "Mox Pearl": 4002,
@@ -156,7 +156,7 @@ POWER_EQUIPMENT = {
     "Mox Emerald": 4006,
 }
 
-CHEAT_EQUIPMENT = {
+item_table_equipment_cheat = {
     "Cheat": 5000,
 }
 
@@ -164,19 +164,19 @@ CHEAT_EQUIPMENT = {
 #     "Custom item 1": 10000
 # }
 
-ITEM_TABLE = {
-    **PROGRESSION,
-    **FILLER,
-    **COLORSANITY,
-    **EQUIPMENT,
-    **POWER_EQUIPMENT,
-    **CHEAT_EQUIPMENT,
+item_table = {
+    **item_table_progression,
+    **item_table_filler,
+    **item_table_colors,
+    **item_table_equipment_default,
+    **item_table_equipment_power,
+    **item_table_equipment_cheat,
 }
 
 # Items should have a defined default classification.
 # In our case, we will make a dictionary from item name to classification.
 
-PROGRESSION_ITEM_CLASSIFICATIONS = {
+item_classifications_progression = {
     "White Rune": ItemClassification.progression,
     "Blue Rune": ItemClassification.progression,
     "Black Rune": ItemClassification.progression,
@@ -184,16 +184,20 @@ PROGRESSION_ITEM_CLASSIFICATIONS = {
     "Green Rune": ItemClassification.progression,
 }
 
-FILLER_ITEM_CLASSIFICATIONS = {
-    "Mana Crystals": ItemClassification.filler,
-    "Gold": ItemClassification.filler,
-    "Gold Challenge Coin": ItemClassification.filler,
-    "Silver Challenge Coin": ItemClassification.filler,
+item_classifications_filler = {
+    "Gold (S)": ItemClassification.filler,
+    "Gold (M)": ItemClassification.filler,
+    "Gold (L)": ItemClassification.filler,
+    "Mana Shards (S)": ItemClassification.filler,
+    "Mana Shards (M)": ItemClassification.filler,
+    "Mana Shards (L)": ItemClassification.filler,
     "Bronze Challenge Coin": ItemClassification.filler,
+    "Silver Challenge Coin": ItemClassification.filler,
+    "Gold Challenge Coin": ItemClassification.filler,
     "Set Unlock": ItemClassification.useful,
 }
 
-COLORSANITY_ITEM_CLASSIFICATIONS = {
+item_classifications_colorsanity = {
     "Unlock White": ItemClassification.progression,
     "Unlock Blue": ItemClassification.progression,
     "Unlock Black": ItemClassification.progression,
@@ -201,7 +205,7 @@ COLORSANITY_ITEM_CLASSIFICATIONS = {
     "Unlock Green": ItemClassification.progression,
 }
 
-EQUIPMENT_ITEM_CLASSIFICATIONS = {
+item_classifications_equipment_standard = {
     "Chandra's Tome": ItemClassification.useful,
     "Phoenix Charm": ItemClassification.useful,
     "Demonic Contract": ItemClassification.useful,
@@ -306,7 +310,7 @@ EQUIPMENT_ITEM_CLASSIFICATIONS = {
     "Unhallowed Sigil": ItemClassification.useful,
 }
 
-POWER_EQUIPMENT_ITEM_CLASSIFICATIONS = {
+item_classifications_equipment_power = {
     "Sol Ring": ItemClassification.useful,
     "Mox Emerald": ItemClassification.useful,
     "Black Lotus": ItemClassification.useful,
@@ -316,31 +320,32 @@ POWER_EQUIPMENT_ITEM_CLASSIFICATIONS = {
     "Mox Sapphire": ItemClassification.useful,
 }
 
-CHEAT_EQUIPMENT_ITEM_CLASSIFICATIONS = {
+item_classifications_equipment_cheat = {
     "Cheat": ItemClassification.useful,
 }
 
-ITEM_CLASSIFICATION_TABLE = {
-    **PROGRESSION_ITEM_CLASSIFICATIONS,
-    **FILLER_ITEM_CLASSIFICATIONS,
-    **COLORSANITY_ITEM_CLASSIFICATIONS,
-    **EQUIPMENT_ITEM_CLASSIFICATIONS,
-    **POWER_EQUIPMENT_ITEM_CLASSIFICATIONS,
-    **CHEAT_EQUIPMENT_ITEM_CLASSIFICATIONS,
+item_classification_table = {
+    **item_classifications_progression,
+    **item_classifications_filler,
+    **item_classifications_colorsanity,
+    **item_classifications_equipment_standard,
+    **item_classifications_equipment_power,
+    **item_classifications_equipment_cheat,
 }
-
-    # "Sword": ItemClassification.progression | ItemClassification.useful,  # Items can have multiple classifications.
-    # "Shield": ItemClassification.progression,
-    # "Hammer": ItemClassification.progression,
-    # "Health Upgrade": ItemClassification.useful,
-    # "Confetti Cannon": ItemClassification.filler,
-    # "Math Trap": ItemClassification.trap,
 
 # Each Item instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Item class and override the "game" field.
 class ForgeAPItem(Item):
     game = "ForgeAP"
 
+def give_possible_equipment(options) -> dict:
+    possible_equipment = dict(item_table_equipment_default)
+    if options.includePower:
+        possible_equipment.update(item_table_equipment_power)
+    if options.includeCheat:
+        possible_equipment.update(item_table_equipment_cheat)
+
+    return possible_equipment
 
 # Ontop of our regular itempool, our world must be able to create arbitrary amounts of filler as requested by core.
 # To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
@@ -363,14 +368,14 @@ def create_item_with_correct_classification(world: ForgeAPWorld, name: str) -> F
     # So, we make this helper function that creates the item by name with the correct classification.
     # Note: This function's content could just be the contents of world.create_item in world.py directly,
     # but it seemed nicer to have it in its own function over here in items.py.
-    classification = ITEM_CLASSIFICATION_TABLE[name]
+    classification = item_classification_table[name]
 
     # It is perfectly normal and valid for an item's classification to differ based on the player's options.
     # In our case, Health Upgrades are only relevant to logic (and thus labeled as "progression") in hard mode.
     # if name == "Health Upgrade" and world.options.hard_mode:
     #     classification = ItemClassification.progression
 
-    return ForgeAPItem(name, classification, ITEM_TABLE[name], world.player)
+    return ForgeAPItem(name, classification, item_table[name], world.player)
 
 
 # With those two helper functions defined, let's now get to actually creating and submitting our itempool.

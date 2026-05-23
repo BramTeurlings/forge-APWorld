@@ -40,62 +40,26 @@ class StartingColor(Choice):
     option_Red = 3
     option_Green = 4
 
-# -----------------------Settings for Filler items ---------------
-
-class SetUnlockPercentage(Range):
-    """
-    Choose the percentage of filler items in the pool that will be Set Unlocks.
-    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
-    """
-    display_name = "Set Unlock Percentage"
-    range_start = 0
-    range_end = 100
-    default = 30
-
-class GiftPack(DefaultOnToggle):
-    """
-    Should you recieve a free giftpack when unlocking a new set.
-    """
-    display_name = "Enable Gift Packs"
-
-class GoldPercentage(Range):
-    """
-    Choose the percentage of filler items in the pool that will be Gold filler items.
-    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
-    """
-    display_name = "Gold Percentage"
-    range_start = 0
-    range_end = 100
-    default = 20
-
-class ManaShardPercentage(Range):
-    """
-    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
-    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
-    """
-    display_name = "Mana Shard Percentage"
-    range_start = 0
-    range_end = 100
-    default = 20
-
-class EquipmentPercentage(Range):
-    """
-    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
-    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
-    """
-    display_name = "Equipment Percentage"
-    range_start = 0
-    range_end = 100
-    default = 30
-
-class TryIncludeAllEquipment(Toggle):
-    """
-    When possible the system will try to include all equipment pieces instead of randomly filling filler locations with a certain amount of equipment.
-    All default equipment contains 102 items. Power equipment contains 7 items. Cheat equipment contains 1 item.
-    """
-    display_name = "Try Include All Equipment"
-
 # -----------------------Settings for Location amount control ---------------
+
+class FightLocations(Range):
+    """
+    The amount of fight win locations per region.
+    Adds 6 locations per.
+    """
+    display_name = "Fight Locations"
+    range_start = 0
+    range_end = 100
+    default = 15
+
+class FightAmountPerLocation(Range):
+    """
+    The amount of wins required to count as a fight location check.
+    """
+    display_name = "Fight wins per Location"
+    range_start = 1
+    range_end = 100
+    default = 1
 
 class QuestLocations(Range):
     """
@@ -104,7 +68,7 @@ class QuestLocations(Range):
     """
     display_name = "Quest Locations"
     range_start = 0
-    range_end = 100
+    range_end = 10
     default = 3
 
 class EventLocations(Range):
@@ -114,7 +78,7 @@ class EventLocations(Range):
     """
     display_name = "Event Locations"
     range_start = 0
-    range_end = 100
+    range_end = 10
     default = 3
 
 class DungeonLocations(Range):
@@ -124,27 +88,8 @@ class DungeonLocations(Range):
     """
     display_name = "Dungeon Locations"
     range_start = 0
-    range_end = 100
+    range_end = 10
     default = 3
-
-class FightLocations(Range):
-    """
-    The amount of fight locations per region.
-    Adds 6 locations per.
-    """
-    display_name = "Quest Locations"
-    range_start = 0
-    range_end = 100
-    default = 10
-
-class FightAmountPerLocation(Range):
-    """
-    The amount of wins required to count as a fight location check.
-    """
-    display_name = "Fights per Location"
-    range_start = 1
-    range_end = 100
-    default = 1
 
 # -----------------------Settings for Equipment items ---------------
 
@@ -162,7 +107,94 @@ class IncludeCheat(Toggle):
     """
     display_name = "Include Cheat"
 
+# -----------------------Settings for Filler items ---------------
+
+class SetUnlockPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Set Unlocks.
+    Sets will be spread equally over all available Set Unlock items.
+    Collecting all Set Unlock items will unlock every set in the game.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Set Unlock Percentage"
+    range_start = 1
+    range_end = 100
+    default = 30
+
+class GiftPack(DefaultOnToggle):
+    """
+    Should you recieve a free giftpack when unlocking a new set.
+    """
+    display_name = "Enable Gift Packs"
+
+class GoldPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Gold filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Gold Percentage"
+    range_start = 0
+    range_end = 100
+    default = 15
+
+class ManaShardPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Mana Shard Percentage"
+    range_start = 0
+    range_end = 100
+    default = 15
+
+class ChallengeCoinPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Challenge Coin filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Challenge Coin Percentage"
+    range_start = 0
+    range_end = 100
+    default = 10
+
+
+class EquipmentPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Equipment Percentage"
+    range_start = 0
+    range_end = 100
+    default = 30
+
+class TryIncludeAllEquipment(Toggle):
+    """
+    When possible the system will try to include all equipment pieces instead of randomly filling filler locations with a certain amount of equipment.
+    Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) + 4 (if color sanity is enabled) locations.
+    Default equipment contains 102 items. Power equipment contains 7 items. Cheat equipment contains 1 item.
+    """
+    display_name = "Try Include All Equipment"
+
 # -----------------------Settings for Helpers ---------------
+
+class MinShopPrice(Range):
+    """
+    Minimum gold price for shop items.
+    """
+    display_name = "Minimum Shop Price"
+    range_start = 1
+    range_end = 10000
+    default = 500
+
+class MaxShopPrice(Range):
+    """
+    Maximum gold price for shop items.
+    """
+    display_name = "Maximum Shop Price"
+    range_start = 1
+    range_end = 10000
+    default = 1000
 
 class GoldMultiplierPercentage(Range):
     """
@@ -178,57 +210,99 @@ class GoldMultiplierPercentage(Range):
 # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
-    color_sanity: ColorSanity
-    starting_color: StartingColor
-    set_unlocks: SetUnlockPercentage
-    gift_pack: GiftPack
-    quest_locations: QuestLocations
-    event_locations: EventLocations
-    dungeon_locations: DungeonLocations
-    fight_locations: FightLocations
-    fight_amount: FightAmountPerLocation
-    include_power: IncludePower
-    include_cheat: IncludeCheat
-    earning_multiplier: GoldMultiplierPercentage
-
+    colorSanity: ColorSanity
+    startingColor: StartingColor
+    fightLocations: FightLocations
+    fightAmountPerLocation: FightAmountPerLocation
+    questLocations: QuestLocations
+    eventLocations: EventLocations
+    dungeonLocations: DungeonLocations
+    includePower: IncludePower
+    includeCheat: IncludeCheat
+    setUnlocksPercentage: SetUnlockPercentage
+    giftPack: GiftPack
+    goldPercentage: GoldPercentage
+    manaShardPercentage: ManaShardPercentage
+    challengeCoinPercentage: ChallengeCoinPercentage
+    equipmentPercentage: EquipmentPercentage
+    tryIncludeAllEquipment: TryIncludeAllEquipment
+    minShopPrice: MinShopPrice
+    maxShopPrice: MaxShopPrice
+    goldMultiplierPercentage: GoldMultiplierPercentage
 
 # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
 option_groups = [
     OptionGroup("Gameplay Options", [
         ColorSanity,
         StartingColor,
-        SetUnlockPercentage,
         GiftPack,
     ]),
     OptionGroup("Location Options", [
-
+        FightLocations,
+        FightAmountPerLocation,
+        QuestLocations,
+        EventLocations,
+        DungeonLocations,
     ]),
     OptionGroup("Equipment Options", [
         IncludePower,
         IncludeCheat,
     ]),
+    OptionGroup("Filler Options", [
+        SetUnlockPercentage,
+        GoldPercentage,
+        ManaShardPercentage,
+        ChallengeCoinPercentage,
+        EquipmentPercentage,
+        TryIncludeAllEquipment,
+    ]),
     OptionGroup("Helper Options", [
+        MinShopPrice,
+        MaxShopPrice,
         GoldMultiplierPercentage,
     ])
 ]
 
 # Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".
 option_presets = {
-    "Standard": {
-        "color_sanity": False,
-        "set_unlocks": 100,
-        "gift_pack": True,
-
-        "include_power": True,
-        "include_cheat": False,
-        "earning_multiplier": 100,
+    "Standard": { # 227 total checks.
+        "colorSanity": False,
+        "startingColor": 0,
+        "fightLocations": 15,
+        "fightAmountPerLocation": 1,
+        "questLocations": 3,
+        "eventLocations": 3,
+        "dungeonLocations": 3,
+        "includePower": True,
+        "includeCheat": False,
+        "setUnlocksPercentage": 30,
+        "giftPack": True,
+        "goldPercentage": 15,
+        "manaShardPercentage": 15,
+        "equipmentPercentage": 30,
+        "tryIncludeAllEquipment": True,
+        "minShopPrice": 500,
+        "maxShopPrice": 1000,
+        "goldMultiplierPercentage": 100,
     },
-    "Short": {
-        "color_sanity": False,
-        "include_power": True,
-        "include_cheat": False,
-        "set_unlocks": 25,
-        "gift_pack": True,
-        "earning_multiplier": 200,
+    "Short": { # 131 total checks.
+        "colorSanity": False,
+        "startingColor": 0,
+        "fightLocations": 5,
+        "fightAmountPerLocation": 1,
+        "questLocations": 1,
+        "eventLocations": 1,
+        "dungeonLocations": 1,
+        "includePower": True,
+        "includeCheat": False,
+        "setUnlocksPercentage": 30,
+        "giftPack": True,
+        "goldPercentage": 15,
+        "manaShardPercentage": 15,
+        "equipmentPercentage": 30,
+        "tryIncludeAllEquipment": False,
+        "minShopPrice": 500,
+        "maxShopPrice": 1000,
+        "goldMultiplierPercentage": 200,
     },
 }
