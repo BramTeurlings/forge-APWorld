@@ -81,15 +81,12 @@ class EventLocations(Range):
     range_end = 10
     default = 3
 
-class DungeonLocations(Range):
+class MinibossLocations(DefaultOnToggle):
     """
-    The amount of dungeon locations per region.
-    Adds 6 locations per.
+    Includes Miniboss as locations.
+    Adds 24 locations.
     """
     display_name = "Dungeon Locations"
-    range_start = 0
-    range_end = 10
-    default = 3
 
 # -----------------------Settings for Equipment items ---------------
 
@@ -119,7 +116,7 @@ class SetUnlockPercentage(Range):
     display_name = "Set Unlock Percentage"
     range_start = 1
     range_end = 100
-    default = 30
+    default = 25
 
 class GiftPack(DefaultOnToggle):
     """
@@ -157,6 +154,15 @@ class ChallengeCoinPercentage(Range):
     range_end = 100
     default = 10
 
+class LifeUpgradePercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Health filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Health Upgrade Percentage"
+    range_start = 0
+    range_end = 100
+    default = 5
 
 class EquipmentPercentage(Range):
     """
@@ -210,25 +216,26 @@ class GoldMultiplierPercentage(Range):
 # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
-    colorSanity: ColorSanity
-    startingColor: StartingColor
-    fightLocations: FightLocations
-    fightAmountPerLocation: FightAmountPerLocation
-    questLocations: QuestLocations
-    eventLocations: EventLocations
-    dungeonLocations: DungeonLocations
-    includePower: IncludePower
-    includeCheat: IncludeCheat
-    setUnlocksPercentage: SetUnlockPercentage
-    giftPack: GiftPack
-    goldPercentage: GoldPercentage
-    manaShardPercentage: ManaShardPercentage
-    challengeCoinPercentage: ChallengeCoinPercentage
-    equipmentPercentage: EquipmentPercentage
-    tryIncludeAllEquipment: TryIncludeAllEquipment
-    minShopPrice: MinShopPrice
-    maxShopPrice: MaxShopPrice
-    goldMultiplierPercentage: GoldMultiplierPercentage
+    color_sanity: ColorSanity
+    starting_color: StartingColor
+    fight_locations: FightLocations
+    fight_amount_per_location: FightAmountPerLocation
+    quest_locations: QuestLocations
+    event_locations: EventLocations
+    miniboss_locations: MinibossLocations
+    include_power: IncludePower
+    include_cheat: IncludeCheat
+    set_unlocks_percentage: SetUnlockPercentage
+    gift_pack: GiftPack
+    gold_percentage: GoldPercentage
+    mana_shard_percentage: ManaShardPercentage
+    challenge_coin_percentage: ChallengeCoinPercentage
+    life_upgrade_percentage: LifeUpgradePercentage
+    equipment_percentage: EquipmentPercentage
+    try_include_all_equipment: TryIncludeAllEquipment
+    min_shop_price: MinShopPrice
+    max_shop_price: MaxShopPrice
+    gold_multiplier_percentage: GoldMultiplierPercentage
 
 # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
 option_groups = [
@@ -242,7 +249,7 @@ option_groups = [
         FightAmountPerLocation,
         QuestLocations,
         EventLocations,
-        DungeonLocations,
+        MinibossLocations,
     ]),
     OptionGroup("Equipment Options", [
         IncludePower,
@@ -253,6 +260,7 @@ option_groups = [
         GoldPercentage,
         ManaShardPercentage,
         ChallengeCoinPercentage,
+        LifeUpgradePercentage,
         EquipmentPercentage,
         TryIncludeAllEquipment,
     ]),
@@ -266,43 +274,45 @@ option_groups = [
 # Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".
 option_presets = {
     "Standard": { # 227 total checks.
-        "colorSanity": False,
-        "startingColor": 0,
-        "fightLocations": 15,
-        "fightAmountPerLocation": 1,
-        "questLocations": 3,
-        "eventLocations": 3,
-        "dungeonLocations": 3,
-        "includePower": True,
-        "includeCheat": False,
-        "setUnlocksPercentage": 30,
-        "giftPack": True,
-        "goldPercentage": 15,
-        "manaShardPercentage": 15,
-        "equipmentPercentage": 30,
-        "tryIncludeAllEquipment": True,
-        "minShopPrice": 500,
-        "maxShopPrice": 1000,
-        "goldMultiplierPercentage": 100,
+        "color_sanity": False,
+        "starting_color": 0,
+        "fight_locations": 15,
+        "fight_amount_per_location": 1,
+        "quest_locations": 3,
+        "event_locations": 3,
+        "miniboss_locations": True,
+        "include_power": True,
+        "include_cheat": False,
+        "set_unlocks_percentage": 25,
+        "gift_pack": True,
+        "gold_percentage": 15,
+        "mana_shard_percentage": 15,
+        "life_upgrade_percentage": 5,
+        "equipment_percentage": 30,
+        "try_include_all_equipment": True,
+        "min_shop_price": 500,
+        "max_shop_price": 1000,
+        "gold_multiplier_percentage": 100,
     },
     "Short": { # 131 total checks.
-        "colorSanity": False,
-        "startingColor": 0,
-        "fightLocations": 5,
-        "fightAmountPerLocation": 1,
-        "questLocations": 1,
-        "eventLocations": 1,
-        "dungeonLocations": 1,
-        "includePower": True,
-        "includeCheat": False,
-        "setUnlocksPercentage": 30,
-        "giftPack": True,
-        "goldPercentage": 15,
-        "manaShardPercentage": 15,
-        "equipmentPercentage": 30,
-        "tryIncludeAllEquipment": False,
-        "minShopPrice": 500,
-        "maxShopPrice": 1000,
-        "goldMultiplierPercentage": 200,
+        "color_sanity": False,
+        "starting_color": 0,
+        "fight_locations": 5,
+        "fight_amount_per_location": 1,
+        "quest_locations": 1,
+        "event_locations": 1,
+        "miniboss_locations": False,
+        "include_power": True,
+        "include_cheat": False,
+        "set_unlocks_percentage": 25,
+        "gift_pack": True,
+        "gold_percentage": 15,
+        "mana_shard_percentage": 15,
+        "life_upgrade_percentage": 5,
+        "equipment_percentage": 30,
+        "try_include_all_equipment": False,
+        "min_shop_price": 500,
+        "max_shop_price": 1000,
+        "gold_multiplier_percentage": 200,
     },
 }

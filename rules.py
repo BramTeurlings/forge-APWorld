@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import CollectionState
-from worlds.generic.Rules import add_rule, set_rule
+from rule_builder.options import OptionFilter
+from rule_builder.rules import Has, HasAll, Rule
+# from BaseClasses import CollectionState
+# from worlds.generic.Rules import add_rule, set_rule
 
 if TYPE_CHECKING:
     from .world import ForgeAPWorld
@@ -16,7 +18,7 @@ def set_all_rules(world: ForgeAPWorld) -> None:
     # We'll do entrances first, then locations, and then finally we set our victory condition.
 
     set_all_entrance_rules(world)
-    # set_all_location_rules(world)
+    set_all_location_rules(world)
     set_completion_condition(world)
 
 
@@ -62,11 +64,11 @@ def set_all_entrance_rules(world: ForgeAPWorld) -> None:
     # set_rule(colorless_to_green, can_access_green)
 
     # Because the function has to be defined locally, most worlds prefer the lambda syntax.
-    set_rule(colorless_to_white, lambda state: state.has("White Rune", world.player))
-    set_rule(colorless_to_blue, lambda state: state.has("Blue Rune", world.player))
-    set_rule(colorless_to_black, lambda state: state.has("Black Rune", world.player))
-    set_rule(colorless_to_red, lambda state: state.has("Red Rune", world.player))
-    set_rule(colorless_to_green, lambda state: state.has("Green Rune", world.player))
+    world.set_rule(colorless_to_white, lambda state: state.has("White Rune", world.player))
+    world.set_rule(colorless_to_blue, lambda state: state.has("Blue Rune", world.player))
+    world.set_rule(colorless_to_black, lambda state: state.has("Black Rune", world.player))
+    world.set_rule(colorless_to_red, lambda state: state.has("Red Rune", world.player))
+    world.set_rule(colorless_to_green, lambda state: state.has("Green Rune", world.player))
 
     # Conditions can depend on event items.
     # set_rule(right_room_to_final_boss_room, lambda state: state.has("Top Left Room Button Pressed", world.player))
@@ -79,7 +81,10 @@ def set_all_entrance_rules(world: ForgeAPWorld) -> None:
     #     set_rule(overworld_to_top_middle_room, lambda state: state.has("Hammer", world.player))
 
 
-# def set_all_location_rules(world: ForgeAPWorld) -> None:
+def set_all_location_rules(world: ForgeAPWorld) -> None:
+    final_boss = world.get_location("Emrakul Defeated")
+    world.set_rule(final_boss, lambda state: state.has_all(("White Rune", "Blue Rune", "Black Rune", "Red Rune", "Green Rune"), world.player))
+
     # Location rules work no differently from Entrance rules.
     # Most of our locations are chests that can simply be opened by walking up to them.
     # Thus, their logical requirements are covered by the Entrance rules of the Entrances that were required to
@@ -133,7 +138,7 @@ def set_all_entrance_rules(world: ForgeAPWorld) -> None:
     # Another way to chain multiple conditions is via the add_rule function.
     # This makes the access rules a bit slower though, so it should only be used if your structure justifies it.
     # In our case, it's pretty useful because hard mode and easy mode have different requirements.
-    # final_boss = world.get_location("Final Boss Defeated")
+
     #
     # # For the "known" requirements, it's still better to chain them using a normal "and" condition.
     # add_rule(final_boss, lambda state: state.has_all(("Sword", "Shield"), world.player))
@@ -146,7 +151,9 @@ def set_all_entrance_rules(world: ForgeAPWorld) -> None:
 def set_completion_condition(world: ForgeAPWorld) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
     # You can just set a completion condition directly like any other condition, referencing items the player receives:
-    world.multiworld.completion_condition[world.player] = lambda state: state.has_all(("White Rune", "Blue Rune", "Black Rune", "Red Rune", "Green Rune"), world.player)
+    # world.multiworld.completion_condition[world.player] = lambda state: state.has("Emrakul Defeated", world.player)
+
+    world.set_completion_rule(Has("Victory"))
 
     # In our case, we went for the Victory event design pattern (see create_events() in locations.py).
     # So lets undo what we just did, and instead set the completion condition to:

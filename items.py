@@ -31,6 +31,8 @@ item_table_filler = {
     "Silver Challenge Coin": 1007,
     "Gold Challenge Coin": 1008,
     "Set Unlock": 1009,
+    "Life +1": 1010,
+    "Life +2": 1011,
 }
 
 item_table_colors = {
@@ -195,6 +197,8 @@ item_classifications_filler = {
     "Silver Challenge Coin": ItemClassification.filler,
     "Gold Challenge Coin": ItemClassification.filler,
     "Set Unlock": ItemClassification.useful,
+    "Life +1": ItemClassification.useful,
+    "Life +2": ItemClassification.useful,
 }
 
 item_classifications_colorsanity = {
@@ -340,9 +344,9 @@ class ForgeAPItem(Item):
 
 def give_possible_equipment(options) -> dict:
     possible_equipment = dict(item_table_equipment_default)
-    if options.includePower:
+    if options.include_power:
         possible_equipment.update(item_table_equipment_power)
-    if options.includeCheat:
+    if options.include_cheat:
         possible_equipment.update(item_table_equipment_cheat)
 
     return possible_equipment

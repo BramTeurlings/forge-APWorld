@@ -14,122 +14,148 @@ if TYPE_CHECKING:
 # We will have a lookup from location name to ID here that, in world.py, we will import and bind to the world class.
 # Even if a location doesn't exist on specific options, it must be present in this lookup.
 boss_locations = {
-    "White Boss Defeated": 1,
-    "Blue Boss Defeated": 2,
-    "Black Boss Defeated": 3,
-    "Red Boss Defeated": 4,
-    "Green Boss Defeated": 5,
-    "Colorless Boss Defeated": 6,
-    "WUBRG Boss Defeated": 7,
+    "Emrakul Defeated": 1,
+    "Akroma Defeated": 2,
+    "Lorthos Defeated": 3,
+    "Griselbrand Defeated": 4,
+    "Lathliss Defeated": 5,
+    "Ghalta Defeated": 6,
+}
+
+miniboss_locations = {
+    "Slime Mother Defeated": 100,
+    "Slobad Defeated": 101,
+    "Xira Defeated": 102,
+    "Nahiri Defeated": 200,
+    "Valyx Defeated": 201,
+    "Jace Defeated": 300,
+    "Kiora Defeated": 301,
+    "Myr Superion": 302,
+    "Sliver Queen Defeated": 303,
+    "Teferi Defeated": 304,
+    "Grolnok Defeated": 400,
+    "Guardian Angel Defeated": 401,
+    "Liliana Defeated": 402,
+    "Slimefoot Defeated": 403,
+    "Sorin Defeated": 404,
+    "Chandra Defeated": 500,
+    "Tibalt's Torturer Defeated": 501,
+    "Tibalt Defeated": 502,
+    "Zedruu's Cook Defeated": 503,
+    "Conjurer Defeated": 504,
+    "Zedruu Defeated": 505,
+    "Garruk Defeated": 600,
+    "Hydra of Shandalaar Defeated": 601,
+    "Scarecrow Captain Defeated": 602
 }
 
 colorless_equipment_shop_locations = {
-    "Colorless Equipment Shop - 1": 100,
-    "Colorless Equipment Shop - 2": 101,
-    "Colorless Equipment Shop - 3": 102,
-    "Colorless Equipment Shop - 4": 103,
-    "Colorless Equipment Shop - 5": 104,
-    "Colorless Equipment Shop - 6": 105,
+    "Colorless Equipment Shop - 1": 1000,
+    "Colorless Equipment Shop - 2": 1001,
+    "Colorless Equipment Shop - 3": 1002,
+    "Colorless Equipment Shop - 4": 1003,
+    "Colorless Equipment Shop - 5": 1004,
+    "Colorless Equipment Shop - 6": 1005,
 }
 
 white_equipment_shop_locations = {
-    "White Equipment Shop - 1": 200,
-    "White Equipment Shop - 2": 201,
-    "White Equipment Shop - 3": 202,
-    "White Equipment Shop - 4": 203,
-    "White Equipment Shop - 5": 204,
-    "White Equipment Shop - 6": 205,
+    "White Equipment Shop - 1": 1100,
+    "White Equipment Shop - 2": 1101,
+    "White Equipment Shop - 3": 1102,
+    "White Equipment Shop - 4": 1103,
+    "White Equipment Shop - 5": 1104,
+    "White Equipment Shop - 6": 1105,
 }
 
 white_item_shop_locations = {
-    "White Item Shop - 1": 206,
-    "White Item Shop - 2": 207,
-    "White Item Shop - 3": 208,
-    "White Item Shop - 4": 209,
-    "White Item Shop - 5": 210,
-    "White Item Shop - 6": 211,
-    "White Item Shop - 7": 212,
-    "White Item Shop - 8": 213,
+    "White Item Shop - 1": 1106,
+    "White Item Shop - 2": 1107,
+    "White Item Shop - 3": 1108,
+    "White Item Shop - 4": 1109,
+    "White Item Shop - 5": 1110,
+    "White Item Shop - 6": 1111,
+    "White Item Shop - 7": 1112,
+    "White Item Shop - 8": 1113,
 }
 
 blue_equipment_shop_locations = {
-    "Blue Equipment Shop - 1": 300,
-    "Blue Equipment Shop - 2": 301,
-    "Blue Equipment Shop - 3": 302,
-    "Blue Equipment Shop - 4": 303,
-    "Blue Equipment Shop - 5": 304,
-    "Blue Equipment Shop - 6": 305,
+    "Blue Equipment Shop - 1": 1200,
+    "Blue Equipment Shop - 2": 1201,
+    "Blue Equipment Shop - 3": 1202,
+    "Blue Equipment Shop - 4": 1203,
+    "Blue Equipment Shop - 5": 1204,
+    "Blue Equipment Shop - 6": 1205,
 }
 
 blue_item_shop_locations = {
-    "Blue Item Shop - 1": 306,
-    "Blue Item Shop - 2": 307,
-    "Blue Item Shop - 3": 308,
-    "Blue Item Shop - 4": 309,
-    "Blue Item Shop - 5": 310,
-    "Blue Item Shop - 6": 311,
-    "Blue Item Shop - 7": 312,
-    "Blue Item Shop - 8": 313,
+    "Blue Item Shop - 1": 1206,
+    "Blue Item Shop - 2": 1207,
+    "Blue Item Shop - 3": 1208,
+    "Blue Item Shop - 4": 1209,
+    "Blue Item Shop - 5": 1210,
+    "Blue Item Shop - 6": 1211,
+    "Blue Item Shop - 7": 1212,
+    "Blue Item Shop - 8": 1213,
 }
 
 black_equipment_shop_locations = {
-    "Black Equipment Shop - 1": 400,
-    "Black Equipment Shop - 2": 401,
-    "Black Equipment Shop - 3": 402,
-    "Black Equipment Shop - 4": 403,
-    "Black Equipment Shop - 5": 404,
-    "Black Equipment Shop - 6": 405,
+    "Black Equipment Shop - 1": 1300,
+    "Black Equipment Shop - 2": 1301,
+    "Black Equipment Shop - 3": 1302,
+    "Black Equipment Shop - 4": 1303,
+    "Black Equipment Shop - 5": 1304,
+    "Black Equipment Shop - 6": 1305,
 }
 
 black_item_shop_locations = {
-    "Black Item Shop - 1": 406,
-    "Black Item Shop - 2": 407,
-    "Black Item Shop - 3": 408,
-    "Black Item Shop - 4": 409,
-    "Black Item Shop - 5": 410,
-    "Black Item Shop - 6": 411,
-    "Black Item Shop - 7": 412,
-    "Black Item Shop - 8": 413,
+    "Black Item Shop - 1": 1306,
+    "Black Item Shop - 2": 1307,
+    "Black Item Shop - 3": 1308,
+    "Black Item Shop - 4": 1309,
+    "Black Item Shop - 5": 1310,
+    "Black Item Shop - 6": 1311,
+    "Black Item Shop - 7": 1312,
+    "Black Item Shop - 8": 1313,
 }
 
 red_equipment_shop_locations = {
-    "Red Equipment Shop - 1": 500,
-    "Red Equipment Shop - 2": 501,
-    "Red Equipment Shop - 3": 502,
-    "Red Equipment Shop - 4": 503,
-    "Red Equipment Shop - 5": 504,
-    "Red Equipment Shop - 6": 505,
+    "Red Equipment Shop - 1": 1400,
+    "Red Equipment Shop - 2": 1401,
+    "Red Equipment Shop - 3": 1402,
+    "Red Equipment Shop - 4": 1403,
+    "Red Equipment Shop - 5": 1404,
+    "Red Equipment Shop - 6": 1405,
 }
 
 red_item_shop_locations = {
-    "Red Item Shop - 1": 506,
-    "Red Item Shop - 2": 507,
-    "Red Item Shop - 3": 508,
-    "Red Item Shop - 4": 509,
-    "Red Item Shop - 5": 510,
-    "Red Item Shop - 6": 511,
-    "Red Item Shop - 7": 512,
-    "Red Item Shop - 8": 513,
+    "Red Item Shop - 1": 1406,
+    "Red Item Shop - 2": 1407,
+    "Red Item Shop - 3": 1408,
+    "Red Item Shop - 4": 1409,
+    "Red Item Shop - 5": 1410,
+    "Red Item Shop - 6": 1411,
+    "Red Item Shop - 7": 1412,
+    "Red Item Shop - 8": 1413,
 }
 
 green_equipment_shop_locations = {
-    "Green Equipment Shop - 1": 600,
-    "Green Equipment Shop - 2": 601,
-    "Green Equipment Shop - 3": 602,
-    "Green Equipment Shop - 4": 603,
-    "Green Equipment Shop - 5": 604,
-    "Green Equipment Shop - 6": 605,
+    "Green Equipment Shop - 1": 1500,
+    "Green Equipment Shop - 2": 1501,
+    "Green Equipment Shop - 3": 1502,
+    "Green Equipment Shop - 4": 1503,
+    "Green Equipment Shop - 5": 1504,
+    "Green Equipment Shop - 6": 1505,
 }
 
 green_item_shop_locations = {
-    "Green Item Shop - 1": 606,
-    "Green Item Shop - 2": 607,
-    "Green Item Shop - 3": 608,
-    "Green Item Shop - 4": 609,
-    "Green Item Shop - 5": 610,
-    "Green Item Shop - 6": 611,
-    "Green Item Shop - 7": 612,
-    "Green Item Shop - 8": 613,
+    "Green Item Shop - 1": 1506,
+    "Green Item Shop - 2": 1507,
+    "Green Item Shop - 3": 1508,
+    "Green Item Shop - 4": 1509,
+    "Green Item Shop - 5": 1510,
+    "Green Item Shop - 6": 1511,
+    "Green Item Shop - 7": 1512,
+    "Green Item Shop - 8": 1513,
 }
 
 
@@ -145,14 +171,13 @@ def give_all_locations() -> dict:
     battle_locations = give_default_battle_locations(100)
     event_locations = give_default_event_locations(10)
     quest_locations = give_default_quest_locations(10)
-    dungeon_locations = give_default_dungeon_locations(10)
 
     return {
+        **give_predefined_locations(),
         **battle_locations,
         **event_locations,
         **quest_locations,
-        **dungeon_locations,
-        **give_predefined_locations()
+        **miniboss_locations,
     }
 
 def give_predefined_locations() -> dict:
@@ -175,12 +200,12 @@ def give_default_battle_locations(locations: int) -> dict:
     location_table = {}
 
     colors = {
-        "Colorless": 1000,
-        "White": 1100,
-        "Blue": 1200,
-        "Black": 1300,
-        "Red": 1400,
-        "Green": 1500,
+        "Colorless": 10000,
+        "White": 20000,
+        "Blue": 30000,
+        "Black": 40000,
+        "Red": 50000,
+        "Green": 60000,
     }
 
     for color, start_id in colors.items():
@@ -193,17 +218,17 @@ def give_default_event_locations(locations: int) -> dict:
     location_table = {}
 
     colors = {
-        "Colorless": 2000,
-        "White": 2100,
-        "Blue": 2200,
-        "Black": 2300,
-        "Red": 2400,
-        "Green": 2500,
+        "Colorless": 11000,
+        "White": 21000,
+        "Blue": 31000,
+        "Black": 41000,
+        "Red": 51000,
+        "Green": 61000,
     }
 
     for color, start_id in colors.items():
         for i in range(locations):
-            key = f"{color} event win - {i + 1}"
+            key = f"{color} event completion - {i + 1}"
             location_table[key] = start_id + i
     return location_table
 
@@ -211,12 +236,12 @@ def give_default_quest_locations(locations: int) -> dict:
     location_table = {}
 
     colors = {
-        "Colorless": 3000,
-        "White": 3100,
-        "Blue": 3200,
-        "Black": 3300,
-        "Red": 3400,
-        "Green": 3500,
+        "Colorless": 12000,
+        "White": 22000,
+        "Blue": 32000,
+        "Black": 42000,
+        "Red": 52000,
+        "Green": 62000,
     }
 
     for color, start_id in colors.items():
@@ -225,32 +250,15 @@ def give_default_quest_locations(locations: int) -> dict:
             location_table[key] = start_id + i
     return location_table
 
-def give_default_dungeon_locations(locations: int) -> dict:
-    location_table = {}
-
-    colors = {
-        "Colorless": 4000,
-        "White": 4100,
-        "Blue": 4200,
-        "Black": 4300,
-        "Red": 4400,
-        "Green": 4500,
-    }
-
-    for color, start_id in colors.items():
-        for i in range(locations):
-            key = f"{color} dungeon clear - {i + 1}"
-            location_table[key] = start_id + i
-    return location_table
-
 def setup_locations_with_settings(options) -> None:
     total_locations = {}
 
     total_locations.update(give_predefined_locations())
-    total_locations.update(give_default_battle_locations(options.fightLocations))
-    total_locations.update(give_default_event_locations(options.questLocations))
-    total_locations.update(give_default_quest_locations(options.eventLocations))
-    total_locations.update(give_default_dungeon_locations(options.dungeonLocations))
+    total_locations.update(give_default_battle_locations(options.fight_locations))
+    total_locations.update(give_default_event_locations(options.quest_locations))
+    total_locations.update(give_default_quest_locations(options.event_locations))
+    if options.miniboss_locations:
+        total_locations.update(miniboss_locations)
 
     return total_locations
 
@@ -266,54 +274,30 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
 
 def create_all_locations(world: ForgeAPWorld, location_database : dict) -> None:
     create_regular_locations(world, location_database)
-    # create_events(world)
+    create_events(world)
 
 
 def create_regular_locations(world: ForgeAPWorld, location_database : dict) -> None:
-    regions = {
-        "Colorless": world.get_region("Colorless"),
-        "White": world.get_region("White"),
-        "Blue": world.get_region("Blue"),
-        "Black": world.get_region("Black"),
-        "Red": world.get_region("Red"),
-        "Green": world.get_region("Green"),
-    }
+    colorless = world.get_region("Colorless")
+    white = world.get_region("White")
+    blue = world.get_region("Blue")
+    black = world.get_region("Black")
+    red = world.get_region("Red")
+    green = world.get_region("Green")
 
-    # Assign every location automatically
     for location_name, location_id in location_database.items():
-        region_name = get_region_name(location_name)
-
-        if region_name is None:
-            continue
-
-        regions[region_name].add_locations(
-            {location_name: location_id},
-            ForgeAPLocation
-        )
-
-def get_region_name(location_name: str) -> str | None:
-    if location_name.startswith("Colorless"):
-        return "Colorless"
-
-    if location_name.startswith("White"):
-        return "White"
-
-    # Special case
-    if location_name.startswith("WUBRG"):
-        return "Blue"
-
-    if location_name.startswith("Blue"):
-        return "Blue"
-
-    if location_name.startswith("Black"):
-        return "Black"
-
-    if location_name.startswith("Red"):
-        return "Red"
-
-    if location_name.startswith("Green"):
-        return "Green"
-
+        if location_id == 1 or 100 <= location_id < 200 or 1000 <= location_id < 2000 or 10000 <= location_id < 20000:
+            colorless.add_locations({location_name: location_id}, ForgeAPLocation)
+        if location_id == 2 or 200 <= location_id < 300 or 2000 <= location_id < 3000 or 20000 <= location_id < 30000:
+            white.add_locations({location_name: location_id}, ForgeAPLocation)
+        if location_id == 3 or 300 <= location_id < 400 or 3000 <= location_id < 4000 or 30000 <= location_id < 40000:
+            blue.add_locations({location_name: location_id}, ForgeAPLocation)
+        if location_id == 4 or 400 <= location_id < 500 or 4000 <= location_id < 5000 or 40000 <= location_id < 50000:
+            black.add_locations({location_name: location_id}, ForgeAPLocation)
+        if location_id == 5 or 500 <= location_id < 600 or 5000 <= location_id < 6000 or 50000 <= location_id < 60000:
+            red.add_locations({location_name: location_id}, ForgeAPLocation)
+        if location_id == 6 or 600 <= location_id < 700 or 6000 <= location_id < 7000 or 60000 <= location_id < 70000:
+            green.add_locations({location_name: location_id}, ForgeAPLocation)
     return None
 
     # colorless = world.get_region("Colorless")
@@ -345,7 +329,11 @@ def get_region_name(location_name: str) -> str | None:
 
 
 
-# def create_events(world: ForgeAPWorld) -> None:
+def create_events(world: ForgeAPWorld) -> None:
+    colorless = world.get_region("Colorless")
+    colorless.add_event(
+        "Emrakul Defeated", "Victory", location_type=ForgeAPLocation, item_type=items.ForgeAPItem
+    )
     # Sometimes, the player may perform in-game actions that allow them to progress which are not related to Items.
     # In our case, the player must press a button in the top left room to open the final boss door.
     # AP has something for this purpose: "Event locations" and "Event items".
