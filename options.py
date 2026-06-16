@@ -81,7 +81,7 @@ class EventLocations(Range):
     range_end = 10
     default = 3
 
-class MinibossLocations(DefaultOnToggle):
+class IncludeMinibossLocations(DefaultOnToggle):
     """
     Includes Miniboss as locations.
     Adds 24 locations.
@@ -222,7 +222,7 @@ class ForgeAPOptions(PerGameCommonOptions):
     fight_amount_per_location: FightAmountPerLocation
     quest_locations: QuestLocations
     event_locations: EventLocations
-    miniboss_locations: MinibossLocations
+    include_miniboss_locations: IncludeMinibossLocations
     include_power: IncludePower
     include_cheat: IncludeCheat
     set_unlocks_percentage: SetUnlockPercentage
@@ -249,7 +249,7 @@ option_groups = [
         FightAmountPerLocation,
         QuestLocations,
         EventLocations,
-        MinibossLocations,
+        IncludeMinibossLocations,
     ]),
     OptionGroup("Equipment Options", [
         IncludePower,
@@ -280,7 +280,7 @@ option_presets = {
         "fight_amount_per_location": 1,
         "quest_locations": 3,
         "event_locations": 3,
-        "miniboss_locations": True,
+        "include_miniboss_locations": True,
         "include_power": True,
         "include_cheat": False,
         "set_unlocks_percentage": 25,

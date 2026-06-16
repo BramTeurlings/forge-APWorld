@@ -71,11 +71,11 @@ class ForgeAPWorld(World):
             pool.append(self.create_item(name))
 
         # Optional sanity
-        if self.options.color_sanity:
-            for name, data in items.item_table_colors.items():
-                if self.should_ignore_color(name):
-                    continue
-                pool.append(self.create_item(name))
+        # if self.options.color_sanity:
+        #     for name, data in items.item_table_colors.items():
+        #         if self.should_ignore_color(name):
+        #             continue
+        #         pool.append(self.create_item(name))
 
         remaining_slots = len(local_location_table) - len(pool)
 
@@ -240,7 +240,7 @@ class ForgeAPWorld(World):
                                          "fight_amount_per_location",
                                          "quest_locations",
                                          "event_locations",
-                                         "miniboss_locations",
+                                         "include_miniboss_locations",
                                          "include_power",
                                          "include_cheat",
                                          "set_unlocks_percentage",

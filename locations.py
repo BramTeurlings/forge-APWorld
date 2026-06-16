@@ -30,7 +30,7 @@ miniboss_locations = {
     "Valyx Defeated": 201,
     "Jace Defeated": 300,
     "Kiora Defeated": 301,
-    "Myr Superion": 302,
+    "Myr Superion Defeated": 302,
     "Sliver Queen Defeated": 303,
     "Teferi Defeated": 304,
     "Grolnok Defeated": 400,
@@ -68,94 +68,94 @@ white_equipment_shop_locations = {
 }
 
 white_item_shop_locations = {
-    "White Item Shop - 1": 1106,
-    "White Item Shop - 2": 1107,
-    "White Item Shop - 3": 1108,
-    "White Item Shop - 4": 1109,
-    "White Item Shop - 5": 1110,
-    "White Item Shop - 6": 1111,
-    "White Item Shop - 7": 1112,
-    "White Item Shop - 8": 1113,
+    "White Item Shop - 1": 1200,
+    "White Item Shop - 2": 1201,
+    "White Item Shop - 3": 1202,
+    "White Item Shop - 4": 1203,
+    "White Item Shop - 5": 1204,
+    "White Item Shop - 6": 1205,
+    "White Item Shop - 7": 1206,
+    "White Item Shop - 8": 1207,
 }
 
 blue_equipment_shop_locations = {
-    "Blue Equipment Shop - 1": 1200,
-    "Blue Equipment Shop - 2": 1201,
-    "Blue Equipment Shop - 3": 1202,
-    "Blue Equipment Shop - 4": 1203,
-    "Blue Equipment Shop - 5": 1204,
-    "Blue Equipment Shop - 6": 1205,
+    "Blue Equipment Shop - 1": 1300,
+    "Blue Equipment Shop - 2": 1301,
+    "Blue Equipment Shop - 3": 1302,
+    "Blue Equipment Shop - 4": 1303,
+    "Blue Equipment Shop - 5": 1304,
+    "Blue Equipment Shop - 6": 1305,
 }
 
 blue_item_shop_locations = {
-    "Blue Item Shop - 1": 1206,
-    "Blue Item Shop - 2": 1207,
-    "Blue Item Shop - 3": 1208,
-    "Blue Item Shop - 4": 1209,
-    "Blue Item Shop - 5": 1210,
-    "Blue Item Shop - 6": 1211,
-    "Blue Item Shop - 7": 1212,
-    "Blue Item Shop - 8": 1213,
+    "Blue Item Shop - 1": 1400,
+    "Blue Item Shop - 2": 1401,
+    "Blue Item Shop - 3": 1402,
+    "Blue Item Shop - 4": 1403,
+    "Blue Item Shop - 5": 1404,
+    "Blue Item Shop - 6": 1405,
+    "Blue Item Shop - 7": 1406,
+    "Blue Item Shop - 8": 1407,
 }
 
 black_equipment_shop_locations = {
-    "Black Equipment Shop - 1": 1300,
-    "Black Equipment Shop - 2": 1301,
-    "Black Equipment Shop - 3": 1302,
-    "Black Equipment Shop - 4": 1303,
-    "Black Equipment Shop - 5": 1304,
-    "Black Equipment Shop - 6": 1305,
+    "Black Equipment Shop - 1": 1500,
+    "Black Equipment Shop - 2": 1501,
+    "Black Equipment Shop - 3": 1502,
+    "Black Equipment Shop - 4": 1503,
+    "Black Equipment Shop - 5": 1504,
+    "Black Equipment Shop - 6": 1505,
 }
 
 black_item_shop_locations = {
-    "Black Item Shop - 1": 1306,
-    "Black Item Shop - 2": 1307,
-    "Black Item Shop - 3": 1308,
-    "Black Item Shop - 4": 1309,
-    "Black Item Shop - 5": 1310,
-    "Black Item Shop - 6": 1311,
-    "Black Item Shop - 7": 1312,
-    "Black Item Shop - 8": 1313,
+    "Black Item Shop - 1": 1600,
+    "Black Item Shop - 2": 1601,
+    "Black Item Shop - 3": 1602,
+    "Black Item Shop - 4": 1603,
+    "Black Item Shop - 5": 1604,
+    "Black Item Shop - 6": 1605,
+    "Black Item Shop - 7": 1606,
+    "Black Item Shop - 8": 1607,
 }
 
 red_equipment_shop_locations = {
-    "Red Equipment Shop - 1": 1400,
-    "Red Equipment Shop - 2": 1401,
-    "Red Equipment Shop - 3": 1402,
-    "Red Equipment Shop - 4": 1403,
-    "Red Equipment Shop - 5": 1404,
-    "Red Equipment Shop - 6": 1405,
+    "Red Equipment Shop - 1": 1700,
+    "Red Equipment Shop - 2": 1701,
+    "Red Equipment Shop - 3": 1702,
+    "Red Equipment Shop - 4": 1703,
+    "Red Equipment Shop - 5": 1704,
+    "Red Equipment Shop - 6": 1705,
 }
 
 red_item_shop_locations = {
-    "Red Item Shop - 1": 1406,
-    "Red Item Shop - 2": 1407,
-    "Red Item Shop - 3": 1408,
-    "Red Item Shop - 4": 1409,
-    "Red Item Shop - 5": 1410,
-    "Red Item Shop - 6": 1411,
-    "Red Item Shop - 7": 1412,
-    "Red Item Shop - 8": 1413,
+    "Red Item Shop - 1": 1800,
+    "Red Item Shop - 2": 1801,
+    "Red Item Shop - 3": 1802,
+    "Red Item Shop - 4": 1803,
+    "Red Item Shop - 5": 1804,
+    "Red Item Shop - 6": 1805,
+    "Red Item Shop - 7": 1806,
+    "Red Item Shop - 8": 1807,
 }
 
 green_equipment_shop_locations = {
-    "Green Equipment Shop - 1": 1500,
-    "Green Equipment Shop - 2": 1501,
-    "Green Equipment Shop - 3": 1502,
-    "Green Equipment Shop - 4": 1503,
-    "Green Equipment Shop - 5": 1504,
-    "Green Equipment Shop - 6": 1505,
+    "Green Equipment Shop - 1": 1900,
+    "Green Equipment Shop - 2": 1901,
+    "Green Equipment Shop - 3": 1902,
+    "Green Equipment Shop - 4": 1903,
+    "Green Equipment Shop - 5": 1904,
+    "Green Equipment Shop - 6": 1905,
 }
 
 green_item_shop_locations = {
-    "Green Item Shop - 1": 1506,
-    "Green Item Shop - 2": 1507,
-    "Green Item Shop - 3": 1508,
-    "Green Item Shop - 4": 1509,
-    "Green Item Shop - 5": 1510,
-    "Green Item Shop - 6": 1511,
-    "Green Item Shop - 7": 1512,
-    "Green Item Shop - 8": 1513,
+    "Green Item Shop - 1": 2000,
+    "Green Item Shop - 2": 2001,
+    "Green Item Shop - 3": 2002,
+    "Green Item Shop - 4": 2003,
+    "Green Item Shop - 5": 2004,
+    "Green Item Shop - 6": 2005,
+    "Green Item Shop - 7": 2006,
+    "Green Item Shop - 8": 2007,
 }
 
 
@@ -257,7 +257,7 @@ def setup_locations_with_settings(options) -> None:
     total_locations.update(give_default_battle_locations(options.fight_locations))
     total_locations.update(give_default_event_locations(options.quest_locations))
     total_locations.update(give_default_quest_locations(options.event_locations))
-    if options.miniboss_locations:
+    if options.include_miniboss_locations:
         total_locations.update(miniboss_locations)
 
     return total_locations
