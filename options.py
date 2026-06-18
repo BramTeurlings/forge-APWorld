@@ -281,7 +281,7 @@ option_groups = [
 
 # Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".
 option_presets = {
-    "Standard": { # 227 total checks.
+    "Standard": { # 231 total checks.
         "color_sanity": False,
         "starting_color": 0,
         "fight_locations": 15,
