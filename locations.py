@@ -10,9 +10,6 @@ from . import items
 if TYPE_CHECKING:
     from .world import ForgeAPWorld
 
-# Every location must have a unique integer ID associated with it.
-# We will have a lookup from location name to ID here that, in world.py, we will import and bind to the world class.
-# Even if a location doesn't exist on specific options, it must be present in this lookup.
 boss_locations = {
     "Emrakul Defeated": 1,
     "Akroma Defeated": 2,
@@ -158,12 +155,6 @@ green_item_shop_locations = {
     "Green Item Shop - 8": 2007,
 }
 
-
-# colorless 6 shop locations
-# colors 6 equipment shop locations 8 item shop locations
-
-# Each Location instance must correctly report the "game" it belongs to.
-# To make this simple, it is common practice to subclass the basic Location class and override the "game" field.
 class ForgeAPLocation(Location):
     game = "ForgeAP"
 
@@ -171,12 +162,20 @@ def give_all_locations() -> dict:
     battle_locations = give_default_battle_locations(100)
     event_locations = give_default_event_locations(10)
     quest_locations = give_default_quest_locations(10)
+    common_locations = give_default_common_card_locations(10, 50)
+    uncommon_locations = give_default_uncommon_card_locations(10, 25)
+    rare_locations = give_default_rare_card_locations(10, 10)
+    mythic_rare_locations = give_default_mythic_rare_card_locations(10, 5)
 
     return {
         **give_predefined_locations(),
         **battle_locations,
         **event_locations,
         **quest_locations,
+        **common_locations,
+        **uncommon_locations,
+        **rare_locations,
+        **mythic_rare_locations,
         **miniboss_locations,
     }
 
@@ -250,6 +249,47 @@ def give_default_quest_locations(locations: int) -> dict:
             location_table[key] = start_id + i
     return location_table
 
+def give_default_common_card_locations(locations: int, cardspercheck: int) -> dict:
+    location_table = {}
+    start_id = 5000
+
+    for i in range(locations):
+        key = f"{cardspercheck * (i + 1)} Common cards collected"
+        location_table[key] = start_id + i
+
+    return location_table
+
+def give_default_uncommon_card_locations(locations: int, cardspercheck: int) -> dict:
+    location_table = {}
+    start_id = 5100
+
+    for i in range(locations):
+        key = f"{cardspercheck * (i + 1)} Uncommon cards collected"
+        location_table[key] = start_id + i
+
+    return location_table
+
+def give_default_rare_card_locations(locations: int, cardspercheck: int) -> dict:
+    location_table = {}
+    start_id = 5200
+
+    for i in range(locations):
+        key = f"{cardspercheck * (i + 1)} Rare cards collected"
+        location_table[key] = start_id + i
+
+    return location_table
+
+def give_default_mythic_rare_card_locations(locations: int, cardspercheck: int) -> dict:
+    location_table = {}
+    start_id = 5300
+
+    for i in range(locations):
+        key = f"{cardspercheck * (i + 1)} Mythic Rare cards collected"
+        location_table[key] = start_id + i
+
+    return location_table
+
+
 def setup_locations_with_settings(options) -> None:
     total_locations = {}
 
@@ -257,17 +297,16 @@ def setup_locations_with_settings(options) -> None:
     total_locations.update(give_default_battle_locations(options.fight_locations))
     total_locations.update(give_default_event_locations(options.quest_locations))
     total_locations.update(give_default_quest_locations(options.event_locations))
+    total_locations.update(give_default_common_card_locations(options.common_card_locations, options.common_cards_per_location))
+    total_locations.update(give_default_uncommon_card_locations(options.uncommon_card_locations, options.uncommon_cards_per_location))
+    total_locations.update(give_default_rare_card_locations(options.rare_card_locations, options.rare_cards_per_location))
+    total_locations.update(give_default_mythic_rare_card_locations(options.mythic_rare_card_locations, options.mythic_rare_cards_per_location))
+
     if options.include_miniboss_locations:
         total_locations.update(miniboss_locations)
 
     return total_locations
 
-# Let's make one more helper method before we begin actually creating locations.
-# Later on in the code, we'll want specific subsections of LOCATION_NAME_TO_ID.
-# To reduce the chance of copy-paste errors writing something like {"Chest": LOCATION_NAME_TO_ID["Chest"]},
-# let's make a helper method that takes a list of location names and returns them as a dict with their IDs.
-# Note: There is a minor typing quirk here. Some functions want location addresses to be an "int | None",
-# so while our function here only ever returns dict[str, int], we annotate it as dict[str, int | None].
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
     return {location_name: give_all_locations()[location_name] for location_name in location_names}
 
@@ -286,89 +325,22 @@ def create_regular_locations(world: ForgeAPWorld, location_database : dict) -> N
     green = world.get_region("Green")
 
     for location_name, location_id in location_database.items():
-        if location_id == 1 or 100 <= location_id < 200 or 1000 <= location_id < 2000 or 10000 <= location_id < 20000:
+        if location_id == 1 or 100 <= location_id < 200 or 1000 <= location_id < 1100 or 5000 <= location_id < 5400 or 10000 <= location_id < 20000:
             colorless.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 2 or 200 <= location_id < 300 or 2000 <= location_id < 3000 or 20000 <= location_id < 30000:
+        if location_id == 2 or 200 <= location_id < 300 or 1100 <= location_id < 1300 or 20000 <= location_id < 30000:
             white.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 3 or 300 <= location_id < 400 or 3000 <= location_id < 4000 or 30000 <= location_id < 40000:
+        if location_id == 3 or 300 <= location_id < 400 or 1300 <= location_id < 1500 or 30000 <= location_id < 40000:
             blue.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 4 or 400 <= location_id < 500 or 4000 <= location_id < 5000 or 40000 <= location_id < 50000:
+        if location_id == 4 or 400 <= location_id < 500 or 1500 <= location_id < 1700 or 40000 <= location_id < 50000:
             black.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 5 or 500 <= location_id < 600 or 5000 <= location_id < 6000 or 50000 <= location_id < 60000:
+        if location_id == 5 or 500 <= location_id < 600 or 1700 <= location_id < 1900 or 50000 <= location_id < 60000:
             red.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 6 or 600 <= location_id < 700 or 6000 <= location_id < 7000 or 60000 <= location_id < 70000:
+        if location_id == 6 or 600 <= location_id < 700 or 1900 <= location_id < 2100 or 60000 <= location_id < 70000:
             green.add_locations({location_name: location_id}, ForgeAPLocation)
     return None
-
-    # colorless = world.get_region("Colorless")
-    # white = world.get_region("White")
-    # blue = world.get_region("Blue")
-    # black = world.get_region("Black")
-    # red = world.get_region("Red")
-    # green = world.get_region("Green")
-    #
-    # colorless.add_locations(colorless_equipment_shop_locations, ForgeAPLocation)
-    # colorless.add_locations(get_location_names_with_ids(["Colorless Boss Defeated"]))
-    # white.add_locations(white_equipment_shop_locations, ForgeAPLocation)
-    # white.add_locations(white_item_shop_locations, ForgeAPLocation)
-    # white.add_locations(get_location_names_with_ids(["White Boss Defeated"]))
-    # blue.add_locations(blue_equipment_shop_locations, ForgeAPLocation)
-    # blue.add_locations(blue_item_shop_locations, ForgeAPLocation)
-    # blue.add_locations(get_location_names_with_ids(["Blue Boss Defeated"]))
-    # black.add_locations(black_equipment_shop_locations, ForgeAPLocation)
-    # black.add_locations(black_item_shop_locations, ForgeAPLocation)
-    # black.add_locations(get_location_names_with_ids(["Black Boss Defeated"]))
-    # red.add_locations(red_equipment_shop_locations, ForgeAPLocation)
-    # red.add_locations(red_item_shop_locations, ForgeAPLocation)
-    # red.add_locations(get_location_names_with_ids(["Red Boss Defeated"]))
-    # green.add_locations(green_equipment_shop_locations, ForgeAPLocation)
-    # green.add_locations(green_item_shop_locations, ForgeAPLocation)
-    # green.add_locations(get_location_names_with_ids(["Green Boss Defeated"]))
-
-
-
-
 
 def create_events(world: ForgeAPWorld) -> None:
     colorless = world.get_region("Colorless")
     colorless.add_event(
         "Emrakul Defeated", "Victory", location_type=ForgeAPLocation, item_type=items.ForgeAPItem
     )
-    # Sometimes, the player may perform in-game actions that allow them to progress which are not related to Items.
-    # In our case, the player must press a button in the top left room to open the final boss door.
-    # AP has something for this purpose: "Event locations" and "Event items".
-    # An event location is no different than a regular location, except it has the address "None".
-    # It is treated during generation like any other location, but then it is discarded.
-    # This location cannot be "sent" and its item cannot be "received", but the item can be used in logic rules.
-    # Since we are creating more locations and adding them to regions, we need to grab those regions again first.
-    # top_left_room = world.get_region("Top Left Room")
-    # final_boss_room = world.get_region("Final Boss Room")
-
-    # One way to create an event is simply to use one of the normal methods of creating a location.
-    # button_in_top_left_room = ForgeAPLocation(world.player, "Top Left Room Button", None, top_left_room)
-    # top_left_room.locations.append(button_in_top_left_room)
-
-    # We then need to put an event item onto the location.
-    # An event item is an item whose code is "None" (same as the event location's address),
-    # and whose classification is "progression". Item creation will be discussed more in items.py.
-    # Note: Usually, items are created in world.create_items(), which for us happens in items.py.
-    # However, when the location of an item is known ahead of time (as is the case with an event location/item pair),
-    # it is common practice to create the item when creating the location.
-    # Since locations also have to be finalized after world.create_regions(), which runs before world.create_items(),
-    # we'll create both the event location and the event item in our locations.py code.
-    # button_item = items.APQuestItem("Top Left Room Button Pressed", ItemClassification.progression, None, world.player)
-    # button_in_top_left_room.place_locked_item(button_item)
-
-    # A way simpler way to do create an event location/item pair is by using the region.create_event helper.
-    # Luckily, we have another event we want to create: The Victory event.
-    # We will use this event to track whether the player can win the game.
-    # The Victory event is a completely optional abstraction - This will be discussed more in set_rules().
-    # final_boss_room.add_event(
-    #     "Final Boss Defeated", "Victory", location_type=ForgeAPLocation, item_type=items.APQuestItem
-    # )
-
-    # If you create all your regions and locations line-by-line like this,
-    # the length of your create_regions might get out of hand.
-    # Many worlds use more data-driven approaches using dataclasses or NamedTuples.
-    # However, it is worth understanding how the actual creation of regions and locations works,
-    # That way, we're not just mindlessly copy-pasting! :)
