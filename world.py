@@ -51,6 +51,8 @@ class ForgeAPWorld(World):
     # This defaults to "Menu", but you can change it by overriding origin_region_name.
     origin_region_name = "Colorless"
 
+    set_unlocks = 0
+
     # Our world class must have certain functions ("steps") that get called during generation.
     # The main ones are: create_regions, set_rules, create_items.
     # For better structure and readability, we put each of these in their own file.
@@ -167,6 +169,7 @@ class ForgeAPWorld(World):
         }
 
         pool.extend(self.create_item("Set Unlock") for _ in range(allocation["set_unlock"]))
+        self.set_unlocks = allocation["set_unlock"]
         for _ in range(allocation["gold"]):
             pool.append(self.create_item(self.weighted_choice(variants["gold"])))
 
@@ -252,6 +255,8 @@ class ForgeAPWorld(World):
                                          "try_include_all_equipment",
                                          "min_shop_price",
                                          "max_shop_price",
-                                         "gold_multiplier_percentage",)
+                                         "gold_multiplier_percentage",
+                                         "death_link",)
+        slot_data["set_unlock_count"] = self.set_unlocks
         slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
         return slot_data

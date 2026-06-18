@@ -40,6 +40,12 @@ class StartingColor(Choice):
     option_Red = 3
     option_Green = 4
 
+class DeathLink(Toggle):
+    """
+    DeathLink currently not implemented yet.
+    """
+    display_name = "DeathLink"
+
 # -----------------------Settings for Location amount control ---------------
 
 class FightLocations(Range):
@@ -236,6 +242,7 @@ class ForgeAPOptions(PerGameCommonOptions):
     min_shop_price: MinShopPrice
     max_shop_price: MaxShopPrice
     gold_multiplier_percentage: GoldMultiplierPercentage
+    death_link: DeathLink
 
 # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
 option_groups = [
@@ -243,6 +250,7 @@ option_groups = [
         ColorSanity,
         StartingColor,
         GiftPack,
+        DeathLink,
     ]),
     OptionGroup("Location Options", [
         FightLocations,
@@ -293,6 +301,7 @@ option_presets = {
         "min_shop_price": 500,
         "max_shop_price": 1000,
         "gold_multiplier_percentage": 100,
+        "death_link": False,
     },
     "Short": { # 131 total checks.
         "color_sanity": False,
@@ -314,5 +323,6 @@ option_presets = {
         "min_shop_price": 500,
         "max_shop_price": 1000,
         "gold_multiplier_percentage": 200,
+        "death_link": False,
     },
 }
