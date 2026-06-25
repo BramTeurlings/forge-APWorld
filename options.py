@@ -239,7 +239,7 @@ class TryIncludeAllEquipment(Toggle):
     """
     When possible the system will try to include all equipment pieces instead of randomly filling filler locations with a certain amount of equipment.
     Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) + 4 (if color sanity is enabled) locations.
-    Default equipment contains 102 items. Power equipment contains 7 items. Cheat equipment contains 1 item.
+    At the time of writing: Default equipment contains 102 items, Power equipment contains 7 items, Cheat equipment contains 1 item.
     """
     display_name = "Try Include All Equipment"
 
