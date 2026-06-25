@@ -215,7 +215,8 @@ class ForgeAPWorld(World):
         return False
 
     def fill_slot_data(self) -> dict:
-        slot_data = self.options.as_dict("color_sanity",
+        slot_data = self.options.as_dict("sequential_regions",
+                                         "color_sanity",
                                          "starting_color",
                                          "fight_locations",
                                          "fight_amount_per_location",

@@ -25,26 +25,51 @@ def create_all_regions(world: ForgeAPWorld) -> None:
     world.multiworld.regions += regions
 
 def connect_regions(world: ForgeAPWorld) -> None:
-    colorless = world.get_region("Colorless")
-    white = world.get_region("White")
-    blue = world.get_region("Blue")
-    black = world.get_region("Black")
-    red = world.get_region("Red")
-    green = world.get_region("Green")
+    regions = {
+        "Colorless": world.get_region("Colorless"),
+        "White": world.get_region("White"),
+        "Blue": world.get_region("Blue"),
+        "Black": world.get_region("Black"),
+        "Red": world.get_region("Red"),
+        "Green": world.get_region("Green"),
+    }
 
-    colorless_to_white = Entrance(world.player, "Colorless to White", parent=colorless)
-    colorless.exits.append(colorless_to_white)
-    colorless_to_blue = Entrance(world.player, "Colorless to Blue", parent=colorless)
-    colorless.exits.append(colorless_to_blue)
-    colorless_to_black = Entrance(world.player, "Colorless to Black", parent=colorless)
-    colorless.exits.append(colorless_to_black)
-    colorless_to_red = Entrance(world.player, "Colorless to Red", parent=colorless)
-    colorless.exits.append(colorless_to_red)
-    colorless_to_green = Entrance(world.player, "Colorless to Green", parent=colorless)
-    colorless.exits.append(colorless_to_green)
+    if world.options.sequential_regions:
+        colored_regions = [
+            regions["White"],
+            regions["Blue"],
+            regions["Black"],
+            regions["Red"],
+            regions["Green"],
+        ]
 
-    colorless_to_white.connect(white)
-    colorless_to_blue.connect(blue)
-    colorless_to_black.connect(black)
-    colorless_to_red.connect(red)
-    colorless_to_green.connect(green)
+        world.random.shuffle(colored_regions)
+
+        previous = regions["Colorless"]
+
+        for region in colored_regions:
+            entrance = Entrance(
+                world.player,
+                f"{previous.name} to {region.name}",
+                parent=previous
+            )
+            previous.exits.append(entrance)
+            entrance.connect(region)
+
+            world.set_rule(
+                entrance,
+                lambda state, rune=f"{region.name} Rune": state.has(rune, world.player)
+            )
+
+            previous = region
+    else:
+        for region_name in ["White", "Blue", "Black", "Red", "Green"]:
+            region = regions[region_name]
+
+            entrance = Entrance(
+                world.player,
+                f"Colorless to {region.name}",
+                parent=regions["Colorless"]
+            )
+            regions["Colorless"].exits.append(entrance)
+            entrance.connect(region)
