@@ -5,13 +5,6 @@ from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, De
 
 # -----------------------Settings for Gameplay options ---------------
 
-class SequentialRegions(DefaultOnToggle):
-    """
-    Puts regions in logic in a randomly ordered sequence, always starting from colorless.
-    Effectively makes Archipelago think that a colored region can only be accessed through another colored region.
-    """
-    display_name = "Sequential Regions"
-
 class ColorSanity(Toggle):
     """
     Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
@@ -285,7 +278,6 @@ class GoldMultiplierPercentage(Range):
 
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
-    sequential_regions: SequentialRegions
     color_sanity: ColorSanity
     starting_color: StartingColor
     fight_locations: FightLocations
@@ -318,7 +310,6 @@ class ForgeAPOptions(PerGameCommonOptions):
 
 option_groups = [
     OptionGroup("Gameplay Options", [
-        SequentialRegions,
         ColorSanity,
         StartingColor,
         GiftPack,
@@ -361,7 +352,6 @@ option_groups = [
 
 option_presets = {
     "Standard": { # 271 total checks.
-        "sequential_regions": True,
         "color_sanity": False,
         "starting_color": 0,
         "fight_locations": 15,
@@ -392,7 +382,6 @@ option_presets = {
         "death_link": False,
     },
     "Short": { # 147 total checks.
-        "sequential_regions": False,
         "color_sanity": False,
         "starting_color": 0,
         "fight_locations": 5,
