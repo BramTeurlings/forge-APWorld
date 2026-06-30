@@ -1,86 +1,248 @@
+import string
 from collections.abc import Mapping
 from typing import Any
 
-# Imports of base Archipelago modules must be absolute.
 from worlds.AutoWorld import World
 
-# Imports of your world's files must be relative.
 from . import items, locations, regions, rules, web_world
-from . import options as apquest_options  # rename due to a name conflict with World.options
+from . import options as forgeap_options
 
-# APQuest will go through all the parts of the world api one step at a time,
-# with many examples and comments across multiple files.
-# If you'd rather read one continuous document, or just like reading multiple sources,
-# we also have this document specifying the entire world api:
-# https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/world%20api.md
-
-
-# The world class is the heart and soul of an apworld implementation.
-# It holds all the data and functions required to build the world and submit it to the multiworld generator.
-# You could have all your world code in just this one class, but for readability and better structure,
-# it is common to split up world functionality into multiple files.
-# This implementation in particular has the following additional files, each covering one topic:
-# regions.py, locations.py, rules.py, items.py, options.py and web_world.py.
-# It is recommended that you read these in that specific order, then come back to the world class.
-class APQuestWorld(World):
+class ForgeAPWorld(World):
     """
-    APQuest is a minimal 8bit-era inspired adventure game with grid-like movement.
-    Good games don't need more than six checks.
+    Forge is an unofficial rules engine for the world's greatest card game.
+    This world allows you to play the adventure mode with archipelago support.
     """
 
-    # The docstring should contain a description of the game, to be displayed on the WebHost.
+    game = "ForgeAP"
 
-    # You must override the "game" field to say the name of the game.
-    game = "APQuest"
+    web = web_world.ForgeAPWebWorld()
 
-    # The WebWorld is a definition class that governs how this world will be displayed on the website.
-    web = web_world.APQuestWebWorld()
+    options_dataclass = forgeap_options.ForgeAPOptions
+    options: forgeap_options.ForgeAPOptions
 
-    # This is how we associate the options defined in our options.py with our world.
-    # (Note: options.py has been imported as "apquest_options" at the top of this file to avoid a name conflict)
-    options_dataclass = apquest_options.APQuestOptions
-    options: apquest_options.APQuestOptions  # Common mistake: This has to be a colon (:), not an equals sign (=).
+    location_name_to_id = locations.give_all_locations()
+    item_name_to_id = items.item_table
 
-    # Our world class must have a static location_name_to_id and item_name_to_id defined.
-    # We define these in regions.py and items.py respectively, so we just set them here.
-    location_name_to_id = locations.LOCATION_NAME_TO_ID
-    item_name_to_id = items.ITEM_NAME_TO_ID
+    origin_region_name = "Colorless"
 
-    # There is always one region that the generator starts from & assumes you can always go back to.
-    # This defaults to "Menu", but you can change it by overriding origin_region_name.
-    origin_region_name = "Overworld"
+    set_unlocks = 0
 
-    # Our world class must have certain functions ("steps") that get called during generation.
-    # The main ones are: create_regions, set_rules, create_items.
-    # For better structure and readability, we put each of these in their own file.
     def create_regions(self) -> None:
+        local_location_table = locations.setup_locations_with_settings(self.options).copy()
         regions.create_and_connect_regions(self)
-        locations.create_all_locations(self)
+        locations.create_all_locations(self, local_location_table)
 
     def set_rules(self) -> None:
         rules.set_all_rules(self)
 
     def create_items(self) -> None:
-        items.create_all_items(self)
+        local_location_table = locations.setup_locations_with_settings(self.options)
+        pool = []
 
-    # Our world class must also have a create_item function that can create any one of our items by name at any time.
-    # We also put this in a different file, the same one that create_items is in.
-    def create_item(self, name: str) -> items.APQuestItem:
+        # Progression Items
+        for name, data in items.item_table_progression.items():
+            pool.append(self.create_item(name))
+
+        # Optional sanity
+        # if self.options.color_sanity:
+        #     for name, data in items.item_table_colors.items():
+        #         if self.should_ignore_color(name):
+        #             continue
+        #         pool.append(self.create_item(name))
+
+        remaining_slots = len(local_location_table) - len(pool)
+
+        weights = {
+            "set_unlock": self.options.set_unlocks_percentage,
+            "gold": self.options.gold_percentage,
+            "mana": self.options.mana_shard_percentage,
+            "coin": self.options.challenge_coin_percentage,
+            "life": self.options.life_upgrade_percentage,
+            "equipment": self.options.equipment_percentage,
+        }
+
+        total_weight = sum(weights.values())
+        if total_weight <= 0:
+            return # should be impossible
+
+        norm = {k: v / total_weight for k, v in weights.items()}
+
+        possible_equipment = items.give_possible_equipment(self.options)
+        max_equipment = len(possible_equipment)
+
+        desired_equipment = int(remaining_slots * norm["equipment"])
+        equipment_to_place = min(desired_equipment, max_equipment)
+        equipment_used_as_fixed = False
+
+        if self.options.try_include_all_equipment:
+            # MUST fit ALL equipment or we ignore this mode completely
+            if remaining_slots - len(possible_equipment) >= 1:
+                for name in possible_equipment:
+                    pool.append(self.create_item(name))
+
+                equipment_used_as_fixed = True
+                equipment_to_place = 0
+                remaining_slots -= len(possible_equipment)
+
+        remaining_after_equipment = remaining_slots - equipment_to_place
+
+        alloc_weights = {
+            "set_unlock": norm["set_unlock"],
+            "gold": norm["gold"],
+            "mana": norm["mana"],
+            "coin": norm["coin"],
+            "life": norm["life"],
+        }
+
+        total_alloc_weight = sum(alloc_weights.values())
+        alloc_weights = {k: v / total_alloc_weight for k, v in alloc_weights.items()}
+
+        allocation = {
+            k: int(remaining_after_equipment * w)
+            for k, w in alloc_weights.items()
+        }
+
+        allocated = sum(allocation.values())
+        drift = remaining_after_equipment - allocated
+
+        priority = ["set_unlock", "gold", "mana", "coin", "life"]
+
+        if allocation["set_unlock"] == 0:
+            allocation["set_unlock"] = 1
+            drift -= 1
+
+        i = 0
+        while drift > 0:
+            allocation[priority[i % len(priority)]] += 1
+            drift -= 1
+            i += 1
+
+        variants = {
+            "gold": [
+                ("Gold (S)", 55),
+                ("Gold (M)", 30),
+                ("Gold (L)", 15),
+            ],
+            "mana": [
+                ("Mana Shards (S)", 55),
+                ("Mana Shards (M)", 30),
+                ("Mana Shards (L)", 15),
+            ],
+            "coin": [
+                ("Bronze Challenge Coin", 55),
+                ("Silver Challenge Coin", 30),
+                ("Gold Challenge Coin", 15),
+            ],
+            "life": [
+                ("Life +1", 50),
+                ("Life +2", 50),
+            ]
+        }
+
+        pool.extend(self.create_item("Set Unlock") for _ in range(allocation["set_unlock"]))
+        self.set_unlocks = allocation["set_unlock"]
+        for _ in range(allocation["gold"]):
+            pool.append(self.create_item(self.weighted_choice(variants["gold"])))
+
+        for _ in range(allocation["mana"]):
+            pool.append(self.create_item(self.weighted_choice(variants["mana"])))
+
+        for _ in range(allocation["coin"]):
+            pool.append(self.create_item(self.weighted_choice(variants["coin"])))
+
+        for _ in range(allocation["life"]):
+            pool.append(self.create_item(self.weighted_choice(variants["life"])))
+
+        if not equipment_used_as_fixed:
+            equipment_pool = self.random.sample(list(possible_equipment), equipment_to_place)
+            for name in equipment_pool:
+                pool.append(self.create_item(name))
+
+        self.multiworld.itempool += pool
+
+    def weighted_choice(self, options):
+        total = sum(w for _, w in options)
+        roll = self.random.randint(1, total)
+
+        current = 0
+        for item, weight in options:
+            current += weight
+            if roll <= current:
+                return item
+
+        return options[-1][0]
+
+    def create_item(self, name: str) -> items.ForgeAPItem:
         return items.create_item_with_correct_classification(self, name)
 
-    # For features such as item links and panic-method start inventory, AP may ask your world to create extra filler.
-    # The way it does this is by calling get_filler_item_name.
-    # For this purpose, your world *must* have at least one infinitely repeatable item (usually filler).
-    # You must override this function and return this infinitely repeatable item's name.
-    # In our case, we defined a function called get_random_filler_item_name for this purpose in our items.py.
     def get_filler_item_name(self) -> str:
-        return items.get_random_filler_item_name(self)
+        variants = {
+            "gold": [
+                ("Gold (S)", 55),
+                ("Gold (M)", 30),
+                ("Gold (L)", 15),
+            ],
+            "mana": [
+                ("Mana Shards (S)", 55),
+                ("Mana Shards (M)", 30),
+                ("Mana Shards (L)", 15),
+            ],
+            "coin": [
+                ("Bronze Challenge Coin", 55),
+                ("Silver Challenge Coin", 30),
+                ("Gold Challenge Coin", 15),
+            ],
+            "life": [
+                ("Life +1", 50),
+                ("Life +2", 50),
+            ]
+        }
+        category = self.random.choice(list(variants.keys()))
 
-    # There may be data that the game client will need to modify the behavior of the game.
-    # This is what slot_data exists for. Upon every client connection, the slot's slot_data is sent to the client.
-    # slot_data is just a dictionary using basic types, that will be converted to json when sent to the client.
-    def fill_slot_data(self) -> Mapping[str, Any]:
-        # If you need access to the player's chosen options on the client side, there is a helper for that.
-        return self.options.as_dict(
-            "hard_mode", "hammer", "extra_starting_chest", "confetti_explosiveness", "player_sprite"
-        )
+        return self.weighted_choice(variants[category])
+
+    def should_ignore_color(self, name : str) -> bool:
+        if self.options.starting_color == 0 and name == "Unlock White":
+            return True
+        if self.options.starting_color == 1 and name == "Unlock Blue":
+            return True
+        if self.options.starting_color == 2 and name == "Unlock Black":
+            return True
+        if self.options.starting_color == 3 and name == "Unlock Red":
+            return True
+        if self.options.starting_color == 4 and name == "Unlock Green":
+            return True
+        return False
+
+    def fill_slot_data(self) -> dict:
+        slot_data = self.options.as_dict("color_sanity",
+                                         "starting_color",
+                                         "fight_locations",
+                                         "fight_amount_per_location",
+                                         "quest_locations",
+                                         "event_locations",
+                                         "include_miniboss_locations",
+                                         "common_card_locations",
+                                         "common_cards_per_location",
+                                         "uncommon_card_locations",
+                                         "uncommon_cards_per_location",
+                                         "rare_card_locations",
+                                         "rare_cards_per_location",
+                                         "mythic_rare_card_locations",
+                                         "mythic_rare_cards_per_location",
+                                         "include_power",
+                                         "include_cheat",
+                                         "set_unlocks_percentage",
+                                         "gift_pack",
+                                         "gold_percentage",
+                                         "mana_shard_percentage",
+                                         "life_upgrade_percentage",
+                                         "equipment_percentage",
+                                         "try_include_all_equipment",
+                                         "min_shop_price",
+                                         "max_shop_price",
+                                         "gold_multiplier_percentage",
+                                         "death_link",)
+        slot_data["set_unlock_count"] = self.set_unlocks
+        slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
+        return slot_data

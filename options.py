@@ -1,152 +1,414 @@
 from dataclasses import dataclass
+from random import choice
 
-from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
+from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, DefaultOnToggle
 
-# In this file, we define the options the player can pick.
-# The most common types of options are Toggle, Range and Choice.
+# -----------------------Settings for Gameplay options ---------------
 
-# Options will be in the game's template yaml.
-# They will be represented by checkboxes, sliders etc. on the game's options page on the website.
-# (Note: Options can also be made invisible from either of these places by overriding Option.visibility.
-#  APQuest doesn't have an example of this, but this can be used for secret / hidden / advanced options.)
-
-# For further reading on options, you can also read the Options API Document:
-# https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/options%20api.md
-
-
-# The first type of Option we'll discuss is the Toggle.
-# A toggle is an option that can either be on or off. This will be represented by a checkbox on the website.
-# The default for a toggle is "off".
-# If you want a toggle to be on by default, you can use the "DefaultOnToggle" class instead of the "Toggle" class.
-class HardMode(Toggle):
+class ColorSanity(Toggle):
     """
-    In hard mode, the basic enemy and the final boss will have more health.
-    The Health Upgrades become progression, as they are now required to beat the final boss.
+    Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
+    Colorless will always be available.
+    NOT CURRENT IMPLEMENTED INGAME
     """
+    display_name = "ColorSanity"
 
-    # The docstring of an option is used as the description on the website and in the template yaml.
-
-    # You'll also want to set a display name, which will determine what the option is called on the website.
-    display_name = "Hard Mode"
-
-
-class Hammer(Toggle):
+class StartingColor(Choice):
     """
-    Adds another item to the itempool: The Hammer.
-    The top middle chest will now be locked behind a breakable wall, requiring the Hammer.
+    Chooses your starting color if Colorsanity is enabled.
+    NOT CURRENT IMPLEMENTED INGAME
     """
+    display_name = "Starting Color"
+    option_White = 0
+    option_Blue = 1
+    option_Black = 2
+    option_Red = 3
+    option_Green = 4
 
-    display_name = "Hammer"
-
-
-class ExtraStartingChest(Toggle):
+class DeathLink(Toggle):
     """
-    Adds an extra chest in the bottom left, making room for an extra Confetti Cannon.
+    Send DeathLinks.
+    NOT CURRENT IMPLEMENTED INGAME
     """
+    display_name = "DeathLink"
 
-    display_name = "Extra Starting Chest"
+# -----------------------Settings for Location amount control ---------------
 
-
-class TrapChance(Range):
+class FightLocations(Range):
     """
-    Percentage chance that any given Confetti Cannon will be replaced by a Math Trap.
+    The amount of fight win locations per region.
+    Adds 6 locations per.
     """
-
-    display_name = "Trap Chance"
-
+    display_name = "Fight Locations"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 15
 
-
-class StartWithOneConfettiCannon(Toggle):
+class FightAmountPerLocation(Range):
     """
-    Start with a confetti cannon already in your inventory.
-    Why? Because you deserve it. You get to celebrate yourself without doing any work first.
+    The amount of wins required to count as a fight location check.
     """
+    display_name = "Fight wins per Location"
+    range_start = 1
+    range_end = 100
+    default = 1
 
-    display_name = "Start With One Confetti Cannon"
-
-
-# A Range is a numeric option with a min and max value. This will be represented by a slider on the website.
-class ConfettiExplosiveness(Range):
+class QuestLocations(Range):
     """
-    How much confetti each use of a confetti cannon will fire.
+    The amount of quest locations per region.
+    Adds 6 locations per.
     """
-
-    display_name = "Confetti Explosiveness"
-
+    display_name = "Quest Locations"
     range_start = 0
     range_end = 10
-
-    # Range options must define an explicit default value.
     default = 3
 
-
-# A Choice is an option with multiple discrete choices. This will be represented by a dropdown on the website.
-class PlayerSprite(Choice):
+class EventLocations(Range):
     """
-    The sprite that the player will have.
+    The amount of event locations per region.
+    Adds 6 locations per.
     """
+    display_name = "Event Locations"
+    range_start = 0
+    range_end = 10
+    default = 3
 
-    display_name = "Player Sprite"
+class IncludeMinibossLocations(DefaultOnToggle):
+    """
+    Includes Miniboss as locations.
+    Adds 24 locations.
+    """
+    display_name = "Dungeon Locations"
 
-    option_human = 0
-    option_duck = 1
-    option_horse = 2
-    option_cat = 3
+class CommonCardLocations(Range):
+    """
+    The amount of locations for collecting common cards.
+    """
+    display_name = "Common card Locations"
+    range_start = 0
+    range_end = 100
+    default = 10
 
-    # Choice options must define an explicit default value.
-    default = option_human
+class CommonCardsPerLocation(Range):
+    """
+    The amount of common cards that have to be collected to send a common card location check.
+    """
+    display_name = "Common cards per Location"
+    range_start = 0
+    range_end = 100
+    default = 50
 
-    # For choices, you can also define aliases.
-    # For example, we could make it so "player_sprite: kitty" resolves to "player_sprite: cat" like this:
-    alias_kitty = option_cat
+class UncommonCardLocations(Range):
+    """
+    The amount of locations for collecting uncommon cards.
+    """
+    display_name = "Uncommon card Locations"
+    range_start = 0
+    range_end = 100
+    default = 10
 
+class UncommonCardsPerLocation(Range):
+    """
+    The amount of uncommon cards that have to be collected to send an uncommon card location check.
+    """
+    display_name = "Uncommon cards per Location"
+    range_start = 0
+    range_end = 100
+    default = 25
 
-# We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
-# This is in the format "option_name_in_snake_case: OptionClassName".
+class RareCardLocations(Range):
+    """
+    The amount of locations for collecting rare cards.
+    """
+    display_name = "Rare card Locations"
+    range_start = 0
+    range_end = 100
+    default = 10
+
+class RareCardsPerLocation(Range):
+    """
+    The amount of rare cards that have to be collected to send a rare card location check.
+    """
+    display_name = "Rare cards per Location"
+    range_start = 0
+    range_end = 100
+    default = 10
+
+class MythicRareCardLocations(Range):
+    """
+    The amount of locations for collecting mythic rare cards.
+    """
+    display_name = "Mythic Rare card Locations"
+    range_start = 0
+    range_end = 100
+    default = 10
+
+class MythicRareCardsPerLocation(Range):
+    """
+    The amount of rare cards that have to be collected to send a mythic rare card location check.
+    """
+    display_name = "Mythic Rare cards per Location"
+    range_start = 0
+    range_end = 100
+    default = 5
+
+# -----------------------Settings for Equipment items ---------------
+
+class IncludePower(Toggle):
+    """
+    Expand the standard equipment pool with Power equipment.
+    Power equipment lets you start with a sol ring/mox/black lotus in play.
+    """
+    display_name = "Include Power"
+
+class IncludeCheat(Toggle):
+    """
+    Expand the standard equipment pool with the Cheat equipment.
+    The Cheat equipment is effectively an instant win combo on game start.
+    """
+    display_name = "Include Cheat"
+
+# -----------------------Settings for Filler items ---------------
+
+class SetUnlockPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Set Unlocks.
+    Sets will be spread equally over all available Set Unlock items.
+    Collecting all Set Unlock items will unlock every set in the game.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Set Unlock Percentage"
+    range_start = 1
+    range_end = 1000
+    default = 25
+
+class GiftPack(DefaultOnToggle):
+    """
+    Should you recieve a free giftpack when unlocking a new set.
+    """
+    display_name = "Enable Gift Packs"
+
+class GoldPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Gold filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Gold Percentage"
+    range_start = 0
+    range_end = 1000
+    default = 15
+
+class ManaShardPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Mana Shard Percentage"
+    range_start = 0
+    range_end = 1000
+    default = 15
+
+class ChallengeCoinPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Challenge Coin filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Challenge Coin Percentage"
+    range_start = 0
+    range_end = 1000
+    default = 10
+
+class LifeUpgradePercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Health filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Health Upgrade Percentage"
+    range_start = 0
+    range_end = 1000
+    default = 5
+
+class EquipmentPercentage(Range):
+    """
+    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
+    Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
+    """
+    display_name = "Equipment Percentage"
+    range_start = 0
+    range_end = 1000
+    default = 30
+
+class TryIncludeAllEquipment(Toggle):
+    """
+    When possible the system will try to include all equipment pieces instead of randomly filling filler locations with a certain amount of equipment.
+    Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) + 4 (if color sanity is enabled) locations.
+    At the time of writing: Default equipment contains 102 items, Power equipment contains 7 items, Cheat equipment contains 1 item.
+    """
+    display_name = "Try Include All Equipment"
+
+# -----------------------Settings for Helpers ---------------
+
+class MinShopPrice(Range):
+    """
+    Minimum gold price for shop items.
+    """
+    display_name = "Minimum Shop Price"
+    range_start = 1
+    range_end = 100000
+    default = 500
+
+class MaxShopPrice(Range):
+    """
+    Maximum gold price for shop items.
+    """
+    display_name = "Maximum Shop Price"
+    range_start = 1
+    range_end = 100000
+    default = 1000
+
+class GoldMultiplierPercentage(Range):
+    """
+    A percentage multiplier on gold gain.
+    100 would be equivalent to base game.
+    """
+    display_name = "Gold Multiplier Percentage"
+    range_start = 10
+    range_end = 10000
+    default = 100
+
 @dataclass
-class APQuestOptions(PerGameCommonOptions):
-    hard_mode: HardMode
-    hammer: Hammer
-    extra_starting_chest: ExtraStartingChest
-    start_with_one_confetti_cannon: StartWithOneConfettiCannon
-    trap_chance: TrapChance
-    confetti_explosiveness: ConfettiExplosiveness
-    player_sprite: PlayerSprite
+class ForgeAPOptions(PerGameCommonOptions):
+    color_sanity: ColorSanity
+    starting_color: StartingColor
+    fight_locations: FightLocations
+    fight_amount_per_location: FightAmountPerLocation
+    quest_locations: QuestLocations
+    event_locations: EventLocations
+    include_miniboss_locations: IncludeMinibossLocations
+    common_card_locations: CommonCardLocations
+    common_cards_per_location: CommonCardsPerLocation
+    uncommon_card_locations: UncommonCardLocations
+    uncommon_cards_per_location: UncommonCardsPerLocation
+    rare_card_locations: RareCardLocations
+    rare_cards_per_location: RareCardsPerLocation
+    mythic_rare_card_locations: MythicRareCardLocations
+    mythic_rare_cards_per_location: MythicRareCardsPerLocation
+    include_power: IncludePower
+    include_cheat: IncludeCheat
+    set_unlocks_percentage: SetUnlockPercentage
+    gift_pack: GiftPack
+    gold_percentage: GoldPercentage
+    mana_shard_percentage: ManaShardPercentage
+    challenge_coin_percentage: ChallengeCoinPercentage
+    life_upgrade_percentage: LifeUpgradePercentage
+    equipment_percentage: EquipmentPercentage
+    try_include_all_equipment: TryIncludeAllEquipment
+    min_shop_price: MinShopPrice
+    max_shop_price: MaxShopPrice
+    gold_multiplier_percentage: GoldMultiplierPercentage
+    death_link: DeathLink
 
-
-# If we want to group our options by similar type, we can do so as well. This looks nice on the website.
 option_groups = [
-    OptionGroup(
-        "Gameplay Options",
-        [HardMode, Hammer, ExtraStartingChest, StartWithOneConfettiCannon, TrapChance],
-    ),
-    OptionGroup(
-        "Aesthetic Options",
-        [ConfettiExplosiveness, PlayerSprite],
-    ),
+    OptionGroup("Gameplay Options", [
+        ColorSanity,
+        StartingColor,
+        GiftPack,
+        DeathLink,
+    ]),
+    OptionGroup("Location Options", [
+        FightLocations,
+        FightAmountPerLocation,
+        QuestLocations,
+        EventLocations,
+        IncludeMinibossLocations,
+        CommonCardLocations,
+        CommonCardsPerLocation,
+        UncommonCardLocations,
+        UncommonCardsPerLocation,
+        RareCardLocations,
+        RareCardsPerLocation,
+        MythicRareCardLocations,
+        MythicRareCardsPerLocation
+    ]),
+    OptionGroup("Equipment Options", [
+        IncludePower,
+        IncludeCheat,
+    ]),
+    OptionGroup("Filler Options", [
+        SetUnlockPercentage,
+        GoldPercentage,
+        ManaShardPercentage,
+        ChallengeCoinPercentage,
+        LifeUpgradePercentage,
+        EquipmentPercentage,
+        TryIncludeAllEquipment,
+    ]),
+    OptionGroup("Helper Options", [
+        MinShopPrice,
+        MaxShopPrice,
+        GoldMultiplierPercentage,
+    ])
 ]
 
-# Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".
 option_presets = {
-    "boring": {
-        "hard_mode": False,
-        "hammer": False,
-        "extra_starting_chest": False,
-        "start_with_one_confetti_cannon": False,
-        "trap_chance": 0,
-        "confetti_explosiveness": ConfettiExplosiveness.range_start,
-        "player_sprite": PlayerSprite.option_human,
+    "Standard": { # 271 total checks.
+        "color_sanity": False,
+        "starting_color": 0,
+        "fight_locations": 15,
+        "fight_amount_per_location": 1,
+        "quest_locations": 3,
+        "event_locations": 3,
+        "include_miniboss_locations": True,
+        "common_card_locations": 10,
+        "common_cards_per_location": 50,
+        "uncommon_card_locations": 10,
+        "uncommon_cards_per_location": 25,
+        "rare_card_locations": 10,
+        "rare_cards_per_location": 10,
+        "mythic_rare_card_locations": 10,
+        "mythic_rare_cards_per_location": 5,
+        "include_power": True,
+        "include_cheat": False,
+        "set_unlocks_percentage": 25,
+        "gift_pack": True,
+        "gold_percentage": 15,
+        "mana_shard_percentage": 15,
+        "life_upgrade_percentage": 5,
+        "equipment_percentage": 30,
+        "try_include_all_equipment": True,
+        "min_shop_price": 500,
+        "max_shop_price": 1000,
+        "gold_multiplier_percentage": 100,
+        "death_link": False,
     },
-    "the true way to play": {
-        "hard_mode": True,
-        "hammer": True,
-        "extra_starting_chest": True,
-        "start_with_one_confetti_cannon": True,
-        "trap_chance": 50,
-        "confetti_explosiveness": ConfettiExplosiveness.range_end,
-        "player_sprite": PlayerSprite.option_duck,
+    "Short": { # 147 total checks.
+        "color_sanity": False,
+        "starting_color": 0,
+        "fight_locations": 5,
+        "fight_amount_per_location": 1,
+        "quest_locations": 1,
+        "event_locations": 1,
+        "miniboss_locations": False,
+        "common_card_locations": 4,
+        "common_cards_per_location": 50,
+        "uncommon_card_locations": 4,
+        "uncommon_cards_per_location": 25,
+        "rare_card_locations": 4,
+        "rare_cards_per_location": 10,
+        "mythic_rare_card_locations": 4,
+        "mythic_rare_cards_per_location": 5,
+        "include_power": True,
+        "include_cheat": False,
+        "set_unlocks_percentage": 25,
+        "gift_pack": True,
+        "gold_percentage": 15,
+        "mana_shard_percentage": 15,
+        "life_upgrade_percentage": 5,
+        "equipment_percentage": 30,
+        "try_include_all_equipment": False,
+        "min_shop_price": 500,
+        "max_shop_price": 1000,
+        "gold_multiplier_percentage": 200,
+        "death_link": False,
     },
 }
