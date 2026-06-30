@@ -11,12 +11,20 @@ if TYPE_CHECKING:
     from .world import ForgeAPWorld
 
 boss_locations = {
-    "Emrakul Defeated": 1,
-    "Akroma Defeated": 2,
-    "Lorthos Defeated": 3,
-    "Griselbrand Defeated": 4,
-    "Lathliss Defeated": 5,
-    "Ghalta Defeated": 6,
+    "Emrakul Victory": 1,
+    "Akroma Victory": 2,
+    "Lorthos Victory": 3,
+    "Griselbrand Victory": 4,
+    "Lathliss Victory": 5,
+    "Ghalta Victory": 6,
+}
+
+boss_loot_locations = {
+    "Akroma Defeated": 12,
+    "Lorthos Defeated": 13,
+    "Griselbrand Defeated": 14,
+    "Lathliss Defeated": 15,
+    "Ghalta Defeated": 16,
 }
 
 miniboss_locations = {
@@ -182,6 +190,7 @@ def give_all_locations() -> dict:
 def give_predefined_locations() -> dict:
     return {
         **boss_locations,
+        **boss_loot_locations,
         **colorless_equipment_shop_locations,
         **white_equipment_shop_locations,
         **white_item_shop_locations,
@@ -289,7 +298,6 @@ def give_default_mythic_rare_card_locations(locations: int, cardspercheck: int) 
 
     return location_table
 
-
 def setup_locations_with_settings(options) -> None:
     total_locations = {}
 
@@ -310,11 +318,9 @@ def setup_locations_with_settings(options) -> None:
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
     return {location_name: give_all_locations()[location_name] for location_name in location_names}
 
-
 def create_all_locations(world: ForgeAPWorld, location_database : dict) -> None:
     create_regular_locations(world, location_database)
     create_events(world)
-
 
 def create_regular_locations(world: ForgeAPWorld, location_database : dict) -> None:
     colorless = world.get_region("Colorless")
@@ -327,20 +333,32 @@ def create_regular_locations(world: ForgeAPWorld, location_database : dict) -> N
     for location_name, location_id in location_database.items():
         if location_id == 1 or 100 <= location_id < 200 or 1000 <= location_id < 1100 or 5000 <= location_id < 5400 or 10000 <= location_id < 20000:
             colorless.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 2 or 200 <= location_id < 300 or 1100 <= location_id < 1300 or 20000 <= location_id < 30000:
+        if location_id == 2 or location_id == 12 or 200 <= location_id < 300 or 1100 <= location_id < 1300 or 20000 <= location_id < 30000:
             white.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 3 or 300 <= location_id < 400 or 1300 <= location_id < 1500 or 30000 <= location_id < 40000:
+        if location_id == 3 or location_id == 13 or 300 <= location_id < 400 or 1300 <= location_id < 1500 or 30000 <= location_id < 40000:
             blue.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 4 or 400 <= location_id < 500 or 1500 <= location_id < 1700 or 40000 <= location_id < 50000:
+        if location_id == 4 or location_id == 14 or 400 <= location_id < 500 or 1500 <= location_id < 1700 or 40000 <= location_id < 50000:
             black.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 5 or 500 <= location_id < 600 or 1700 <= location_id < 1900 or 50000 <= location_id < 60000:
+        if location_id == 5 or location_id == 15 or 500 <= location_id < 600 or 1700 <= location_id < 1900 or 50000 <= location_id < 60000:
             red.add_locations({location_name: location_id}, ForgeAPLocation)
-        if location_id == 6 or 600 <= location_id < 700 or 1900 <= location_id < 2100 or 60000 <= location_id < 70000:
+        if location_id == 6 or location_id == 16 or 600 <= location_id < 700 or 1900 <= location_id < 2100 or 60000 <= location_id < 70000:
             green.add_locations({location_name: location_id}, ForgeAPLocation)
     return None
 
 def create_events(world: ForgeAPWorld) -> None:
-    colorless = world.get_region("Colorless")
-    colorless.add_event(
-        "Emrakul Defeated", "Victory", location_type=ForgeAPLocation, item_type=items.ForgeAPItem
-    )
+    castle_bosses = [
+        ("Colorless", "Emrakul"),
+        ("White", "Akroma"),
+        ("Blue", "Lorthos"),
+        ("Black", "Griselbrand"),
+        ("Red", "Lathliss"),
+        ("Green", "Ghalta"),
+    ]
+
+    for region_name, boss_name in castle_bosses:
+        world.get_region(region_name).add_event(
+            f"{boss_name} Victory",
+            f"{boss_name} Victory",
+            location_type=ForgeAPLocation,
+            item_type=items.ForgeAPItem,
+        )

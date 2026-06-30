@@ -5,6 +5,17 @@ from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, De
 
 # -----------------------Settings for Gameplay options ---------------
 
+class CastlesRequired(Range):
+    """
+    The amount of Castles required for your goal.
+    Setting this to 6 will require you to beat all colored castle bosses and then Emrakul.
+    Otherwise will require the set number of colored castle bosses.
+    """
+    range_start = 1
+    range_end = 6
+    default = 3
+    display_name = "Castles Required"
+
 class ColorSanity(Toggle):
     """
     Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
@@ -278,6 +289,7 @@ class GoldMultiplierPercentage(Range):
 
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
+    castles_required: CastlesRequired
     color_sanity: ColorSanity
     starting_color: StartingColor
     fight_locations: FightLocations
@@ -310,6 +322,7 @@ class ForgeAPOptions(PerGameCommonOptions):
 
 option_groups = [
     OptionGroup("Gameplay Options", [
+        CastlesRequired,
         ColorSanity,
         StartingColor,
         GiftPack,
@@ -352,6 +365,7 @@ option_groups = [
 
 option_presets = {
     "Standard": { # 271 total checks.
+        "castles_required": 3,
         "color_sanity": False,
         "starting_color": 0,
         "fight_locations": 15,
@@ -382,6 +396,7 @@ option_presets = {
         "death_link": False,
     },
     "Short": { # 147 total checks.
+        "castles_required": 1,
         "color_sanity": False,
         "starting_color": 0,
         "fight_locations": 5,
