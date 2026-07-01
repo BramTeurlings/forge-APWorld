@@ -348,7 +348,6 @@ def create_item_with_correct_classification(world: ForgeAPWorld, name: str) -> F
 
 
 def create_all_items(world: ForgeAPWorld) -> None:
-
     itempool: list[Item] = [
         world.create_item("White Rune"),
         world.create_item("Blue Rune"),
