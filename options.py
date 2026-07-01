@@ -9,7 +9,7 @@ class CastlesRequired(Range):
     """
     The amount of Castles required for your goal.
     Setting this to 6 will require you to beat all colored castle bosses and then Emrakul.
-    Otherwise will require the set number of colored castle bosses.
+    Otherwise, it will require the set number of colored castle bosses.
     """
     range_start = 1
     range_end = 6
@@ -20,14 +20,14 @@ class ColorSanity(Toggle):
     """
     Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
     Colorless will always be available.
-    NOT CURRENT IMPLEMENTED INGAME
+    NOT CURRENTLY IMPLEMENTED IN-GAME
     """
     display_name = "ColorSanity"
 
 class StartingColor(Choice):
     """
     Chooses your starting color if Colorsanity is enabled.
-    NOT CURRENT IMPLEMENTED INGAME
+    NOT CURRENTLY IMPLEMENTED IN-GAME
     """
     display_name = "Starting Color"
     option_White = 0
@@ -39,7 +39,7 @@ class StartingColor(Choice):
 class DeathLink(Toggle):
     """
     Send DeathLinks.
-    NOT CURRENT IMPLEMENTED INGAME
+    NOT CURRENTLY IMPLEMENTED IN-GAME
     """
     display_name = "DeathLink"
 
@@ -86,7 +86,7 @@ class EventLocations(Range):
 
 class IncludeMinibossLocations(DefaultOnToggle):
     """
-    Includes Miniboss as locations.
+    Includes Minibosses as locations.
     Adds 24 locations.
     """
     display_name = "Dungeon Locations"
@@ -195,7 +195,8 @@ class SetUnlockPercentage(Range):
 
 class GiftPack(DefaultOnToggle):
     """
-    Should you recieve a free giftpack when unlocking a new set.
+    Gives you a free matching booster pack when unlocking a new set.
+    This only works on sets that booster packs can be generated for.
     """
     display_name = "Enable Gift Packs"
 
