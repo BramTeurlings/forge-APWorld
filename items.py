@@ -304,6 +304,20 @@ item_classifications_equipment_standard = {
     "Slobad's Iron Boots": ItemClassification.useful,
     "Hallowed Sigil": ItemClassification.useful,
     "Unhallowed Sigil": ItemClassification.useful,
+    "Basilisk Collar": ItemClassification.useful,
+    "Evil Ankh": ItemClassification.useful,
+    "Staff of the Demoncaller": ItemClassification.useful,
+    "Concordant Boots": ItemClassification.useful,
+    "Crown of Growth": ItemClassification.useful,
+    "Raptor Bondband": ItemClassification.useful,
+    "Mantle of Denial": ItemClassification.useful,
+    "Golden Egg": ItemClassification.useful,
+    "Amulet of Telepathy": ItemClassification.useful,
+    "Warren Tender's Baton": ItemClassification.useful,
+    "Prayerbook of Ire": ItemClassification.useful,
+    "Robes of Omniscience": ItemClassification.useful,
+    "Angelic Armaments": ItemClassification.useful,
+    "Angelic Greaves": ItemClassification.useful,
 }
 
 item_classifications_equipment_power = {
