@@ -4,7 +4,7 @@ from typing import Any
 
 from worlds.AutoWorld import World
 
-from . import items, locations, regions, rules, web_world
+from . import items, locations, regions, rules
 from . import options as forgeap_options
 
 class ForgeAPWorld(World):
@@ -14,8 +14,6 @@ class ForgeAPWorld(World):
     """
 
     game = "ForgeAP"
-
-    web = web_world.ForgeAPWebWorld()
 
     options_dataclass = forgeap_options.ForgeAPOptions
     options: forgeap_options.ForgeAPOptions
@@ -216,8 +214,8 @@ class ForgeAPWorld(World):
 
     def fill_slot_data(self) -> dict:
         slot_data = self.options.as_dict("castles_required",
-                                         "color_sanity",
-                                         "starting_color",
+                                         # "color_sanity",
+                                         # "starting_color",
                                          "fight_locations",
                                          "fight_amount_per_location",
                                          "quest_locations",
@@ -242,8 +240,8 @@ class ForgeAPWorld(World):
                                          "try_include_all_equipment",
                                          "min_shop_price",
                                          "max_shop_price",
-                                         "gold_multiplier_percentage",
-                                         "death_link",)
+                                         "gold_multiplier_percentage",)
+                                         # "death_link",
         slot_data["set_unlock_count"] = self.set_unlocks
         slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
         return slot_data
