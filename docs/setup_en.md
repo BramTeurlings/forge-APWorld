@@ -3,40 +3,26 @@
 ## Required Software
 
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
-- [The APQuest apworld](https://github.com/NewSoupVi/Archipelago/releases), 
-  if not bundled with your version of Archipelago
+- [The Forge APWorld](https://github.com/BramTeurlings/forge-APWorld/releases)
+- [The Forge Archipelago mod](https://github.com/BramTeurlings/forge-archipelago/releases)
 
-## How to play
+## Mod installation
+[This version of Forge](https://github.com/BramTeurlings/forge-archipelago/releases) comes pre-bundled with an Archipelago implementation.
+Installing the mod is as simple as installing Forge through the installer.
 
-First, you need a room to connect to. For this, you or someone you know has to generate a game.  
-This will not be explained here,
-but you can check the [Archipelago Setup Guide](/tutorial/Archipelago/setup_en#generating-a-game).
+## Connecting to a game
+1. Launch Forge as normal. Make sure to start Adventure mode instead of Classic Mode.
+2. Select `New Game`, create your character/select your starting deck as normal.
+3. Under randomizer select `Archipelago` and click Start and let the world generate.
+4. After clicking through the initial dialogue you can either:
+   1. Progress like normal by talking to the wizard and walking through the portal. The game will prompt you with to go directly to the connection screen. 
+   2. Click the hamburger menu or press `ESC` and then click the archipelago symbol.
+5. Enter the connection details for your slot and room and click `Connect`.
+6. Close the menu(s) and walk through the portal. Quest Complete!
 
-You also need to have [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) installed
-and the [The APQuest apworld](https://github.com/NewSoupVi/Archipelago/releases) installed into Archipelago.
+## Troubleshooting
+If you did accidentally launch Forge in Classic Mode, to swap to Adventure mode simply select New Game on the left sidebar and then Adventure Mode on the right sidebar. Then click Start.
 
-From here, connecting to your APQuest slot is easy. There are two scenarios.
+If you are trying to leave the spawn and the portal is not open, talk to the wizard npc in the room first. After some dialogue the portal will open.
 
-### Webhost Room
-
-If your room is hosted on a WebHost (e.g. [archipelago.gg](https://archipelago.gg)),
-you should be able to simply click on your name in the player list.  
-This will open the Archipelago Launcher
-and ask you whether you want to connect with the Text Client or the APQuest Client.  
-Choose "APQuest Client". The rest should happen completely automatically and you should be able to play APQuest.
-
-### Locally hosted room
-
-If your room does not have a WebHost room page available, you can launch APQuest manually.  
-
-Open the Archipelago Launcher, and then select the APQuest Client from the list.  
-After a short while, the APQuest client should open.  
-Enter the server address at the top and click "Connect".  
-Then, enter your name. If a password exists, enter the password.  
-You should now be connected and able to play APQuest.
-
-## Switching Rooms
-
-The APQuest Client can seamlessly switch rooms without restarting.
-
-Simply click the "Disconnect" button, then connect to a different slot/room.
+If you are trying to connect and it says Seed Mismatch in purple, this means you are trying to connect to a multiworld from a save that has already once connected to a different multiworld. Create a new game and try again.

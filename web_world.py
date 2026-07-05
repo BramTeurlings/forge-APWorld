@@ -22,28 +22,13 @@ class ForgeAPWebWorld(WebWorld):
     # The "link" parameter is unused, but we still need to provide it.
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up APQuest for MultiWorld.",
+        "A guide to setting up ForgeAP for MultiWorld.",
         "English",
         "setup_en.md",
         "setup/en",
-        ["NewSoupVi"],
+        ["Alexstrasza"],
     )
-    # Let's have our setup guide in German as well.
-    # Do not translate the title and description!
-    # WebHost needs them to be the same to identify that it is the same tutorial.
-    # This lets it display the tutorials more compactly.
-    setup_de = Tutorial(
-        "Multiworld Setup Guide",
-        "A guide to setting up APQuest for MultiWorld.",
-        "German",
-        "setup_de.md",
-        "setup/de",
-        ["NewSoupVi"],
-    )
+    tutorials = [setup_en]
 
-    # We add these tutorials to our WebWorld by overriding the "tutorials" field.
-    tutorials = [setup_en, setup_de]
-
-    # If we have option groups and/or option presets, we need to specify these here as well.
     option_groups = option_groups
     options_presets = option_presets

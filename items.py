@@ -141,6 +141,20 @@ item_table_equipment_default = {
     "Slobad's Iron Boots": 3099,
     "Hallowed Sigil": 3100,
     "Unhallowed Sigil": 3101,
+    "Basilisk Collar": 3102,
+    "Evil Ankh": 3103,
+    "Staff of the Demoncaller": 3104,
+    "Concordant Boots": 3105,
+    "Crown of Growth": 3106,
+    "Raptor Bondband": 3107,
+    "Mantle of Denial": 3108,
+    "Golden Egg": 3109,
+    "Amulet of Telepathy": 3110,
+    "Warren Tender's Baton": 3111,
+    "Prayerbook of Ire": 3112,
+    "Robes of Omniscience": 3113,
+    "Angelic Armaments": 3114,
+    "Angelic Greaves": 3115,
 }
 
 item_table_equipment_power = {

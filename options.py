@@ -16,32 +16,32 @@ class CastlesRequired(Range):
     default = 3
     display_name = "Castles Required"
 
-class ColorSanity(Toggle):
-    """
-    Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
-    Colorless will always be available.
-    NOT CURRENTLY IMPLEMENTED IN-GAME
-    """
-    display_name = "ColorSanity"
-
-class StartingColor(Choice):
-    """
-    Chooses your starting color if Colorsanity is enabled.
-    NOT CURRENTLY IMPLEMENTED IN-GAME
-    """
-    display_name = "Starting Color"
-    option_White = 0
-    option_Blue = 1
-    option_Black = 2
-    option_Red = 3
-    option_Green = 4
-
-class DeathLink(Toggle):
-    """
-    Send DeathLinks.
-    NOT CURRENTLY IMPLEMENTED IN-GAME
-    """
-    display_name = "DeathLink"
+# class ColorSanity(Toggle):
+#     """
+#     Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
+#     Colorless will always be available.
+#     NOT CURRENTLY IMPLEMENTED IN-GAME
+#     """
+#     display_name = "ColorSanity"
+#
+# class StartingColor(Choice):
+#     """
+#     Chooses your starting color if Colorsanity is enabled.
+#     NOT CURRENTLY IMPLEMENTED IN-GAME
+#     """
+#     display_name = "Starting Color"
+#     option_White = 0
+#     option_Blue = 1
+#     option_Black = 2
+#     option_Red = 3
+#     option_Green = 4
+#
+# class DeathLink(Toggle):
+#     """
+#     Send DeathLinks.
+#     NOT CURRENTLY IMPLEMENTED IN-GAME
+#     """
+#     display_name = "DeathLink"
 
 # -----------------------Settings for Location amount control ---------------
 
@@ -89,7 +89,7 @@ class IncludeMinibossLocations(DefaultOnToggle):
     Includes Minibosses as locations.
     Adds 24 locations.
     """
-    display_name = "Dungeon Locations"
+    display_name = "Include Miniboss Locations"
 
 class CommonCardLocations(Range):
     """
@@ -105,7 +105,7 @@ class CommonCardsPerLocation(Range):
     The amount of common cards that have to be collected to send a common card location check.
     """
     display_name = "Common cards per Location"
-    range_start = 0
+    range_start = 1
     range_end = 100
     default = 50
 
@@ -123,7 +123,7 @@ class UncommonCardsPerLocation(Range):
     The amount of uncommon cards that have to be collected to send an uncommon card location check.
     """
     display_name = "Uncommon cards per Location"
-    range_start = 0
+    range_start = 1
     range_end = 100
     default = 25
 
@@ -141,7 +141,7 @@ class RareCardsPerLocation(Range):
     The amount of rare cards that have to be collected to send a rare card location check.
     """
     display_name = "Rare cards per Location"
-    range_start = 0
+    range_start = 1
     range_end = 100
     default = 10
 
@@ -159,7 +159,7 @@ class MythicRareCardsPerLocation(Range):
     The amount of rare cards that have to be collected to send a mythic rare card location check.
     """
     display_name = "Mythic Rare cards per Location"
-    range_start = 0
+    range_start = 1
     range_end = 100
     default = 5
 
@@ -252,9 +252,11 @@ class EquipmentPercentage(Range):
 
 class TryIncludeAllEquipment(Toggle):
     """
-    When possible the system will try to include all equipment pieces instead of randomly filling filler locations with a certain amount of equipment.
-    Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) + 4 (if color sanity is enabled) locations.
-    At the time of writing: Default equipment contains 102 items, Power equipment contains 7 items, Cheat equipment contains 1 item.
+    When possible archipelago will try to include all possible equipment pieces instead of using the provided equipment percentage.
+    If not enough space can be allocated it will use equipment percentage as a fallback, so make sure it's not 0 unless you know what you are doing!
+
+    Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) locations.
+    At the time of writing: Default equipment contains 116 items, Power equipment contains 7 items, Cheat equipment contains 1 item.
     """
     display_name = "Try Include All Equipment"
 
@@ -280,19 +282,19 @@ class MaxShopPrice(Range):
 
 class GoldMultiplierPercentage(Range):
     """
-    A percentage multiplier on gold gain.
-    100 would be equivalent to base game.
+    A percentage multiplier on gold gain. Only affects combat rewards.
+    200 would be double, 50 would be half.
     """
     display_name = "Gold Multiplier Percentage"
-    range_start = 10
+    range_start = 1
     range_end = 10000
     default = 100
 
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
     castles_required: CastlesRequired
-    color_sanity: ColorSanity
-    starting_color: StartingColor
+    # color_sanity: ColorSanity
+    # starting_color: StartingColor
     fight_locations: FightLocations
     fight_amount_per_location: FightAmountPerLocation
     quest_locations: QuestLocations
@@ -319,15 +321,14 @@ class ForgeAPOptions(PerGameCommonOptions):
     min_shop_price: MinShopPrice
     max_shop_price: MaxShopPrice
     gold_multiplier_percentage: GoldMultiplierPercentage
-    death_link: DeathLink
+    # death_link: DeathLink
 
 option_groups = [
-    OptionGroup("Gameplay Options", [
+    OptionGroup("Game Options", [
         CastlesRequired,
-        ColorSanity,
-        StartingColor,
-        GiftPack,
-        DeathLink,
+        # ColorSanity,
+        # StartingColor,
+        # DeathLink,
     ]),
     OptionGroup("Location Options", [
         FightLocations,
@@ -350,6 +351,7 @@ option_groups = [
     ]),
     OptionGroup("Filler Options", [
         SetUnlockPercentage,
+        GiftPack,
         GoldPercentage,
         ManaShardPercentage,
         ChallengeCoinPercentage,
@@ -365,10 +367,10 @@ option_groups = [
 ]
 
 option_presets = {
-    "Standard": { # 271 total checks.
+    "Standard": {
         "castles_required": 3,
-        "color_sanity": False,
-        "starting_color": 0,
+        # "color_sanity": False,
+        # "starting_color": 0,
         "fight_locations": 15,
         "fight_amount_per_location": 1,
         "quest_locations": 3,
@@ -384,22 +386,23 @@ option_presets = {
         "mythic_rare_cards_per_location": 5,
         "include_power": True,
         "include_cheat": False,
-        "set_unlocks_percentage": 25,
+        "set_unlocks_percentage": 30,
         "gift_pack": True,
-        "gold_percentage": 15,
-        "mana_shard_percentage": 15,
-        "life_upgrade_percentage": 5,
-        "equipment_percentage": 30,
+        "gold_percentage": 25,
+        "mana_shard_percentage": 20,
+        "challenge_coin_percentage": 15,
+        "life_upgrade_percentage": 10,
+        "equipment_percentage": 0,
         "try_include_all_equipment": True,
         "min_shop_price": 500,
         "max_shop_price": 1000,
         "gold_multiplier_percentage": 100,
-        "death_link": False,
+        # "death_link": False,
     },
-    "Short": { # 147 total checks.
+    "Short": {
         "castles_required": 1,
-        "color_sanity": False,
-        "starting_color": 0,
+        # "color_sanity": False,
+        # "starting_color": 0,
         "fight_locations": 5,
         "fight_amount_per_location": 1,
         "quest_locations": 1,
@@ -419,12 +422,13 @@ option_presets = {
         "gift_pack": True,
         "gold_percentage": 15,
         "mana_shard_percentage": 15,
+        "challenge_coin_percentage": 10,
         "life_upgrade_percentage": 5,
         "equipment_percentage": 30,
         "try_include_all_equipment": False,
         "min_shop_price": 500,
         "max_shop_price": 1000,
         "gold_multiplier_percentage": 200,
-        "death_link": False,
+        # "death_link": False,
     },
 }

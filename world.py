@@ -1,8 +1,7 @@
 import string
-from collections.abc import Mapping
-from typing import Any
 
 from worlds.AutoWorld import World
+from Options import OptionError
 
 from . import items, locations, regions, rules, web_world
 from . import options as forgeap_options
@@ -26,6 +25,12 @@ class ForgeAPWorld(World):
     origin_region_name = "Colorless"
 
     set_unlocks = 0
+
+    def generate_early(self):
+        if self.options.min_shop_price > self.options.max_shop_price:
+            raise OptionError(
+                f"Min shop price was higher than Max shop price."
+            )
 
     def create_regions(self) -> None:
         local_location_table = locations.setup_locations_with_settings(self.options).copy()
@@ -216,8 +221,8 @@ class ForgeAPWorld(World):
 
     def fill_slot_data(self) -> dict:
         slot_data = self.options.as_dict("castles_required",
-                                         "color_sanity",
-                                         "starting_color",
+                                         # "color_sanity",
+                                         # "starting_color",
                                          "fight_locations",
                                          "fight_amount_per_location",
                                          "quest_locations",
@@ -242,8 +247,8 @@ class ForgeAPWorld(World):
                                          "try_include_all_equipment",
                                          "min_shop_price",
                                          "max_shop_price",
-                                         "gold_multiplier_percentage",
-                                         "death_link",)
+                                         "gold_multiplier_percentage",)
+                                         # "death_link",
         slot_data["set_unlock_count"] = self.set_unlocks
         slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
         return slot_data
