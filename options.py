@@ -89,7 +89,7 @@ class IncludeMinibossLocations(DefaultOnToggle):
     Includes Minibosses as locations.
     Adds 24 locations.
     """
-    display_name = "Dungeon Locations"
+    display_name = "Include Miniboss Locations"
 
 class CommonCardLocations(Range):
     """
@@ -252,9 +252,11 @@ class EquipmentPercentage(Range):
 
 class TryIncludeAllEquipment(Toggle):
     """
-    When possible the system will try to include all equipment pieces instead of randomly filling filler locations with a certain amount of equipment.
-    Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) + 4 (if color sanity is enabled) locations.
-    At the time of writing: Default equipment contains 102 items, Power equipment contains 7 items, Cheat equipment contains 1 item.
+    When possible archipelago will try to include all possible equipment pieces instead of using the provided equipment percentage.
+    If not enough space can be allocated it will use equipment percentage as a fallback, so make sure it's not 0 unless you know what you are doing!
+
+    Randomization with this on will require at least: amount of included equipment + 6 (5 runes + 1 set unlock item) locations.
+    At the time of writing: Default equipment contains 116 items, Power equipment contains 7 items, Cheat equipment contains 1 item.
     """
     display_name = "Try Include All Equipment"
 

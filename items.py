@@ -141,6 +141,20 @@ item_table_equipment_default = {
     "Slobad's Iron Boots": 3099,
     "Hallowed Sigil": 3100,
     "Unhallowed Sigil": 3101,
+    "Basilisk Collar": 3102,
+    "Evil Ankh": 3103,
+    "Staff of the Demoncaller": 3104,
+    "Concordant Boots": 3105,
+    "Crown of Growth": 3106,
+    "Raptor Bondband": 3107,
+    "Mantle of Denial": 3108,
+    "Golden Egg": 3109,
+    "Amulet of Telepathy": 3110,
+    "Warren Tender's Baton": 3111,
+    "Prayerbook of Ire": 3112,
+    "Robes of Omniscience": 3113,
+    "Angelic Armaments": 3114,
+    "Angelic Greaves": 3115,
 }
 
 item_table_equipment_power = {
@@ -304,6 +318,20 @@ item_classifications_equipment_standard = {
     "Slobad's Iron Boots": ItemClassification.useful,
     "Hallowed Sigil": ItemClassification.useful,
     "Unhallowed Sigil": ItemClassification.useful,
+    "Basilisk Collar": ItemClassification.useful,
+    "Evil Ankh": ItemClassification.useful,
+    "Staff of the Demoncaller": ItemClassification.useful,
+    "Concordant Boots": ItemClassification.useful,
+    "Crown of Growth": ItemClassification.useful,
+    "Raptor Bondband": ItemClassification.useful,
+    "Mantle of Denial": ItemClassification.useful,
+    "Golden Egg": ItemClassification.useful,
+    "Amulet of Telepathy": ItemClassification.useful,
+    "Warren Tender's Baton": ItemClassification.useful,
+    "Prayerbook of Ire": ItemClassification.useful,
+    "Robes of Omniscience": ItemClassification.useful,
+    "Angelic Armaments": ItemClassification.useful,
+    "Angelic Greaves": ItemClassification.useful,
 }
 
 item_classifications_equipment_power = {
