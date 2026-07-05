@@ -4,7 +4,7 @@ from typing import Any
 
 from worlds.AutoWorld import World
 
-from . import items, locations, regions, rules
+from . import items, locations, regions, rules, web_world
 from . import options as forgeap_options
 
 class ForgeAPWorld(World):
@@ -14,6 +14,8 @@ class ForgeAPWorld(World):
     """
 
     game = "ForgeAP"
+
+    web = web_world.ForgeAPWebWorld()
 
     options_dataclass = forgeap_options.ForgeAPOptions
     options: forgeap_options.ForgeAPOptions
