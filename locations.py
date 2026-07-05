@@ -170,10 +170,10 @@ def give_all_locations() -> dict:
     battle_locations = give_default_battle_locations(100)
     event_locations = give_default_event_locations(10)
     quest_locations = give_default_quest_locations(10)
-    common_locations = give_default_common_card_locations(10, 50)
-    uncommon_locations = give_default_uncommon_card_locations(10, 25)
-    rare_locations = give_default_rare_card_locations(10, 10)
-    mythic_rare_locations = give_default_mythic_rare_card_locations(10, 5)
+    common_locations = give_default_common_card_locations(10)
+    uncommon_locations = give_default_uncommon_card_locations(10)
+    rare_locations = give_default_rare_card_locations(10)
+    mythic_rare_locations = give_default_mythic_rare_card_locations(10)
 
     return {
         **give_predefined_locations(),
@@ -258,42 +258,42 @@ def give_default_quest_locations(locations: int) -> dict:
             location_table[key] = start_id + i
     return location_table
 
-def give_default_common_card_locations(locations: int, cardspercheck: int) -> dict:
+def give_default_common_card_locations(locations: int) -> dict:
     location_table = {}
     start_id = 5000
 
     for i in range(locations):
-        key = f"{cardspercheck * (i + 1)} Common cards collected"
+        key = f"Common cards collected - {(i + 1)}"
         location_table[key] = start_id + i
 
     return location_table
 
-def give_default_uncommon_card_locations(locations: int, cardspercheck: int) -> dict:
+def give_default_uncommon_card_locations(locations: int) -> dict:
     location_table = {}
     start_id = 5100
 
     for i in range(locations):
-        key = f"{cardspercheck * (i + 1)} Uncommon cards collected"
+        key = f"Uncommon cards collected - {(i + 1)}"
         location_table[key] = start_id + i
 
     return location_table
 
-def give_default_rare_card_locations(locations: int, cardspercheck: int) -> dict:
+def give_default_rare_card_locations(locations: int) -> dict:
     location_table = {}
     start_id = 5200
 
     for i in range(locations):
-        key = f"{cardspercheck * (i + 1)} Rare cards collected"
+        key = f"Rare cards collected - {(i + 1)}"
         location_table[key] = start_id + i
 
     return location_table
 
-def give_default_mythic_rare_card_locations(locations: int, cardspercheck: int) -> dict:
+def give_default_mythic_rare_card_locations(locations: int) -> dict:
     location_table = {}
     start_id = 5300
 
     for i in range(locations):
-        key = f"{cardspercheck * (i + 1)} Mythic Rare cards collected"
+        key = f"Mythic Rare cards collected - {(i + 1)}"
         location_table[key] = start_id + i
 
     return location_table
@@ -305,10 +305,10 @@ def setup_locations_with_settings(options) -> None:
     total_locations.update(give_default_battle_locations(options.fight_locations))
     total_locations.update(give_default_event_locations(options.quest_locations))
     total_locations.update(give_default_quest_locations(options.event_locations))
-    total_locations.update(give_default_common_card_locations(options.common_card_locations, options.common_cards_per_location))
-    total_locations.update(give_default_uncommon_card_locations(options.uncommon_card_locations, options.uncommon_cards_per_location))
-    total_locations.update(give_default_rare_card_locations(options.rare_card_locations, options.rare_cards_per_location))
-    total_locations.update(give_default_mythic_rare_card_locations(options.mythic_rare_card_locations, options.mythic_rare_cards_per_location))
+    total_locations.update(give_default_common_card_locations(options.common_card_locations))
+    total_locations.update(give_default_uncommon_card_locations(options.uncommon_card_locations))
+    total_locations.update(give_default_rare_card_locations(options.rare_card_locations))
+    total_locations.update(give_default_mythic_rare_card_locations(options.mythic_rare_card_locations))
 
     if options.include_miniboss_locations:
         total_locations.update(miniboss_locations)
