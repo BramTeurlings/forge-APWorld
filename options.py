@@ -326,7 +326,6 @@ option_groups = [
         CastlesRequired,
         # ColorSanity,
         # StartingColor,
-        GiftPack,
         # DeathLink,
     ]),
     OptionGroup("Location Options", [
@@ -350,6 +349,7 @@ option_groups = [
     ]),
     OptionGroup("Filler Options", [
         SetUnlockPercentage,
+        GiftPack,
         GoldPercentage,
         ManaShardPercentage,
         ChallengeCoinPercentage,
