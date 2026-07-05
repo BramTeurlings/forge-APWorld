@@ -1,8 +1,7 @@
 import string
-from collections.abc import Mapping
-from typing import Any
 
 from worlds.AutoWorld import World
+from Options import OptionError
 
 from . import items, locations, regions, rules, web_world
 from . import options as forgeap_options
@@ -26,6 +25,12 @@ class ForgeAPWorld(World):
     origin_region_name = "Colorless"
 
     set_unlocks = 0
+
+    def generate_early(self):
+        if self.options.min_shop_price > self.options.max_shop_price:
+            raise OptionError(
+                f"Min shop price was higher than Max shop price."
+            )
 
     def create_regions(self) -> None:
         local_location_table = locations.setup_locations_with_settings(self.options).copy()
