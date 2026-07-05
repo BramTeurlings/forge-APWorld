@@ -322,7 +322,7 @@ class ForgeAPOptions(PerGameCommonOptions):
     # death_link: DeathLink
 
 option_groups = [
-    OptionGroup("Gameplay Options", [
+    OptionGroup("Game Options", [
         CastlesRequired,
         # ColorSanity,
         # StartingColor,
