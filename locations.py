@@ -170,10 +170,10 @@ def give_all_locations() -> dict:
     battle_locations = give_default_battle_locations(100)
     event_locations = give_default_event_locations(10)
     quest_locations = give_default_quest_locations(10)
-    common_locations = give_default_common_card_locations(10)
-    uncommon_locations = give_default_uncommon_card_locations(10)
-    rare_locations = give_default_rare_card_locations(10)
-    mythic_rare_locations = give_default_mythic_rare_card_locations(10)
+    common_locations = give_default_common_card_locations(100)
+    uncommon_locations = give_default_uncommon_card_locations(100)
+    rare_locations = give_default_rare_card_locations(100)
+    mythic_rare_locations = give_default_mythic_rare_card_locations(100)
 
     return {
         **give_predefined_locations(),
