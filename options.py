@@ -242,7 +242,7 @@ class LifeUpgradePercentage(Range):
 
 class EquipmentPercentage(Range):
     """
-    Choose the percentage of filler items in the pool that will be Mana Shard filler items.
+    Choose the percentage of filler items in the pool that will be Equipment filler items.
     Note if filler percentage doesn't sum up exactly to 100 the system will treat them as proportions.
     """
     display_name = "Equipment Percentage"
