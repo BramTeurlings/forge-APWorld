@@ -64,16 +64,16 @@ class AutoSellDeck(Toggle):
 
 class StartingCards(OptionCounter):
     """
-    Cards you start the run with, as card name: amount.
+    Cards you start the run with, as <card name: amount>.
     Starting cards are always unlocked, even if their set is still locked.
-    If No Starting Deck is enabled, these cards make up your starting deck.
+    If the "No Starting Deck" option is enabled, these cards make up your starting deck.
     Card names are checked in-game, unknown names are skipped.
-    Put each name in quotes (card names can contain characters like ":" or ","), for example:
-      starting_cards: {"Lightning Bolt": 4, "Sol Ring": 1}
+    When editing the .yaml file manually, Put each name in quotes, for example:
+      starting_cards: {"Lightning Bolt": 4, "Preston, the Vanisher": 1}
     or one card per line:
       starting_cards:
         "Lightning Bolt": 4
-        "Sol Ring": 1
+        "Preston, the Vanisher": 1
     """
     display_name = "Starting Cards"
     min = 1
@@ -84,7 +84,7 @@ class StartingSets(OptionSet):
     """
     Codes of the sets that start unlocked.
     The set codes are the ones Forge uses, they are checked in-game and unknown codes are skipped.
-    Put each code in quotes (codes like "ON" would otherwise be read as yes/no), for example:
+    When editing the .yaml file manually, put each code in quotes, for example:
       starting_sets: ["M20", "FRA"]
     or one code per line:
       starting_sets:
@@ -96,10 +96,10 @@ class StartingSets(OptionSet):
 
 class StartingBoosters(OptionCounter):
     """
-    Booster packs you start the run with, as set code: amount.
+    Booster packs you start the run with, as <set code: amount>.
     The set codes are the ones Forge uses, sets that have no booster packs are skipped in-game.
     Starting boosters don't unlock their set.
-    Put each code in quotes, for example:
+    When editing the .yaml file manually, put each code in quotes, for example:
       starting_boosters: {"M20": 3, "FRA": 1}
     or one set per line:
       starting_boosters:
@@ -115,6 +115,8 @@ class StartingEquipment(OptionSet):
     """
     Equipment you start the run with, using the equipment names from the item pool.
     Starting equipment is removed from the item pool.
+    Names are case-sensitive. The Archipelago launcher suggests the correctly spelled names once you type the first
+    three letters.
     For example:
       starting_equipment: ["Sol Ring", "Hill Giant Club"]
     or one item per line:
