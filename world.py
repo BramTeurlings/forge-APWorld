@@ -247,8 +247,15 @@ class ForgeAPWorld(World):
                                          "try_include_all_equipment",
                                          "min_shop_price",
                                          "max_shop_price",
-                                         "gold_multiplier_percentage",)
-                                         # "death_link",
+                                         "gold_multiplier_percentage",
+                                         "death_link",
+                                         "no_starting_deck",
+                                         "auto_sell_deck",)
+        # Starting inventory, applied by the game on the first connect of a save.
+        slot_data["starting_cards"] = dict(self.options.starting_cards.value)
+        slot_data["starting_sets"] = sorted(self.options.starting_sets.value)
+        slot_data["starting_boosters"] = dict(self.options.starting_boosters.value)
+        slot_data["starting_equipment"] = sorted(items.item_table[name] for name in self.options.starting_equipment.value)
         slot_data["set_unlock_count"] = self.set_unlocks
         slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
         return slot_data
