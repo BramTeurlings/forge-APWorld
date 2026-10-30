@@ -250,7 +250,8 @@ class ForgeAPWorld(World):
                                          "gold_multiplier_percentage",
                                          "death_link",
                                          "no_starting_deck",
-                                         "auto_sell_deck",)
+                                         "auto_sell_deck",
+                                         "event_miniboss_checks",)
         # Starting inventory, applied by the game on the first connect of a save.
         slot_data["starting_cards"] = dict(self.options.starting_cards.value)
         slot_data["starting_sets"] = sorted(self.options.starting_sets.value)

@@ -60,6 +60,13 @@ class AutoSellDeck(Toggle):
     """
     display_name = "Auto-sell Deck on Castle Boss Defeat"
 
+class EventMinibossChecks(Toggle):
+    """
+    When enabled, beating a miniboss in an inn event, tournament or arena battle also sends that miniboss's check.
+    Castle bosses only ever count when you beat them in their castle.
+    """
+    display_name = "Event Miniboss Checks"
+
 # -----------------------Settings for Starting inventory ---------------
 
 class StartingCards(OptionCounter):
@@ -409,6 +416,7 @@ class ForgeAPOptions(PerGameCommonOptions):
     death_link: ForgeDeathLink
     no_starting_deck: NoStartingDeck
     auto_sell_deck: AutoSellDeck
+    event_miniboss_checks: EventMinibossChecks
     starting_cards: StartingCards
     starting_sets: StartingSets
     starting_boosters: StartingBoosters
@@ -421,6 +429,7 @@ option_groups = [
         # StartingColor,
         ForgeDeathLink,
         AutoSellDeck,
+        EventMinibossChecks,
     ]),
     OptionGroup("Starting Options", [
         NoStartingDeck,
