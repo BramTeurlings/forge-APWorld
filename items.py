@@ -366,6 +366,9 @@ def give_possible_equipment(options) -> dict:
         possible_equipment.update(item_table_equipment_power)
     if options.include_cheat:
         possible_equipment.update(item_table_equipment_cheat)
+    # The player already starts with these, so they don't go in the item pool.
+    for name in options.starting_equipment:
+        possible_equipment.pop(name, None)
 
     return possible_equipment
 
