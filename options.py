@@ -145,7 +145,7 @@ class FightLocations(Range):
     display_name = "Fight Locations"
     range_start = 0
     range_end = 100
-    default = 15
+    default = 6
 
 class FightAmountPerLocation(Range):
     """
@@ -164,7 +164,7 @@ class QuestLocations(Range):
     display_name = "Quest Locations"
     range_start = 0
     range_end = 10
-    default = 3
+    default = 2
 
 class EventLocations(Range):
     """
@@ -174,7 +174,7 @@ class EventLocations(Range):
     display_name = "Event Locations"
     range_start = 0
     range_end = 10
-    default = 3
+    default = 2
 
 class IncludeMinibossLocations(DefaultOnToggle):
     """
@@ -199,7 +199,7 @@ class CommonCardsPerLocation(Range):
     display_name = "Common cards per Location"
     range_start = 1
     range_end = 100
-    default = 50
+    default = 30
 
 class UncommonCardLocations(Range):
     """
@@ -217,7 +217,7 @@ class UncommonCardsPerLocation(Range):
     display_name = "Uncommon cards per Location"
     range_start = 1
     range_end = 100
-    default = 25
+    default = 18
 
 class RareCardLocations(Range):
     """
@@ -235,7 +235,7 @@ class RareCardsPerLocation(Range):
     display_name = "Rare cards per Location"
     range_start = 1
     range_end = 100
-    default = 10
+    default = 6
 
 class MythicRareCardLocations(Range):
     """
@@ -253,11 +253,11 @@ class MythicRareCardsPerLocation(Range):
     display_name = "Mythic Rare cards per Location"
     range_start = 1
     range_end = 100
-    default = 5
+    default = 1
 
 # -----------------------Settings for Equipment items ---------------
 
-class IncludePower(Toggle):
+class IncludePower(DefaultOnToggle):
     """
     Expand the standard equipment pool with Power equipment.
     Power equipment lets you start with a sol ring/mox/black lotus in play.
@@ -283,7 +283,7 @@ class SetUnlockPercentage(Range):
     display_name = "Set Unlock Percentage"
     range_start = 1
     range_end = 1000
-    default = 25
+    default = 30
 
 class GiftPack(DefaultOnToggle):
     """
@@ -320,7 +320,7 @@ class ChallengeCoinPercentage(Range):
     display_name = "Challenge Coin Percentage"
     range_start = 0
     range_end = 1000
-    default = 10
+    default = 5
 
 class LifeUpgradePercentage(Range):
     """
@@ -485,11 +485,11 @@ option_presets = {
         "event_locations": 1,
         "include_miniboss_locations": False,
         "common_card_locations": 8,
-        "common_cards_per_location": 25,
+        "common_cards_per_location": 30,
         "uncommon_card_locations": 8,
-        "uncommon_cards_per_location": 15,
+        "uncommon_cards_per_location": 18,
         "rare_card_locations": 8,
-        "rare_cards_per_location": 5,
+        "rare_cards_per_location": 6,
         "mythic_rare_card_locations": 8,
         "mythic_rare_cards_per_location": 1,
         "include_power": True,
@@ -508,6 +508,7 @@ option_presets = {
         "death_link": False,
         "no_starting_deck": False,
         "auto_sell_deck": False,
+        "event_miniboss_checks": False,
     },
     "Medium": {
         "castles_required": 3,
@@ -519,11 +520,11 @@ option_presets = {
         "event_locations": 1,
         "include_miniboss_locations": False,
         "common_card_locations": 15,
-        "common_cards_per_location": 25,
+        "common_cards_per_location": 30,
         "uncommon_card_locations": 15,
-        "uncommon_cards_per_location": 15,
+        "uncommon_cards_per_location": 18,
         "rare_card_locations": 15,
-        "rare_cards_per_location": 5,
+        "rare_cards_per_location": 6,
         "mythic_rare_card_locations": 20,
         "mythic_rare_cards_per_location": 1,
         "include_power": True,
@@ -542,6 +543,7 @@ option_presets = {
         "death_link": False,
         "no_starting_deck": False,
         "auto_sell_deck": False,
+        "event_miniboss_checks": False,
     },
     "Long": {
         "castles_required": 6,
@@ -553,11 +555,11 @@ option_presets = {
         "event_locations": 5,
         "include_miniboss_locations": True,
         "common_card_locations": 40,
-        "common_cards_per_location": 25,
+        "common_cards_per_location": 30,
         "uncommon_card_locations": 40,
-        "uncommon_cards_per_location": 15,
+        "uncommon_cards_per_location": 18,
         "rare_card_locations": 40,
-        "rare_cards_per_location": 5,
+        "rare_cards_per_location": 6,
         "mythic_rare_card_locations": 40,
         "mythic_rare_cards_per_location": 1,
         "include_power": True,
@@ -576,5 +578,6 @@ option_presets = {
         "death_link": False,
         "no_starting_deck": False,
         "auto_sell_deck": False,
+        "event_miniboss_checks": False,
     },
 }
