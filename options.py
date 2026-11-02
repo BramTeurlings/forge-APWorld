@@ -190,7 +190,7 @@ class CommonCardLocations(Range):
     display_name = "Common card Locations"
     range_start = 0
     range_end = 100
-    default = 10
+    default = 15
 
 class CommonCardsPerLocation(Range):
     """
@@ -208,7 +208,7 @@ class UncommonCardLocations(Range):
     display_name = "Uncommon card Locations"
     range_start = 0
     range_end = 100
-    default = 10
+    default = 15
 
 class UncommonCardsPerLocation(Range):
     """
@@ -226,7 +226,7 @@ class RareCardLocations(Range):
     display_name = "Rare card Locations"
     range_start = 0
     range_end = 100
-    default = 10
+    default = 15
 
 class RareCardsPerLocation(Range):
     """
@@ -244,7 +244,7 @@ class MythicRareCardLocations(Range):
     display_name = "Mythic Rare card Locations"
     range_start = 0
     range_end = 100
-    default = 10
+    default = 20
 
 class MythicRareCardsPerLocation(Range):
     """
