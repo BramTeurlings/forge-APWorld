@@ -10,11 +10,12 @@ from .items import item_table_equipment_default, item_table_equipment_power, ite
 class CastlesRequired(Range):
     """
     The amount of Castles required for your goal.
+    Setting this to 7 will require you to beat all colored castle bosses, then Emrakul and finally Arzakon.
     Setting this to 6 will require you to beat all colored castle bosses and then Emrakul.
     Otherwise, it will require the set number of colored castle bosses.
     """
     range_start = 1
-    range_end = 6
+    range_end = 7
     default = 3
     display_name = "Castles Required"
 

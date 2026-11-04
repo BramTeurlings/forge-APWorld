@@ -18,6 +18,11 @@ boss_locations = {
     "Ghalta Defeated": 5,
 }
 
+# Only a location when Arzakon is the final boss (castles_required at its maximum), otherwise Emrakul ends the game
+emrakul_location = {
+    "Emrakul Defeated": 6,
+}
+
 miniboss_locations = {
     "Slime Mother Defeated": 100,
     "Slobad Defeated": 101,
@@ -176,6 +181,7 @@ def give_all_locations() -> dict:
         **rare_locations,
         **mythic_rare_locations,
         **miniboss_locations,
+        **emrakul_location,
     }
 
 def give_predefined_locations() -> dict:
@@ -303,6 +309,9 @@ def setup_locations_with_settings(options) -> None:
     if options.include_miniboss_locations:
         total_locations.update(miniboss_locations)
 
+    if options.castles_required == options.castles_required.range_end:
+        total_locations.update(emrakul_location)
+
     return total_locations
 
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
@@ -321,7 +330,7 @@ def create_regular_locations(world: ForgeAPWorld, location_database : dict) -> N
     green = world.get_region("Green")
 
     for location_name, location_id in location_database.items():
-        if 100 <= location_id < 200 or 1000 <= location_id < 1100 or 5000 <= location_id < 5400 or 10000 <= location_id < 20000:
+        if location_id == 6 or 100 <= location_id < 200 or 1000 <= location_id < 1100 or 5000 <= location_id < 5400 or 10000 <= location_id < 20000:
             colorless.add_locations({location_name: location_id}, ForgeAPLocation)
         if location_id == 1 or 200 <= location_id < 300 or 1100 <= location_id < 1300 or 20000 <= location_id < 30000:
             white.add_locations({location_name: location_id}, ForgeAPLocation)
@@ -344,6 +353,9 @@ def create_events(world: ForgeAPWorld) -> None:
         ("Red", "Lathliss"),
         ("Green", "Ghalta"),
     ]
+    # Arzakon only appears after Emrakul and is only part of the goal when every castle boss is required
+    if world.options.castles_required == world.options.castles_required.range_end:
+        castle_bosses.append(("Colorless", "Arzakon"))
 
     for region_name, boss_name in castle_bosses:
         world.get_region(region_name).add_event(
