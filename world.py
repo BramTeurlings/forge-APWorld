@@ -1,6 +1,8 @@
+import logging
 import string
 
 from worlds.AutoWorld import World
+from BaseClasses import ItemClassification
 from Options import OptionError
 
 from . import items, locations, regions, rules, web_world
@@ -25,12 +27,27 @@ class ForgeAPWorld(World):
     origin_region_name = "Colorless"
 
     set_unlocks = 0
+    set_unlocks_before_bosses = 0
 
     def generate_early(self):
         if self.options.min_shop_price > self.options.max_shop_price:
             raise OptionError(
                 f"Min shop price was higher than Max shop price."
             )
+        self.set_unlocks_before_bosses = self.get_set_unlocks_before_bosses()
+
+    def get_set_unlocks_before_bosses(self) -> int:
+        wanted = self.options.set_unlocks_before_bosses.value
+        location_ids = locations.setup_locations_with_settings(self.options).values()
+        # Before any boss only the non-boss Colorless locations are in logic, they also need room for the first rune
+        starting_locations = sum(1 for location_id in location_ids if locations.is_starting_location(location_id))
+        filler_slots = len(location_ids) - len(items.item_table_progression)
+        possible = max(0, min(starting_locations - 1, filler_slots))
+        if wanted > possible:
+            logging.warning(f"ForgeAP: {self.player_name} has too few locations for {wanted} Set Unlocks before bosses, "
+                            f"lowered to {possible}.")
+            return possible
+        return wanted
 
     def create_regions(self) -> None:
         local_location_table = locations.setup_locations_with_settings(self.options).copy()
@@ -81,7 +98,7 @@ class ForgeAPWorld(World):
 
         if self.options.try_include_all_equipment:
             # MUST fit ALL equipment or we ignore this mode completely
-            if remaining_slots - len(possible_equipment) >= 1:
+            if remaining_slots - len(possible_equipment) >= max(1, self.set_unlocks_before_bosses):
                 for name in possible_equipment:
                     pool.append(self.create_item(name))
 
@@ -122,6 +139,15 @@ class ForgeAPWorld(World):
             drift -= 1
             i += 1
 
+        # Logic needs this many Set Unlocks before bosses, take the missing ones from the other filler
+        while allocation["set_unlock"] < self.set_unlocks_before_bosses:
+            largest = max(("gold", "mana", "coin", "life"), key=lambda k: allocation[k])
+            if allocation[largest] > 0:
+                allocation[largest] -= 1
+            else:
+                equipment_to_place -= 1
+            allocation["set_unlock"] += 1
+
         variants = {
             "gold": [
                 ("Gold (S)", 55),
@@ -144,7 +170,12 @@ class ForgeAPWorld(World):
             ]
         }
 
-        pool.extend(self.create_item("Set Unlock") for _ in range(allocation["set_unlock"]))
+        for i in range(allocation["set_unlock"]):
+            set_unlock = self.create_item("Set Unlock")
+            # Only the Set Unlocks that logic counts are progression
+            if i < self.set_unlocks_before_bosses:
+                set_unlock.classification = ItemClassification.progression
+            pool.append(set_unlock)
         self.set_unlocks = allocation["set_unlock"]
         for _ in range(allocation["gold"]):
             pool.append(self.create_item(self.weighted_choice(variants["gold"])))

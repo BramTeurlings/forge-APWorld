@@ -19,6 +19,19 @@ class CastlesRequired(Range):
     default = 3
     display_name = "Castles Required"
 
+class SetUnlocksBeforeBosses(Range):
+    """
+    The amount of Set Unlocks logic expects you to have before you fight any boss or miniboss.
+    This makes sure no boss is required before you could build a decent deck.
+    The pool will always contain at least this many Set Unlocks.
+    If a seed has too few locations for the chosen amount, it is lowered automatically.
+    Set this to 0 to disable it.
+    """
+    range_start = 0
+    range_end = 30
+    default = 5
+    display_name = "Set Unlocks Before Bosses"
+
 # class ColorSanity(Toggle):
 #     """
 #     Shuffles colors into the item pool, allowing decks to only be built form unlocked colors.
@@ -386,6 +399,7 @@ class GoldMultiplierPercentage(Range):
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
     castles_required: CastlesRequired
+    set_unlocks_before_bosses: SetUnlocksBeforeBosses
     # color_sanity: ColorSanity
     # starting_color: StartingColor
     fight_locations: FightLocations
@@ -426,6 +440,7 @@ class ForgeAPOptions(PerGameCommonOptions):
 option_groups = [
     OptionGroup("Game Options", [
         CastlesRequired,
+        SetUnlocksBeforeBosses,
         # ColorSanity,
         # StartingColor,
         ForgeDeathLink,

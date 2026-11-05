@@ -294,7 +294,7 @@ def give_default_mythic_rare_card_locations(locations: int) -> dict:
 
     return location_table
 
-def setup_locations_with_settings(options) -> None:
+def setup_locations_with_settings(options) -> dict:
     total_locations = {}
 
     total_locations.update(give_predefined_locations())
@@ -316,6 +316,10 @@ def setup_locations_with_settings(options) -> None:
 
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
     return {location_name: give_all_locations()[location_name] for location_name in location_names}
+
+# Colorless locations that aren't bosses (shop, card collection, battles, events and quests)
+def is_starting_location(location_id: int) -> bool:
+    return 1000 <= location_id < 1100 or 5000 <= location_id < 5400 or 10000 <= location_id < 20000
 
 def create_all_locations(world: ForgeAPWorld, location_database : dict) -> None:
     create_regular_locations(world, location_database)
