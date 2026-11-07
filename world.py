@@ -40,7 +40,7 @@ class ForgeAPWorld(World):
         wanted = self.options.set_unlocks_before_bosses.value
         location_ids = locations.setup_locations_with_settings(self.options).values()
         # Before any boss only the non-boss Colorless locations are in logic, they also need room for the first rune
-        starting_locations = sum(1 for location_id in location_ids if locations.is_starting_location(location_id))
+        starting_locations = sum(1 for location_id in location_ids if locations.is_starting_location(location_id, self.options))
         filler_slots = len(location_ids) - len(items.item_table_progression)
         possible = max(0, min(starting_locations - 1, filler_slots))
         if wanted > possible:

@@ -24,6 +24,21 @@ def set_all_location_rules(world: ForgeAPWorld) -> None:
         # Arzakon's castle is revealed after defeating Emrakul
         world.set_rule(world.get_location("Arzakon Victory"), lambda state: state.has("Emrakul Victory", world.player))
     set_boss_set_unlock_rules(world)
+    set_card_location_rules(world)
+
+def set_card_location_rules(world: ForgeAPWorld) -> None:
+    # Later card checks of each rarity need progress along the rune chain, logic only (they still send in-game at any time)
+    if not world.options.scale_card_checks:
+        return
+    chain = [world.get_region("Colorless")]
+    while chain[-1].exits:
+        chain.append(chain[-1].exits[0].connected_region)
+    for location in world.multiworld.get_locations(world.player):
+        if location.address is None or not 5000 <= location.address < 5400:
+            continue
+        depth = locations.card_location_depth(location.address, world.options)
+        if depth > 0:
+            add_rule(location, lambda state, region=chain[depth].name: state.can_reach_region(region, world.player))
 
 def set_boss_set_unlock_rules(world: ForgeAPWorld) -> None:
     # No boss or miniboss is in logic before having enough Set Unlocks to build a decent deck
