@@ -10,13 +10,27 @@ from .items import item_table_equipment_default, item_table_equipment_power, ite
 class CastlesRequired(Range):
     """
     The amount of Castles required for your goal.
+    Setting this to 7 will require you to beat all colored castle bosses, then Emrakul and finally Arzakon.
     Setting this to 6 will require you to beat all colored castle bosses and then Emrakul.
     Otherwise, it will require the set number of colored castle bosses.
     """
     range_start = 1
-    range_end = 6
+    range_end = 7
     default = 3
     display_name = "Castles Required"
+
+class SetUnlocksBeforeBosses(Range):
+    """
+    The amount of Set Unlocks logic expects you to have before you fight any boss or miniboss.
+    This makes sure no boss is required before you could build a decent deck.
+    The pool will always contain at least this many Set Unlocks.
+    If a seed has too few locations for the chosen amount, it is lowered automatically.
+    Set this to 0 to disable it.
+    """
+    range_start = 0
+    range_end = 30
+    default = 5
+    display_name = "Set Unlocks Before Bosses"
 
 # class ColorSanity(Toggle):
 #     """
@@ -255,6 +269,14 @@ class MythicRareCardsPerLocation(Range):
     range_end = 100
     default = 1
 
+class ScaleCardChecks(DefaultOnToggle):
+    """
+    Spreads the card collection checks of each rarity over your progress through the regions in logic.
+    This keeps important items from being placed on card checks that take a long time to get early on.
+    It only affects logic, card checks can still be sent at any time in-game.
+    """
+    display_name = "Scale Card Checks with Progress"
+
 # -----------------------Settings for Equipment items ---------------
 
 class IncludePower(DefaultOnToggle):
@@ -385,6 +407,7 @@ class GoldMultiplierPercentage(Range):
 @dataclass
 class ForgeAPOptions(PerGameCommonOptions):
     castles_required: CastlesRequired
+    set_unlocks_before_bosses: SetUnlocksBeforeBosses
     # color_sanity: ColorSanity
     # starting_color: StartingColor
     fight_locations: FightLocations
@@ -400,6 +423,7 @@ class ForgeAPOptions(PerGameCommonOptions):
     rare_cards_per_location: RareCardsPerLocation
     mythic_rare_card_locations: MythicRareCardLocations
     mythic_rare_cards_per_location: MythicRareCardsPerLocation
+    scale_card_checks: ScaleCardChecks
     include_power: IncludePower
     include_cheat: IncludeCheat
     set_unlocks_percentage: SetUnlockPercentage
@@ -425,6 +449,7 @@ class ForgeAPOptions(PerGameCommonOptions):
 option_groups = [
     OptionGroup("Game Options", [
         CastlesRequired,
+        SetUnlocksBeforeBosses,
         # ColorSanity,
         # StartingColor,
         ForgeDeathLink,
@@ -451,7 +476,8 @@ option_groups = [
         RareCardLocations,
         RareCardsPerLocation,
         MythicRareCardLocations,
-        MythicRareCardsPerLocation
+        MythicRareCardsPerLocation,
+        ScaleCardChecks,
     ]),
     OptionGroup("Equipment Options", [
         IncludePower,
@@ -477,6 +503,7 @@ option_groups = [
 option_presets = {
     "Short": {
         "castles_required": 1,
+        "set_unlocks_before_bosses": 5,
         # "color_sanity": False,
         # "starting_color": 0,
         "fight_locations": 5,
@@ -492,6 +519,7 @@ option_presets = {
         "rare_cards_per_location": 6,
         "mythic_rare_card_locations": 8,
         "mythic_rare_cards_per_location": 1,
+        "scale_card_checks": True,
         "include_power": True,
         "include_cheat": False,
         "set_unlocks_percentage": 30,
@@ -512,6 +540,7 @@ option_presets = {
     },
     "Medium": {
         "castles_required": 3,
+        "set_unlocks_before_bosses": 5,
         # "color_sanity": False,
         # "starting_color": 0,
         "fight_locations": 6,
@@ -527,6 +556,7 @@ option_presets = {
         "rare_cards_per_location": 6,
         "mythic_rare_card_locations": 20,
         "mythic_rare_cards_per_location": 1,
+        "scale_card_checks": True,
         "include_power": True,
         "include_cheat": False,
         "set_unlocks_percentage": 30,
@@ -546,7 +576,8 @@ option_presets = {
         "event_miniboss_checks": False,
     },
     "Long": {
-        "castles_required": 6,
+        "castles_required": 7,
+        "set_unlocks_before_bosses": 5,
         # "color_sanity": False,
         # "starting_color": 0,
         "fight_locations": 25,
@@ -562,6 +593,7 @@ option_presets = {
         "rare_cards_per_location": 6,
         "mythic_rare_card_locations": 40,
         "mythic_rare_cards_per_location": 1,
+        "scale_card_checks": True,
         "include_power": True,
         "include_cheat": False,
         "set_unlocks_percentage": 25,
