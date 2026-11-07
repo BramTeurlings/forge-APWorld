@@ -294,7 +294,7 @@ def give_default_mythic_rare_card_locations(locations: int) -> dict:
 
     return location_table
 
-def setup_locations_with_settings(options) -> None:
+def setup_locations_with_settings(options) -> dict:
     total_locations = {}
 
     total_locations.update(give_predefined_locations())
@@ -316,6 +316,32 @@ def setup_locations_with_settings(options) -> None:
 
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
     return {location_name: give_all_locations()[location_name] for location_name in location_names}
+
+# Colorless and the five colored regions
+REGION_DEPTHS = 6
+
+# Returns a number representing how far along the region chain logic expects you to be for a card collection check.
+# (0 = Colorless, 5 = All regions unlocked).
+# Check k of n of a rarity needs depth (k - 1) * 6 // n, so the first check is always free and the last needs at most the last region.
+def card_location_depth(location_id: int, options) -> int:
+    if not options.scale_card_checks:
+        return 0
+    totals = {
+        5000: options.common_card_locations.value,
+        5100: options.uncommon_card_locations.value,
+        5200: options.rare_card_locations.value,
+        5300: options.mythic_rare_card_locations.value,
+    }
+    for start_id, total in totals.items():
+        if start_id <= location_id < start_id + 100:
+            return (location_id - start_id) * REGION_DEPTHS // total
+    return 0
+
+# Colorless locations that aren't bosses or card checks gated behind progress (shop, card collection, battles, events and quests)
+def is_starting_location(location_id: int, options) -> bool:
+    if 5000 <= location_id < 5400:
+        return card_location_depth(location_id, options) == 0
+    return 1000 <= location_id < 1100 or 10000 <= location_id < 20000
 
 def create_all_locations(world: ForgeAPWorld, location_database : dict) -> None:
     create_regular_locations(world, location_database)
